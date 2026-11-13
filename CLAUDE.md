@@ -23,6 +23,7 @@ Hər dərsin sonunda Claude bu faylı yeniləyir: "Hazırkı vəziyyət" bölmə
 - **Burp MCP Server extension v1.4.0** (BApp Store, PortSwigger): `http://127.0.0.1:9876/mcp`
   - Claude Code-a `burp` adı ilə əlavə olunub (`user` + `local` scope).
   - Alətlər: `mcp__burp__*`. Proxy history oxumaq, HTTP/1-2 sorğu göndərmək, Repeater tabı açmaq, Intruder-ə göndərmək, encode/decode.
+  - Yeni kompda qoşulma və problem həlləri: [SETUP.md](SETUP.md).
   - **Əgər `burp` alətləri görünmürsə:** Burp açıqdır? MCP tabında `Enabled` işarəlidir? Sonra `Ctrl+Shift+P` → `Developer: Reload Window` və yeni söhbət açın.
 - GitHub MCP plugin qoşulmur (`Authorization header is badly formatted`). Hələ düzəldilməyib, öyrənmə üçün lazım deyil.
 
