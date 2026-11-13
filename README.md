@@ -1,28 +1,28 @@
-# Burp Suite + Etik Hakerlik: öyrənmə jurnalı
+# Burp Suite + Ethical Hacking: learning log
 
-Burp Suite-i və veb etik hakerliyi sıfırdan, Claude Code ilə birlikdə öyrənmək üçün şəxsi layihə.
-Əsas mənbə: [PortSwigger Web Security Academy](https://portswigger.net/web-security).
+Personal project for learning Burp Suite and web ethical hacking from zero with Claude Code.
+Main source: [PortSwigger Web Security Academy](https://portswigger.net/web-security).
 
-## Fayllar
+## Files
 
-| Fayl | Nə üçündür |
+| File | Purpose |
 |---|---|
-| [ROADMAP.md](ROADMAP.md) | Öyrənmə planı: 7 mərhələ, Academy-nin 31 mövzusu, `[ ]` / `[~]` / `[x]` ilə irəliləyiş |
-| [SETUP.md](SETUP.md) | Burp Suite-i Claude Code-a MCP ilə qoşmaq: addım-addım və problem həlləri |
-| [CLAUDE.md](CLAUDE.md) | Claude-un hər sessiyada oxuduğu fayl: hazırkı vəziyyət, qaydalar, jurnal (nə etdik, niyə etdik) |
+| [ROADMAP.md](ROADMAP.md) | Learning plan: phases, all 31 Academy topics, progress `[ ]` / `[~]` / `[x]` |
+| [SETUP.md](SETUP.md) | Connect Burp Suite to Claude Code via MCP, step by step + troubleshooting |
+| [CLAUDE.md](CLAUDE.md) | Read by Claude every session: current state, rules, journal (what and why) |
 
-## Başqa kompüterdə davam etmək
+## Continue on another computer
 
-1. Repo-nu klonlayın:
+1. Clone:
    ```
    git clone https://github.com/kerim-agayev/burp-suite-learning.git
    cd burp-suite-learning
    ```
-2. Burp-u Claude Code-a qoşun: [SETUP.md](SETUP.md)-dəki 6 addımı izləyin.
-3. Claude Code-u yenidən yükləyin (`Ctrl+Shift+P` → `Developer: Reload Window`) və yeni söhbət açın.
-4. Bu qovluqda Claude Code-u açın və belə yazın: **"CLAUDE.md-yə bax, qaldığımız yerdən davam edək"**.
-5. Dərsdən sonra dəyişiklikləri yükləyin: `git add -A && git commit -m "..." && git push`. O biri kompda işə başlamazdan əvvəl `git pull` edin.
+2. Connect Burp to Claude Code: follow the 6 steps in [SETUP.md](SETUP.md).
+3. Reload Claude Code (`Ctrl+Shift+P` → `Developer: Reload Window`) and open a new chat.
+4. Open Claude Code in this folder and write: **"CLAUDE.md-yə bax, qaldığımız yerdən davam edək"**.
+5. After a lesson: `git add -A && git commit -m "..." && git push`. Before starting on the other machine: `git pull`.
 
-## Qayda
+## Rule
 
-Yalnız icazəli hədəflər test olunur: PortSwigger labları və öz saytlarım (yalnız passiv yoxlama).
+Only authorized targets: PortSwigger labs and my own sites (passive checks only).

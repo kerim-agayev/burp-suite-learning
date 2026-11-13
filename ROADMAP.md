@@ -1,78 +1,61 @@
-# Burp Suite + Etik Hakerlik Roadmap (sıfırdan)
+# Burp Suite + Ethical Hacking Roadmap (from zero)
 
-Mənbə: [PortSwigger Web Security Academy](https://portswigger.net/web-security). Pulsuzdur, qeydiyyat lazımdır.
-Academy-də 31 mövzu var. Hər mövzuda labların çətinliyi **Apprentice → Practitioner → Expert** sırası ilə artır.
-PortSwigger özü başlanğıc üçün **SQL injection** mövzusunu tövsiyə edir.
+Source: [PortSwigger Web Security Academy](https://portswigger.net/web-security) (free, needs an account).
+31 topics; labs in each go **Apprentice → Practitioner → Expert**. PortSwigger recommends starting with **SQL injection**.
 
-İşarələr: `[ ]` başlanmayıb, `[~]` davam edir, `[x]` bitib.
+Markers: `[ ]` not started, `[~]` in progress, `[x]` done.
 
----
+## Golden rules
 
-## Qızıl qaydalar (hər mərhələdə keçərlidir)
+1. Test **authorized targets only**: PortSwigger labs, own sites (`kmplast.az`, passive only), written-permission targets.
+2. Attacking others' sites "just to check" is illegal (computer crime laws, incl. Azerbaijan's Criminal Code).
+3. Legal real-world practice: **bug bounty** (HackerOne, Bugcrowd, Intigriti), only in-`scope` targets.
+4. After every lab answer: **What was it? Why did it work? How to prevent it?**
 
-1. Yalnız **icazəsi olan** hədəfləri test edin: PortSwigger labları, öz saytınız (`kmplast.az`, yalnız passiv yoxlama) və yazılı icazə verilmiş hədəflər.
-2. Başqasının saytına "sadəcə yoxlamaq üçün" hücum etmək qanunsuzdur. Bu, Azərbaycan Cinayət Məcəlləsinin kompüter cinayətləri maddələrinə aiddir.
-3. Real dünyada qanuni təcrübə yolu: **bug bounty** proqramları (HackerOne, Bugcrowd, Intigriti). Burada yalnız proqramın `scope` siyahısındakı hədəflər test olunur.
-4. Hər labdan sonra 3 sual cavablandırılır: **Nə idi? Niyə işlədi? Necə qarşısı alınır?**
+## Phase 0: Foundations (1-2 weeks)
 
----
+- [x] How HTTP works: request/response, methods (GET, POST, PUT, DELETE), status codes (2xx/3xx/4xx/5xx)
+- [ ] Headers: `Host`, `Cookie`, `Set-Cookie`, `Content-Type`, `Origin`, `Referer`
+- [ ] Cookies and sessions: how a site "remembers" you after login
+- [ ] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
+- [ ] HTML, JavaScript, DOM basics (read page source)
+- [ ] HTTPS/TLS, why Burp installs its own certificate
+- [ ] SQL basics: `SELECT`, `WHERE`, `UNION`
+- [ ] Same-Origin Policy (SOP), base for CORS, CSRF, XSS
 
-## Mərhələ 0: Əsaslar (1-2 həftə)
+Practice: browse `kmplast.az` in Burp's browser, explain every request in HTTP history.
 
-Bu bilgi olmadan Burp-da gördüyünüz heç nə məna kəsb etməyəcək.
+## Phase 1: Burp Suite tools (1 week)
 
-- [x] HTTP necə işləyir: request/response, metodlar (GET, POST, PUT, DELETE), status kodları (2xx/3xx/4xx/5xx)
-- [ ] Başlıqlar (headers): `Host`, `Cookie`, `Set-Cookie`, `Content-Type`, `Origin`, `Referer`
-- [ ] Cookie və sessiya: login olandan sonra sayt sizi necə "tanıyır"
-- [ ] URL encoding, Base64, HTML encoding (Burp Decoder ilə məşq)
-- [ ] HTML, JavaScript və DOM-un əsasları (səhifənin mənbəyini oxuya bilmək)
-- [ ] HTTPS və TLS nədir, Burp niyə öz sertifikatını quraşdırır
-- [ ] SQL-in əsasları: `SELECT`, `WHERE`, `UNION` (SQL injection üçün lazımdır)
-- [ ] Same-Origin Policy (SOP) nədir (CORS, CSRF, XSS üçün əsasdır)
+Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collaborator, temporary projects only.
 
-**Praktika:** `kmplast.az`-ı Burp-un daxili brauzerində açın və HTTP history-də hər sorğunu izah etməyə çalışın.
-
----
-
-## Mərhələ 1: Burp Suite alətləri (1 həftə)
-
-Sizdə **Burp Suite Community Edition v2026.10.1** var. Community nəşrinin məhdudiyyətləri:
-- Avtomatik **Scanner yoxdur**.
-- **Intruder sürəti məhdudlaşdırılıb** (yavaş işləyir).
-- **Collaborator yoxdur** (out-of-band laboratoriyaları üçün Pro lazımdır).
-- Layihəni fayla saxlamaq olmur, yalnız "Temporary project" işləyir.
-
-| Alət | Nə edir | Öyrənmə tapşırığı |
+| Tool | What it does | Exercise |
 |---|---|---|
-| [ ] **Proxy** | Brauzer trafikini tutur, `Intercept` ilə sorğunu dayandırıb dəyişmək olur | Login formunu intercept edin, parolu dəyişib göndərin |
-| [ ] **Target → Site map / Scope** | Saytın xəritəsi; testi icazəli hədəflə məhdudlaşdırmaq | Scope-a yalnız lab domenini əlavə edin |
-| [ ] **Repeater** | Bir sorğunu əl ilə dəyişib təkrar göndərir | Parametri dəyişib cavabların fərqinə baxın |
-| [ ] **Intruder** | Parametrə avtomatik çoxlu dəyər göndərir (Sniper, Cluster bomb və s.) | Lab-da istifadəçi adı siyahısını yoxlayın |
-| [ ] **Decoder** | Encode/decode (URL, Base64, Hex, HTML) | Cookie-ni decode edin |
-| [ ] **Comparer** | İki cavabı müqayisə edir | Uğurlu və uğursuz login cavablarını müqayisə edin |
-| [ ] **Logger** | Bütün alətlərin trafiki (Claude-un MCP ilə göndərdikləri də burada görünür) | Filtr ilə bir hostu tapın |
-| [ ] **Sequencer** | Token-lərin təsadüfiliyini ölçür | Sessiya cookie-sini analiz edin |
-| [ ] **Extensions / BApp Store** | Əlavə alətlər (məs. Logger++, JWT Editor, Autorize) | JWT Editor quraşdırın (Mərhələ 4 üçün) |
-| [ ] **CA sertifikatı** | Burp-un HTTPS trafikini görməsi üçün öz sertifikatı. Daxili brauzerdə hazırdır, başqa brauzer (Firefox/Chrome) üçün əl ilə quraşdırılır | `http://burpsuite` ünvanından sertifikatı yükləyib Firefox-a quraşdırın, bir HTTPS saytı xətasız açın |
-| [ ] **Proxy → Match and replace** | Hər sorğu/cavabda avtomatik dəyişiklik edir (məs. `User-Agent` dəyişmək, gizli düyməni göstərmək) | Bütün sorğulara `X-Test: 1` başlığı əlavə edən qayda yazın |
-| [ ] **Bambdas** | HTTP history və Logger üçün kiçik Java filtr skriptləri | Yalnız `POST` sorğularını və ya `500` cavablarını göstərən filtr yazın |
-| [ ] **Organizer** | Maraqlı sorğuları qeydlərlə saxlamaq üçün "dəftər" | Şübhəli sorğunu Organizer-ə göndərib qeyd yazın (hesabat üçün vərdiş) |
+| [ ] **Proxy** | Captures browser traffic; `Intercept` pauses and edits requests | Intercept a login, change the password, forward |
+| [ ] **Target → Site map / Scope** | Site map; restrict testing to authorized hosts | Add only the lab domain to scope |
+| [ ] **Repeater** | Edit and resend one request | Change a parameter, compare responses |
+| [ ] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Enumerate usernames in a lab |
+| [ ] **Decoder** | URL, Base64, Hex, HTML encode/decode | Decode a cookie |
+| [ ] **Comparer** | Diff two responses | Compare valid vs invalid login |
+| [ ] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Filter by host |
+| [ ] **Sequencer** | Token randomness analysis | Analyze a session cookie |
+| [ ] **Extensions / BApp Store** | Add-ons (Logger++, JWT Editor, Autorize) | Install JWT Editor (for Phase 4) |
+| [ ] **CA certificate** | Lets Burp see HTTPS; built-in browser has it, others need manual install | Download from `http://burpsuite`, install in Firefox, open an HTTPS site without errors |
+| [ ] **Proxy → Match and replace** | Auto-modify every request/response | Rule that adds `X-Test: 1` to all requests |
+| [ ] **Bambdas** | Small Java filter scripts for HTTP history / Logger | Filter showing only `POST` or `500` responses |
+| [ ] **Organizer** | Save interesting requests with notes | Send a suspicious request with a note (report habit) |
 
-Academy-dəki **"Essential skills"** mövzusu bu mərhələyə aiddir.
+Academy topic: **Essential skills**.
 
----
-
-## Mərhələ 2: Server-side, Apprentice labları (3-6 həftə)
-
-Bu tövsiyə olunan sıradır, asandan çətinə. Hər mövzuda əvvəl yalnız **Apprentice** labları həll olunur.
+## Phase 2: Server-side, Apprentice labs (3-6 weeks)
 
 1. [ ] SQL injection
-2. [ ] Authentication (giriş, parol sıfırlama, brute-force)
+2. [ ] Authentication
 3. [ ] Path traversal
 4. [ ] Command injection
 5. [ ] Business logic vulnerabilities
 6. [ ] Information disclosure
-7. [ ] Access control (IDOR, admin panelləri)
+7. [ ] Access control (IDOR, admin panels)
 8. [ ] File upload vulnerabilities
 9. [ ] Server-side request forgery (SSRF)
 10. [ ] XML external entity (XXE) injection
@@ -80,9 +63,7 @@ Bu tövsiyə olunan sıradır, asandan çətinə. Hər mövzuda əvvəl yalnız 
 12. [ ] NoSQL injection
 13. [ ] Race conditions
 
----
-
-## Mərhələ 3: Client-side, Apprentice labları (3-4 həftə)
+## Phase 3: Client-side, Apprentice labs (3-4 weeks)
 
 1. [ ] Cross-site scripting (XSS): reflected, stored, DOM
 2. [ ] Cross-site request forgery (CSRF)
@@ -91,16 +72,13 @@ Bu tövsiyə olunan sıradır, asandan çətinə. Hər mövzuda əvvəl yalnız 
 5. [ ] DOM-based vulnerabilities
 6. [ ] WebSockets
 
-**Öz saytınıza bağlantı:** `kmplast.az`-da gördüyümüz `Access-Control-Allow-Origin: *` (CORS) və `X-Frame-Options` olmaması (Clickjacking) bu mərhələnin real nümunələridir.
+Real example: `kmplast.az` has `Access-Control-Allow-Origin: *` (CORS) and no `X-Frame-Options` (Clickjacking).
 
----
+## Phase 4: Practitioner (2-3 months)
 
-## Mərhələ 4: Practitioner səviyyəsi (2-3 ay)
-
-Mərhələ 2 və 3-dəki hər mövzuya qayıdıb **Practitioner** labları həll olunur. Əlavə mövzular:
-
+Redo Phase 2-3 topics at **Practitioner** level, plus:
 - [ ] OAuth authentication
-- [ ] JWT attacks (JWT Editor extension lazımdır)
+- [ ] JWT attacks (JWT Editor)
 - [ ] Server-side template injection (SSTI)
 - [ ] Insecure deserialization
 - [ ] Prototype pollution
@@ -108,30 +86,24 @@ Mərhələ 2 və 3-dəki hər mövzuya qayıdıb **Practitioner** labları həll
 - [ ] HTTP Host header attacks
 - [ ] Web LLM attacks
 
----
-
-## Mərhələ 5: Advanced / Expert (3+ ay)
+## Phase 5: Advanced / Expert (3+ months)
 
 - [ ] HTTP request smuggling
 - [ ] Web cache poisoning
 - [ ] Web cache deception
-- [ ] Expert səviyyəli labların seçilmiş hissəsi
-- [ ] Academy-dəki **Mystery labs** (mövzu gizlidir, zəifliyi özünüz tapırsınız; real testə ən yaxın məşq)
+- [ ] Selected Expert labs
+- [ ] **Mystery labs** (topic hidden; closest to real testing)
 
----
+## Phase 6: Real world + certification
 
-## Mərhələ 6: Real dünya və sertifikat
+- [ ] Pick a bug bounty program, read its `scope` (recon only)
+- [ ] Write a first report: title, impact, reproduction steps, fix
+- [ ] **BSCP** (Burp Suite Certified Practitioner): Academy has a practice exam. Exam needs **Burp Suite Professional**.
 
-- [ ] Bir bug bounty proqramı seçib `scope`-unu oxumaq (hələ hücumsuz, yalnız kəşfiyyat)
-- [ ] İlk hesabatı (report) yazmaq: başlıq, təsir, addım-addım reproduksiya, düzəliş tövsiyəsi
-- [ ] **BSCP** (Burp Suite Certified Practitioner) sertifikatı: Academy-də "Practice exam" var. İmtahan üçün **Burp Suite Professional** lazımdır, Community ilə olmur.
+## Lesson format with Claude
 
----
-
-## Claude ilə necə öyrənirik (hər dərsin formatı)
-
-1. **İzah:** Mövzunu sadə dildə, real nümunə ilə izah edirəm.
-2. **Lab:** Siz Academy-də labı Burp-un daxili brauzerində açırsınız.
-3. **Müşahidə:** Mən Burp MCP ilə HTTP history-nizi oxuyuram və nə etdiyinizi görürəm.
-4. **İpucu, cavab deyil:** İlişdiyiniz yerdə əvvəl istiqamət göstərirəm, birbaşa həlli verməyirəm.
-5. **Yekun:** Niyə işlədi, necə qorunmaq olar. Nəticə `CLAUDE.md`-dəki jurnala yazılır.
+1. **Explain:** concept in simple terms with a real example.
+2. **Lab:** user opens it in Burp's built-in browser.
+3. **Observe:** Claude reads HTTP history via Burp MCP.
+4. **Hints, not answers.**
+5. **Wrap-up:** why it worked, how to prevent it; logged in `CLAUDE.md`.

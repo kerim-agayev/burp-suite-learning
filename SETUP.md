@@ -1,79 +1,75 @@
-# Burp Suite + Claude Code: MCP ilə qoşulma (addım-addım)
+# Burp Suite + Claude Code via MCP (step by step)
 
-İlk kompda belə qoşduq (2026-11-13). Bu faylı izləsəniz, istənilən Windows kompda təxminən 10 dəqiqəyə qoşulur.
+How we connected them on the first machine (2026-11-13). About 10 minutes on any Windows PC.
 
-## Necə işləyir
+## How it works
 
 ```
 Claude Code  ──HTTP──▶  127.0.0.1:9876/mcp  ──▶  Burp "MCP Server" extension  ──▶  Burp (Proxy, Repeater, Intruder…)
 ```
 
-PortSwigger-in rəsmi **MCP Server** extension-ı Burp-un içində kiçik bir server açır.
-Claude Code həmin serverə qoşulur və `mcp__burp__*` alətləri ilə Burp-u idarə edir:
-proxy tarixçəsini oxuyur, sorğu göndərir, Repeater tabı açır və s.
-Server yalnız `127.0.0.1`-də dinləyir, yəni yalnız sizin kompdan əlçatandır.
+PortSwigger's official **MCP Server** extension runs a small server inside Burp. Claude Code connects to it and drives Burp with `mcp__burp__*` tools (read proxy history, send requests, open Repeater tabs…). It listens on `127.0.0.1` only, so it's reachable only from your own machine.
 
-## Lazım olanlar
+## Requirements
 
-- Burp Suite (Community bəs edir): https://portswigger.net/burp/releases
-- Claude Code (VS Code extension və ya CLI)
-- Bu repo: `git clone https://github.com/kerim-agayev/burp-suite-learning.git`
+- Burp Suite (Community is enough): https://portswigger.net/burp/releases
+- Claude Code (VS Code extension or CLI)
+- This repo: `git clone https://github.com/kerim-agayev/burp-suite-learning.git`
 
-## Addımlar
+## Steps
 
-### 1. Burp-da MCP Server extension-ı quraşdırın
-1. Burp-u açın (`Temporary project` → `Start Burp`).
-2. **Extensions** tabı → **BApp Store** → axtarışa `MCP Server` yazın.
-3. **MCP Server** (müəllif: PortSwigger) → **Install**.
-4. Yuxarı menyuda yeni **MCP** tabı görünəcək.
+### 1. Install the MCP Server extension in Burp
+1. Open Burp (`Temporary project` → `Start Burp`).
+2. **Extensions** → **BApp Store** → search `MCP Server`.
+3. **MCP Server** (by PortSwigger) → **Install**.
+4. A new **MCP** tab appears in the top menu.
 
-### 2. MCP serverini aktivləşdirin
-1. **MCP** tabı → **Enabled** qutusunu işarələyin.
-2. Ünvan `127.0.0.1`, port `9876` olmalıdır. Dəyişməyin.
-3. **Auto-approve** seçimlərini və **"Enable tools that can edit your config"** seçimini **söndürülü** saxlayın.
-   Belə olduqda Claude hər sorğu göndərmək istəyəndə Burp sizdən icazə soruşur.
+### 2. Enable the server
+1. **MCP** tab → check **Enabled**.
+2. Host `127.0.0.1`, port `9876`. Don't change.
+3. Keep **Auto-approve** options and **"Enable tools that can edit your config"** **off**, so Burp asks you before Claude sends requests.
 
-### 3. Serverin işlədiyini yoxlayın (PowerShell)
+### 3. Verify it listens (PowerShell)
 ```powershell
 Get-NetTCPConnection -State Listen -LocalPort 9876
 ```
-Bir sətir çıxırsa (`127.0.0.1  9876`), server işləyir. Heç nə çıxmırsa, 2-ci addıma qayıdın.
+A line `127.0.0.1  9876` means it works. Nothing → back to step 2.
 
-### 4. Claude Code-a əlavə edin (PowerShell / terminal)
+### 4. Add it to Claude Code
 ```powershell
 claude mcp add --scope user --transport http burp http://127.0.0.1:9876/mcp
 ```
-`--scope user` vacibdir. İlk kompda əvvəl `local` scope ilə əlavə etmişdik və VS Code-dakı `/mcp` siyahısında görünmədi.
+`--scope user` matters: with `local` scope it did not show up in VS Code's `/mcp` list.
 
-Yoxlama:
+Check:
 ```powershell
 claude mcp list
 ```
-`burp: http://127.0.0.1:9876/mcp (HTTP) - √ Connected` görünməlidir.
+Expect `burp: http://127.0.0.1:9876/mcp (HTTP) - √ Connected`.
 
-### 5. Claude Code-u yeniləyin
-MCP serverləri yalnız **sessiya başlayanda** yüklənir. Açıq söhbətdə yeni server görünməyəcək.
-- VS Code: `Ctrl + Shift + P` → `Developer: Reload Window` → Claude panelində **yeni söhbət**.
-- CLI: `claude`-dan çıxıb yenidən başladın.
+### 5. Reload Claude Code
+MCP servers load **only when a session starts**; an open chat won't see a new server.
+- VS Code: `Ctrl + Shift + P` → `Developer: Reload Window` → **new chat**.
+- CLI: exit `claude` and start again.
 
 ### 6. Test
-1. Yeni söhbətdə `/mcp` yazın, siyahıda `burp` **Connected** olmalıdır.
-2. Claude-a yazın: **"Burp proxy tarixçəsindəki son 5 sorğunu göstər"**.
-3. Tarixçə boşdursa, cavab `Reached end of items` olacaq. Bu, qoşulmanın işlədiyini göstərir.
-4. Trafik yaratmaq üçün Burp-da **Proxy → Intercept → Open browser** düyməsinə basın və istənilən sayta girin. **Intercept** söndürülü olsun.
+1. In the new chat type `/mcp`; `burp` should be **Connected**.
+2. Ask Claude: **"Burp proxy tarixçəsindəki son 5 sorğunu göstər"**.
+3. Empty history returns `Reached end of items`, which still proves the connection works.
+4. To create traffic: Burp **Proxy → Intercept → Open browser**, visit any site with **Intercept off**.
 
-## Problemlər və həlləri (ilk kompda qarşılaşdıqlarımız)
+## Troubleshooting (hit on the first machine)
 
-| Problem | Səbəb | Həll |
+| Problem | Cause | Fix |
 |---|---|---|
-| `claude mcp list`-də `burp` **Connected**-dir, amma Claude alətləri görmür | Söhbət server əlavə olunmazdan əvvəl başlayıb | 5-ci addım: Reload Window və yeni söhbət |
-| VS Code-da `/mcp` siyahısında `burp` yoxdur | `local` scope ilə əlavə olunub | `--scope user` ilə yenidən əlavə edin (4-cü addım) |
-| Port 9876 dinlənmir | Burp bağlıdır və ya MCP tabında `Enabled` söndürülüdür | Burp-u açın, `Enabled`-i işarələyin. **Burp həmişə Claude-dan əvvəl açılmalıdır.** |
-| Brauzerdə və ya `curl` ilə `127.0.0.1:9876/mcp` açanda `403 Forbidden` | Server adi brauzer sorğularını qəbul etmir | Normaldır. Yoxlamanı `claude mcp list` ilə edin |
-| Claude-un sorğuları **Proxy → HTTP history**-də görünmür | MCP ilə göndərilən sorğular proxy-dən keçmir | Onlara **Logger** tabında baxın |
-| Claude sorğu göndərəndə heç nə olmur | Burp icazə pəncərəsi gözləyir | Burp pəncərəsinə keçib **Allow** basın |
+| `claude mcp list` says Connected, but Claude has no tools | Chat started before the server was added | Step 5: Reload Window + new chat |
+| `burp` missing from VS Code `/mcp` list | Added with `local` scope | Re-add with `--scope user` (step 4) |
+| Port 9876 not listening | Burp closed or `Enabled` unchecked | Open Burp, check `Enabled`. **Always start Burp before Claude Code.** |
+| `403 Forbidden` opening `127.0.0.1:9876/mcp` in a browser/curl | Server rejects plain requests | Normal. Verify with `claude mcp list` |
+| Claude's requests not in **Proxy → HTTP history** | MCP requests bypass the proxy | See the **Logger** tab |
+| Nothing happens when Claude sends a request | Burp is waiting for approval | Switch to Burp, click **Allow** |
 
-## Silmək lazım olsa
+## Remove
 ```powershell
 claude mcp remove burp -s user
 ```

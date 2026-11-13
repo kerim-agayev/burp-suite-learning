@@ -1,53 +1,50 @@
-# CLAUDE.md: Burp Suite + Etik Hakerlik öyrənmə layihəsi
+# CLAUDE.md: Burp Suite + ethical hacking learning project
 
-Bu fayl hər yeni Claude sessiyasında avtomatik oxunur. Məqsəd: **harada qaldığımızı, nə etdiyimizi və niyə etdiyimizi** bilmək.
-Hər dərsin sonunda Claude bu faylı yeniləyir: "Hazırkı vəziyyət" bölməsini dəyişir və "Jurnal"a yeni sətir əlavə edir.
+Auto-loaded every session. Purpose: know **where we left off, what we did, and why**.
+At the end of every lesson: update "Current state", add a row to "Journal", commit + push.
 
-## İstifadəçi
+## User
 
-- Burp Suite və etik hakerliyi **sıfırdan** öyrənir.
-- Dil: **Azərbaycan dili**. Sadə izah, texniki terminlər ingiliscə qalsın (məs. "request", "payload").
-- Öyrənmə planı: [ROADMAP.md](ROADMAP.md)
+- Learning Burp Suite and web ethical hacking **from zero**.
+- **ALWAYS talk to the user in Azerbaijani.** Keep technical terms in English ("request", "payload"). These files are in English only to save tokens.
+- Plan: [ROADMAP.md](ROADMAP.md)
 
-## Hazırkı vəziyyət
+## Current state
 
-- **Mərhələ:** 0 (Əsaslar). Dərs 1 bitdi.
-- **Növbəti addım: Dərs 2, cookie və sessiya.** Dərs 1 ilə eyni formatda keç: izah → Burp-da praktika → 3 sual → jurnal + push.
-  1. Əvvəl soruş: PortSwigger Academy hesabı varmı? Yoxdursa: https://portswigger.net/users/register (pulsuz). Login lazım olduğu üçün `kmplast.az` bu dərsə yaramır.
-  2. Mövzular: HTTP stateless-dir → `Set-Cookie` (server verir) → `Cookie` (brauzer hər sorğuda geri göndərir) → session ID nədir → cookie atributları (`HttpOnly`, `Secure`, `SameSite`, `Expires`).
-  3. Praktika: Academy-yə Burp-un daxili brauzerində login ol, Proxy history-də login `POST`-unu və cavabdakı `Set-Cookie`-ni tap. Sonra Repeater-də `Cookie` başlığını silib göndər → login-siz görünməlisən. Bu, "sessiya = cookie" fikrini göstərir.
-  4. Suallar: (a) Cookie oğurlansa nə olur? (b) `HttpOnly` nədən qoruyur? (c) Logout-dan sonra köhnə cookie hələ işləyirsə, bu nə problemdir?
-- **Zəif yerlər:** body/başlıq ayrılması və "client-ə inanmamaq" prinsipi izahla öyrənildi. Dərs 2-də təkrar yoxla.
-- **Açıq suallar:** yoxdur.
+- **Phase:** 0 (Foundations). Lesson 1 done.
+- **Next: Lesson 2, cookies and sessions.** Same format as Lesson 1: explain → Burp practice → 3 questions → journal + push.
+  1. First ask: does the user have a PortSwigger Academy account? If not: https://portswigger.net/users/register (free). `kmplast.az` has no login, so it can't be used here.
+  2. Topics: HTTP is stateless → `Set-Cookie` (server sets) → `Cookie` (browser sends back on every request) → what a session ID is → attributes (`HttpOnly`, `Secure`, `SameSite`, `Expires`).
+  3. Practice: log into Academy in Burp's built-in browser, find the login `POST` and the `Set-Cookie` in Proxy history. Then in Repeater remove the `Cookie` header and send → should appear logged out. Shows "session = cookie".
+  4. Questions: (a) What happens if a cookie is stolen? (b) What does `HttpOnly` protect against? (c) If an old cookie still works after logout, what's the problem?
+- **Weak spots:** body/header separation and "never trust the client" were learned via explanation, not answered by the user. Re-check in Lesson 2.
+- **Open questions:** none.
 
-## Mühit (texniki quraşdırma)
+## Environment
 
-- **Burp Suite Community Edition v2026.10.1**: `C:\Users\user\AppData\Local\Programs\BurpSuite`
-  - Proxy: `127.0.0.1:8080`
-  - Community məhdudiyyətləri: Scanner yoxdur, Intruder yavaşdır, Collaborator yoxdur.
-- **Burp MCP Server extension v1.4.0** (BApp Store, PortSwigger): `http://127.0.0.1:9876/mcp`
-  - Claude Code-a `burp` adı ilə əlavə olunub (`user` + `local` scope).
-  - Alətlər: `mcp__burp__*`. Proxy history oxumaq, HTTP/1-2 sorğu göndərmək, Repeater tabı açmaq, Intruder-ə göndərmək, encode/decode.
-  - Yeni kompda qoşulma və problem həlləri: [SETUP.md](SETUP.md).
-  - **Əgər `burp` alətləri görünmürsə:** Burp açıqdır? MCP tabında `Enabled` işarəlidir? Sonra `Ctrl+Shift+P` → `Developer: Reload Window` və yeni söhbət açın.
-- GitHub MCP plugin qoşulmur (`Authorization header is badly formatted`). Hələ düzəldilməyib, öyrənmə üçün lazım deyil.
+- **Burp Suite Community Edition v2026.10.1** at `C:\Users\user\AppData\Local\Programs\BurpSuite`. Proxy `127.0.0.1:8080`. Community limits: no Scanner, throttled Intruder, no Collaborator.
+- **Burp MCP Server extension v1.4.0** (BApp Store, PortSwigger): `http://127.0.0.1:9876/mcp`, added to Claude Code as `burp` (user + local scope). Tools `mcp__burp__*`: proxy history, send HTTP/1/2, create Repeater tab, send to Intruder, encode/decode.
+  - New machine setup + troubleshooting: [SETUP.md](SETUP.md).
+  - **If `burp` tools are missing:** Burp running? MCP tab `Enabled` checked? Then `Ctrl+Shift+P` → `Developer: Reload Window` and open a new chat.
+- GitHub MCP plugin fails (`Authorization header is badly formatted`). Not fixed; not needed.
 
-## Claude üçün qaydalar
+## Rules for Claude
 
-1. **Yalnız icazəli hədəflər:** PortSwigger labları (`*.web-security-academy.net`) və istifadəçinin öz saytı `kmplast.az` (yalnız passiv yoxlama: GET, başlıqlar, brauzer trafiki). Başqa hədəflərə sorğu göndərmə. Brute-force, fuzzing, DoS etmə.
-2. **Müəllim kimi davran:** labın həllini birbaşa vermə. Əvvəl ipucu, sonra istiqamət, ən sonda (istifadəçi istəsə) həll.
-3. Hər labdan sonra soruş: Nə idi? Niyə işlədi? Necə qorunmaq olar?
-4. Burp MCP-də **Logger-i və ya Repeater nəticələrini oxuyan alət yoxdur**. İstifadəçinin Repeater işini yoxlamaq üçün ondan ekran şəkli istə, ya da eyni sorğunu `send_http1_request` ilə özün göndər.
-5. Burp-un konfiqurasiyasını dəyişən alətləri (`set_project_options`, `set_user_options`, `set_proxy_intercept_state`) yalnız istifadəçi istəsə işlət.
-6. **Git:** hər dərsin sonunda `CLAUDE.md` + `ROADMAP.md` commit və push et. Repo: `kerim-agayev/burp-suite-learning`. **Yalnız `kerim-agayev` GitHub hesabı; `kerim-agayev-2026` hesabı QADAĞANDIR.** Remote URL-də istifadəçi adı açıq yazılmalıdır: `https://kerim-agayev@github.com/kerim-agayev/burp-suite-learning.git`. Yeni kompda işə başlamazdan əvvəl `git pull` et.
-7. Böyük cavabları (`send_http1_request`) istifadəçinin qarşısına çıxarma, yalnız lazımi hissəni çıxar.
+1. **Authorized targets only:** PortSwigger labs (`*.web-security-academy.net`) and the user's own site `kmplast.az` (passive only: GET, headers, browser traffic). No other targets. No brute-force, fuzzing, or DoS.
+2. **Act as a teacher:** never give lab solutions directly. Hint first, then direction, full solution only if the user asks.
+3. After each lab ask: What was it? Why did it work? How to prevent it?
+4. Burp MCP has **no tool to read Logger or Repeater results**. To check the user's Repeater work, ask for a screenshot or resend the request yourself with `send_http1_request`.
+5. Use config-changing tools (`set_project_options`, `set_user_options`, `set_proxy_intercept_state`) only when the user asks.
+6. **Git:** after each lesson commit + push `CLAUDE.md` + `ROADMAP.md`. Repo `kerim-agayev/burp-suite-learning`. **Only the `kerim-agayev` GitHub account; `kerim-agayev-2026` is FORBIDDEN.** Remote URL must include the username: `https://kerim-agayev@github.com/kerim-agayev/burp-suite-learning.git`. On a new machine run `git pull` first.
+7. Don't dump large `send_http1_request` responses to the user; extract only what matters.
 
-## Jurnal (ən yeni yuxarıda)
+## Journal (newest first)
 
-| Tarix | Nə etdik | Niyə |
+| Date | What | Why |
 |---|---|---|
-| 2026-11-13 | **Dərs 1: HTTP request/response** bitdi. Repeater-də `kmplast.az` ilə: `/about` → 200, `/bu-sehife-yoxdur` → 404, `HEAD` → body-siz 200, Host-suz → 400. Səhv: path `Host` başlığına yazılmışdı → Cloudflare 400 (Host header attacks mövzusuna körpü). Suallar: 3-cü düz cavablandı (5xx server səhvi, maraqlıdır); 1 (boş sətir) və 2 (client-ə inanmamaq) izah olundu. | HTTP bütün veb hakerliyin əsasıdır; Repeater ilə ilk praktika. |
-| 2026-11-13 | Mərhələ 1-ə CA sertifikatı, Match and replace, Bambdas, Organizer əlavə olundu. Repo GitHub-a push edildi: `kerim-agayev/burp-suite-learning` (yalnız `kerim-agayev` hesabı; `kerim-agayev-2026` qadağandır). | Real testdə hər gün lazım olan Burp xüsusiyyətləri. Repo ev kompunda davam etmək üçündür. |
-| 2026-11-13 | `ROADMAP.md` və bu `CLAUDE.md` yaradıldı. PortSwigger Academy-nin 31 mövzusu 6 mərhələyə bölündü. | Sıfırdan sistemli öyrənmək və sessiyalar arası davamlılıq üçün. |
-| 2026-11-13 | `kmplast.az` passiv analiz olundu (Burp proxy + MCP). Tapıntılar: Next.js + Vercel + Cloudflare; HSTS var; `Access-Control-Allow-Origin: *`; CSP, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy` yoxdur; bütün səhifələrdə meta description `"Generated by create next app"`; `<title>` iki dəfədir; Bootstrap 5.2.3 və slick-carousel 1.6.0 köhnədir. Kontakt forması hələ test olunmayıb. | Burp-un real saytda necə işlədiyini görmək. Tapıntılar Mərhələ 3-də (CORS, Clickjacking) nümunə kimi istifadə olunacaq. |
-| 2026-11-13 | Burp MCP Server extension quraşdırıldı və Claude Code-a qoşuldu. Repeater-də `kmplast-home` tabı yaradıldı. | Claude-un istifadəçinin Burp trafikini görüb öyrətməsi üçün. |
+| 2026-11-13 | Translated all .md files to English (user still spoken to in Azerbaijani). | Fewer tokens per session. |
+| 2026-11-13 | **Lesson 1: HTTP request/response** done. Repeater on `kmplast.az`: `/about` → 200, `/bu-sehife-yoxdur` → 404, `HEAD` → 200 without body, no Host → 400. Mistake: user put the path in the `Host` header → Cloudflare 400 (bridge to Host header attacks). Questions: Q3 correct (5xx = server error, interesting); Q1 (blank line) and Q2 (never trust the client) explained. | HTTP is the base of all web hacking; first Repeater practice. |
+| 2026-11-13 | Added CA certificate, Match and replace, Bambdas, Organizer to Phase 1. Pushed repo `kerim-agayev/burp-suite-learning`. | Everyday Burp features. Repo lets the user continue on the home PC. |
+| 2026-11-13 | Created `ROADMAP.md` and `CLAUDE.md`. All 31 Academy topics split into phases. | Structured learning + continuity across sessions. |
+| 2026-11-13 | Passive analysis of `kmplast.az` (Burp proxy + MCP). Findings: Next.js + Vercel + Cloudflare; HSTS present; `Access-Control-Allow-Origin: *`; no CSP, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`; every page has meta description `"Generated by create next app"`; duplicate `<title>`; old Bootstrap 5.2.3 and slick-carousel 1.6.0. Contact form not tested. | See Burp on a real site. Findings reused as examples in Phase 3 (CORS, Clickjacking). |
+| 2026-11-13 | Installed Burp MCP Server extension, connected to Claude Code. Created Repeater tab `kmplast-home`. | Lets Claude see the user's Burp traffic while teaching. |
