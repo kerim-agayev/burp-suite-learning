@@ -36,7 +36,8 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 4. Burp MCP has **no tool to read Logger or Repeater results**. To check the user's Repeater work, ask for a screenshot or resend the request yourself with `send_http1_request`.
 5. Use config-changing tools (`set_project_options`, `set_user_options`, `set_proxy_intercept_state`) only when the user asks.
 6. **Git:** after each lesson commit + push `CLAUDE.md` + `ROADMAP.md`. Repo `kerim-agayev/burp-suite-learning`. **Only the `kerim-agayev` GitHub account; `kerim-agayev-2026` is FORBIDDEN.** Remote URL must include the username: `https://kerim-agayev@github.com/kerim-agayev/burp-suite-learning.git`. On a new machine run `git pull` first.
-7. Don't dump large `send_http1_request` responses to the user; extract only what matters.
+7. **Topic workflow:** labs run on PortSwigger's site (progress saved there). Each Academy topic is a learning path with sub-sections (e.g. API testing: recon → documentation → endpoints → hidden params → mass assignment → server-side parameter pollution → prevention). Go section by section in the site's order: explain in Azerbaijani → user solves that section's lab in Burp's browser → hints via proxy history → "why/prevent" → log. User may paste the path's contents list; use it as the checklist.
+8. Don't dump large `send_http1_request` responses to the user; extract only what matters.
 
 ## Journal (newest first)
 
