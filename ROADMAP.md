@@ -52,7 +52,11 @@ Sizdə **Burp Suite Community Edition v2026.10.1** var. Community nəşrinin mə
 | [ ] **Comparer** | İki cavabı müqayisə edir | Uğurlu və uğursuz login cavablarını müqayisə edin |
 | [ ] **Logger** | Bütün alətlərin trafiki (Claude-un MCP ilə göndərdikləri də burada görünür) | Filtr ilə bir hostu tapın |
 | [ ] **Sequencer** | Token-lərin təsadüfiliyini ölçür | Sessiya cookie-sini analiz edin |
-| [ ] **Extensions / BApp Store** | Əlavə alətlər (məs. Logger++, JWT Editor, Autorize) | JWT Editor quraşdırın (Mərhələ 5 üçün) |
+| [ ] **Extensions / BApp Store** | Əlavə alətlər (məs. Logger++, JWT Editor, Autorize) | JWT Editor quraşdırın (Mərhələ 4 üçün) |
+| [ ] **CA sertifikatı** | Burp-un HTTPS trafikini görməsi üçün öz sertifikatı. Daxili brauzerdə hazırdır, başqa brauzer (Firefox/Chrome) üçün əl ilə quraşdırılır | `http://burpsuite` ünvanından sertifikatı yükləyib Firefox-a quraşdırın, bir HTTPS saytı xətasız açın |
+| [ ] **Proxy → Match and replace** | Hər sorğu/cavabda avtomatik dəyişiklik edir (məs. `User-Agent` dəyişmək, gizli düyməni göstərmək) | Bütün sorğulara `X-Test: 1` başlığı əlavə edən qayda yazın |
+| [ ] **Bambdas** | HTTP history və Logger üçün kiçik Java filtr skriptləri | Yalnız `POST` sorğularını və ya `500` cavablarını göstərən filtr yazın |
+| [ ] **Organizer** | Maraqlı sorğuları qeydlərlə saxlamaq üçün "dəftər" | Şübhəli sorğunu Organizer-ə göndərib qeyd yazın (hesabat üçün vərdiş) |
 
 Academy-dəki **"Essential skills"** mövzusu bu mərhələyə aiddir.
 
