@@ -21,7 +21,7 @@ PortSwigger özü başlanğıc üçün **SQL injection** mövzusunu tövsiyə ed
 
 Bu bilgi olmadan Burp-da gördüyünüz heç nə məna kəsb etməyəcək.
 
-- [ ] HTTP necə işləyir: request/response, metodlar (GET, POST, PUT, DELETE), status kodları (2xx/3xx/4xx/5xx)
+- [x] HTTP necə işləyir: request/response, metodlar (GET, POST, PUT, DELETE), status kodları (2xx/3xx/4xx/5xx)
 - [ ] Başlıqlar (headers): `Host`, `Cookie`, `Set-Cookie`, `Content-Type`, `Origin`, `Referer`
 - [ ] Cookie və sessiya: login olandan sonra sayt sizi necə "tanıyır"
 - [ ] URL encoding, Base64, HTML encoding (Burp Decoder ilə məşq)
