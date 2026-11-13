@@ -39,7 +39,8 @@ Hər dərsin sonunda Claude bu faylı yeniləyir: "Hazırkı vəziyyət" bölmə
 3. Hər labdan sonra soruş: Nə idi? Niyə işlədi? Necə qorunmaq olar?
 4. Burp MCP-də **Logger-i və ya Repeater nəticələrini oxuyan alət yoxdur**. İstifadəçinin Repeater işini yoxlamaq üçün ondan ekran şəkli istə, ya da eyni sorğunu `send_http1_request` ilə özün göndər.
 5. Burp-un konfiqurasiyasını dəyişən alətləri (`set_project_options`, `set_user_options`, `set_proxy_intercept_state`) yalnız istifadəçi istəsə işlət.
-6. Böyük cavabları (`send_http1_request`) istifadəçinin qarşısına çıxarma, yalnız lazımi hissəni çıxar.
+6. **Git:** hər dərsin sonunda `CLAUDE.md` + `ROADMAP.md` commit və push et. Repo: `kerim-agayev/burp-suite-learning`. **Yalnız `kerim-agayev` GitHub hesabı; `kerim-agayev-2026` hesabı QADAĞANDIR.** Remote URL-də istifadəçi adı açıq yazılmalıdır: `https://kerim-agayev@github.com/kerim-agayev/burp-suite-learning.git`. Yeni kompda işə başlamazdan əvvəl `git pull` et.
+7. Böyük cavabları (`send_http1_request`) istifadəçinin qarşısına çıxarma, yalnız lazımi hissəni çıxar.
 
 ## Jurnal (ən yeni yuxarıda)
 
