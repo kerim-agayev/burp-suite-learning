@@ -12,7 +12,11 @@ Hər dərsin sonunda Claude bu faylı yeniləyir: "Hazırkı vəziyyət" bölmə
 ## Hazırkı vəziyyət
 
 - **Mərhələ:** 0 (Əsaslar). Dərs 1 bitdi.
-- **Növbəti addım:** Dərs 2: başlıqlar, cookie, sessiya (`Cookie`, `Set-Cookie`, login-dən sonra sayt istifadəçini necə tanıyır). Praktika üçün Academy hesabı lazım olacaq.
+- **Növbəti addım: Dərs 2, cookie və sessiya.** Dərs 1 ilə eyni formatda keç: izah → Burp-da praktika → 3 sual → jurnal + push.
+  1. Əvvəl soruş: PortSwigger Academy hesabı varmı? Yoxdursa: https://portswigger.net/users/register (pulsuz). Login lazım olduğu üçün `kmplast.az` bu dərsə yaramır.
+  2. Mövzular: HTTP stateless-dir → `Set-Cookie` (server verir) → `Cookie` (brauzer hər sorğuda geri göndərir) → session ID nədir → cookie atributları (`HttpOnly`, `Secure`, `SameSite`, `Expires`).
+  3. Praktika: Academy-yə Burp-un daxili brauzerində login ol, Proxy history-də login `POST`-unu və cavabdakı `Set-Cookie`-ni tap. Sonra Repeater-də `Cookie` başlığını silib göndər → login-siz görünməlisən. Bu, "sessiya = cookie" fikrini göstərir.
+  4. Suallar: (a) Cookie oğurlansa nə olur? (b) `HttpOnly` nədən qoruyur? (c) Logout-dan sonra köhnə cookie hələ işləyirsə, bu nə problemdir?
 - **Zəif yerlər:** body/başlıq ayrılması və "client-ə inanmamaq" prinsipi izahla öyrənildi. Dərs 2-də təkrar yoxla.
 - **Açıq suallar:** yoxdur.
 
