@@ -15,7 +15,8 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
   - Path URL: https://portswigger.net/web-security/learning-paths/api-testing/api-testing-api-recon/api-testing/api-recon
   - Section checklist (site order): 1 API recon → 2 API documentation → 3 Identifying and interacting with API endpoints → 4 Finding hidden parameters → 5 Mass assignment vulnerabilities → 6 Preventing vulnerabilities in APIs → 7 Server-side parameter pollution → 8 SSPP in the query string → 9 SSPP in REST paths → 10 SSPP in structured data formats → 11 SSPP with automated tools → 12 Preventing SSPP.
   - Format: user pastes each section's text; Claude explains in Azerbaijani, user solves the lab in Burp's browser, Claude hints (see Rule 7).
-  - **API testing progress:** section 1 (API recon) just opened, nothing done yet. Update this line after every section.
+  - **API testing progress:** done → API recon, API documentation (lab solved), Identifying/interacting with endpoints (unused-endpoint lab solved), Finding hidden params + Mass assignment (lab solved), Preventing API vulns, Server-side parameter pollution + **SSPP in the query string (lab solved: `field=reset_token` leaked admin token via forgot-password)**. **Next section: SSPP in REST paths.** Update this line after every section.
+  - **`LESSONS.html` (repo root):** a study document in Azerbaijani with every lesson as "nə etdik / niyə işlədi / necə qarşısı alınır". **RULE: after each API-testing section, add it to LESSONS.html in the same format (goal → steps → why → prevent) before committing.** It has a placeholder card `#next` for the upcoming SSPP sections — replace/extend it.
 - **Phase (main plan):** 0 (Foundations). Lesson 1 done. Phase 2 item 11 (API testing) is being done early via the detour above.
 - **After the detour: Lesson 2, cookies and sessions.** Same format as Lesson 1: explain → Burp practice → 3 questions → journal + push.
   1. First ask: does the user have a PortSwigger Academy account? If not: https://portswigger.net/users/register (free). `kmplast.az` has no login, so it can't be used here.
@@ -48,6 +49,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 | Date | What | Why |
 |---|---|---|
+| 2026-11-15 | API testing: solved 4 labs (documentation, unused endpoint, mass assignment, SSPP query string). Created **LESSONS.html** — Azerbaijani study doc, all lessons as nə/niyə/necə qarşısı alınır. | User wanted a readable recap to reread; keep extending it per section. |
 | 2026-11-15 | **Detour to API testing path** (user's request, home PC; work PC continues from the same notes). Skipped ahead of Lesson 2 on purpose to finish the Academy API testing path in one day, then return to Lesson 2. Repo cloned fresh on home PC. | User wants a full topic done today; labs are saved on PortSwigger's site per account, so progress is shared across PCs. |
 | 2026-11-13 | Translated all .md files to English (user still spoken to in Azerbaijani). | Fewer tokens per session. |
 | 2026-11-13 | **Lesson 1: HTTP request/response** done. Repeater on `kmplast.az`: `/about` → 200, `/bu-sehife-yoxdur` → 404, `HEAD` → 200 without body, no Host → 400. Mistake: user put the path in the `Host` header → Cloudflare 400 (bridge to Host header attacks). Questions: Q3 correct (5xx = server error, interesting); Q1 (blank line) and Q2 (never trust the client) explained. | HTTP is the base of all web hacking; first Repeater practice. |
