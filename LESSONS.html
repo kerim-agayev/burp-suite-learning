@@ -159,6 +159,7 @@
     <li><a href="#prevent">API müdafiəsi</a></li>
     <li><a href="#sspp">Lab: SSPP (query string)</a></li>
     <li><a href="#next">SSPP: REST / struktur / avtomat</a></li>
+    <li><a href="#resturl">Lab: SSPP REST URL (expert)</a></li>
     <li><a href="#glossary">Açar anlayışlar</a></li>
   </ol>
 </nav>
@@ -391,13 +392,80 @@ Content-Type: text/html    <span class="c">← header-lər</span>
   </ul></div>
 </section>
 
-<!-- ============ NEXT (placeholder) ============ -->
-<section class="card upcoming" id="next">
+<!-- ============ SSPP THEORY (paths/json/tools) ============ -->
+<section class="card" id="next">
   <div class="card-head">
-    <h3>10. SSPP: REST paths · struktur data · avtomat alətlər</h3>
-    <span class="badge b-theory">növbəti</span>
+    <h3>10. SSPP: REST path · struktur data · avtomat alətlər</h3>
+    <span class="badge b-theory">nəzəri</span>
   </div>
-  <p class="card-sub">Bu bölmələri keçəndə bura “nə etdik / niyə / necə qarşısı alınır” formatında əlavə edəcəyik.</p>
+
+  <div class="block do">
+    <div class="lbl">🧭 REST path-də (query string yox, yolun içində)</div>
+    <p>Parametr URL yolunun bir hissəsidir: <span class="inlinecode">/api/users/123</span>. Burada <span class="inlinecode">&amp;</span> işləmir — bunun yerinə <strong>path traversal</strong> (<span class="inlinecode">../</span>) işlədirsən:</p>
+    <pre>name = peter%2f..%2fadmin          <span class="c">(%2f = /)</span>
+→ /api/private/users/peter/../admin
+→ normalize → /api/private/users/admin</pre>
+    <p class="note"><span class="inlinecode">cd peter/../admin</span> kimi: <span class="inlinecode">..</span> səni geri çıxarır, sonra başqa yerə aparır.</p>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🧱 Struktur data (JSON) içində</div>
+    <p>Server sənin adını JSON-a encode etmədən qoyursa, JSON-u qırıb yeni sahə əlavə edirsən:</p>
+    <pre>Sən:      name = peter","access_level":"administrator
+Serverdə: {"name":"peter","access_level":"administrator"}</pre>
+    <p class="note">(JSON input-dursa <span class="inlinecode">\"</span> ilə escape edirsən.) Eyni şey <em>cavab</em>da da baş verə bilər.</p>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🤖 Avtomat alətlər</div>
+    <ul>
+      <li><strong>Burp Scanner</strong> → “suspicious input transformation” tapır (Community-də yoxdur).</li>
+      <li><strong>Backslash Powered Scanner (BApp)</strong> → input-ları <span class="inlinecode">boring / interesting / vulnerable</span> təsnif edir.</li>
+    </ul>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Necə qarşısı alınır</div>
+    <p>Encode olunmayan icazəli simvolları <strong>allowlist</strong> et, qalan bütün input-u daxili sorğuya qoymazdan əvvəl <strong>encode</strong> et. Formatı da yoxla.</p>
+  </div>
+</section>
+
+<!-- ============ LAB: SSPP REST URL (EXPERT) ============ -->
+<section class="card" id="resturl">
+  <div class="card-head">
+    <h3>11. Lab: SSPP in a REST URL</h3>
+    <span class="badge b-lab">lab · expert</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">API testing-in ən çətin lab-ı: path traversal + sənəd kəşfi + reset token.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p><span class="inlinecode">administrator</span> kimi gir, <span class="inlinecode">carlos</span>-u sil.</p></div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Addım-addım nə etdik</div>
+    <ol>
+      <li><strong>Path traversal işləyirmi?</strong> <span class="inlinecode">username=foo%2f..%2fadministrator</span> → admin email qaytardı. Yəni <span class="inlinecode">foo/../administrator</span> → <span class="inlinecode">administrator</span>-a normalize olundu. ✅</li>
+      <li><strong>Struktur ipucu:</strong> <span class="inlinecode">username=administrator%2ffoo</span> → <em>“Invalid route. Please refer to the API definition”</em> → demək bir API sənədi var.</li>
+      <li><strong>Sənədi oxu:</strong> <span class="inlinecode">username=foobar%2f..%2f..%2f..%2f..%2f..%2fopenapi.json%23</span> → server <span class="inlinecode">500</span> ilə bütün OpenAPI faylını geri qaytardı. Orada yol: <span class="inlinecode">/api/internal/v1/users/{username}/field/{field}</span>.</li>
+      <li><strong>Reset token-i oğurla:</strong> <span class="inlinecode">username=foobar%2f..%2f..%2f..%2f..%2f..%2fapi%2finternal%2fv1%2fusers%2fadministrator%2ffield%2fpasswordResetToken%23</span> → cavab:
+        <pre>{"type":"passwordResetToken",
+ "result":"hmwcba8ze7ju0kede9aj861kuqwtpdgv"}</pre></li>
+      <li><strong>İstismar:</strong> <span class="inlinecode">/forgot-password?passwordResetToken=...</span> → yeni şifrə → admin login → admin paneldən carlos silindi.</li>
+    </ol>
+    <p class="note">Niyə 5 × <span class="inlinecode">../</span>? Çünki <span class="inlinecode">/api/internal/v1/users/foobar</span>-dan root-a qalxmaq üçün 5 seqment geri getmək lazımdır. <span class="inlinecode">%23</span> (#) serverin əlavə etdiyi <span class="inlinecode">/field/email</span> quyruğunu kəsir.</p>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Sayt username-i daxili URL <strong>yoluna</strong> encode etmədən qoyurdu. <span class="inlinecode">../</span> ilə yolda yuxarı qalxıb istədiyimiz daxili endpoint-ə getdik. Həssas <span class="inlinecode">passwordResetToken</span> sahəsi ümumi <span class="inlinecode">{field}</span> mexanizmindən çıxarılmamışdı. Üstəlik <span class="inlinecode">500</span> xətası bütün sənədi sızdırdı.</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><ul>
+    <li>Input-u daxili yola qoymazdan əvvəl encode et (<span class="inlinecode">/</span>, <span class="inlinecode">.</span> təsirsizləşsin).</li>
+    <li><span class="inlinecode">passwordResetToken</span> kimi həssas sahələri allowlist-dən çıxar.</li>
+    <li>Daxili API xətalarını olduğu kimi geri qaytarma.</li>
+  </ul></div>
+
+  <div class="block goal" style="background:var(--why-bg)">
+    <div class="lbl" style="color:var(--why)">✅ API Testing tamamlandı</div>
+    <p>12 bölmə, 5 lab (1 apprentice + 3 practitioner + 1 expert). Növbəti: əsas plana qayıdış — <strong>Dərs 2: Cookie və sessiyalar</strong>.</p>
+  </div>
 </section>
 
 <!-- ============ GLOSSARY ============ -->
