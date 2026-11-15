@@ -59,7 +59,7 @@ Academy topic: **Essential skills**.
 8. [ ] File upload vulnerabilities
 9. [ ] Server-side request forgery (SSRF)
 10. [ ] XML external entity (XXE) injection
-11. [ ] API testing
+11. [~] API testing (started early on 2026-11-15, see CLAUDE.md "DETOUR" for section checklist)
 12. [ ] NoSQL injection
 13. [ ] Race conditions
 
