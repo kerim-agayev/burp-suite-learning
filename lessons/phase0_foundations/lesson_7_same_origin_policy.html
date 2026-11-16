@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 7 · Same-Origin Policy</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 7 · Same-Origin Policy</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_6_sql_injection.html">‹ Dərs 6</a></span></div>
+
+<section class="card" id="l7">
+  <div class="card-head">
+    <h3>Dərs 7. Same-Origin Policy (SOP)</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Vebin əsas qorunması. CORS, CSRF, XSS-in hamısı bunun üstündə qurulub. Mərhələ 0-ın sonu.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Qayda</div>
+    <p><strong>Bir saytın JavaScript-i başqa saytın məlumatını oxuya bilməz.</strong> Niyə: açıq <span class="inlinecode">bank.com</span> tabınız varkən <span class="inlinecode">evil.com</span>-un kodu onu oxuya bilsəydi, hesablarınızı oğurlayardı.</p>
+    <p><strong>Origin = protokol + domen + port.</strong> Üçündən biri fərqlidirsə, ayrı sayt sayılır.</p>
+    <table class="ref">
+      <tr><th>A</th><th>B</th><th>Eyni origin?</th></tr>
+      <tr><td>https://shop.az/<b>a</b></td><td>https://shop.az/<b>b</b></td><td>✅ bəli (yol sayılmır)</td></tr>
+      <tr><td><b>https</b>://shop.az</td><td><b>http</b>://shop.az</td><td>❌ protokol fərqli</td></tr>
+      <tr><td>https://<b>shop</b>.az</td><td>https://<b>api.shop</b>.az</td><td>❌ domen fərqli (subdomen = ayrı)</td></tr>
+      <tr><td>https://shop.az</td><td>https://shop.az<b>:8080</b></td><td>❌ port fərqli</td></tr>
+    </table>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧠 Ən vacib incəlik: oxumaq ≠ göndərmək</div>
+    <pre>evil.com → bank.com-a sorğu GÖNDƏRƏ bilər     ✅ (SOP mane olmur)
+evil.com ← cavabı OXUYA bilməz                 ❌ (SOP dayandırır)</pre>
+    <ul>
+      <li><strong>CSRF:</strong> oxuya bilmir, amma göndərə bilir → əməliyyat etdirir (“pul köçür”).</li>
+      <li><strong>XSS:</strong> kod saytın <strong>öz içində</strong> işləyir = eyni origin → SOP mane olmur, hər şeyi oxuyur. XSS SOP-u keçir.</li>
+    </ul>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🌐 CORS: nəzarətli istisna</div>
+    <p>Sayt özü başqa origin-dən məlumat almaq istəyəndə, həmin server icazə başlığı göndərir:</p>
+    <pre>Access-Control-Allow-Origin: https://client.clopos.menu   <span class="c">← yalnız buna icazə</span>
+Access-Control-Allow-Origin: *                            <span class="c">← hər kəsə (riskli ola bilər)</span></pre>
+    <p>Bunu öz gözümüzlə gördük: Clopos <span class="inlinecode">client.clopos.menu</span>-dan <span class="inlinecode">ms.clopos.com</span>-a (fərqli origin) sorğu atırdı, ACAO başlığı icazə verirdi. <span class="inlinecode">kmplast.az</span>-da isə <span class="inlinecode">*</span> var idi.</p>
+    <p class="note">Yekun: SOP oxumağı dayandırır · CORS = serverin icazəsi ilə yumşaltmaq · subdomen = ayrı origin.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
