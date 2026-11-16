@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 15 · Sequencer</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 15 · Sequencer</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_14_logger.html">‹ Dərs 14</a></span></div>
+
+<section class="card" id="l15">
+  <div class="card-head">
+    <h3>Dərs 15. Sequencer — token təsadüfiliyi</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Qapı açarı ardıcıl olsa (1001, 1002...) oğru növbətini təxmin edər. Təsadüfi olsa, mümkün deyil. Sequencer bunu ölçür.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Necə işlədilir</div>
+    <p>Canlı endpoint lazım deyil — <b>Manual load</b> ilə əldə olan token nümunələrini yükləyib analiz etmək olur. <strong>Ən azı 100 token</strong> lazımdır (statistik analiz üçün).</p>
+    <p>Nəticə: <b>Summary</b> tabında <b>"Overall result"</b> — keyfiyyəti sözlə (poor/excellent) və <b>effektiv entropiya</b>-nı bit ilə göstərir. Nə qədər çox bit, bir o qədər təsadüfi/təhlükəsiz.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik — iki nümunə</div>
+    <table class="ref">
+      <tr><th>Nümunə</th><th>Format</th><th>Overall result</th></tr>
+      <tr><td>Zəif</td><td><span class="inlinecode">SESSION1001</span> ... <span class="inlinecode">SESSION1100</span> (ardıcıl)</td><td><b>Extremely poor</b> — 0 bit effektiv entropiya</td></tr>
+      <tr><td>Güclü</td><td>100 ədəd təsadüfi 32-hərfli hex (<span class="inlinecode">secrets.token_hex</span>)</td><td><b>Excellent</b></td></tr>
+    </table>
+    <p>Ardıcıl token-də bir nümunə görən kimi növbətini dərhal tapmaq olar (+1). Təsadüfi token-də əlaqə yoxdur, təxmin mümkün deyil.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib</div>
+    <ul>
+      <li><strong>Hara aid olur:</strong> sessiya cookie, password-reset token, API açarı, "unutdum" linki kimi şeylər — hamısı təsadüfi olmalıdır, yoxsa hücumçu təxmin edib başqasının sessiyasına girə bilər (session hijacking).</li>
+      <li><strong>Qorunma:</strong> server tərəfdə kriptoqrafik təsadüfi generator işlət (məs. <span class="inlinecode">crypto.randomBytes</span>, <span class="inlinecode">secrets</span> modulu), ardıcıl ID və ya vaxt-əsaslı dəyəri token kimi istifadə etmə.</li>
+    </ul>
+    <p class="note">Növbəti: Extensions / BApp Store.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
