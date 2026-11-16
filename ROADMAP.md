@@ -100,6 +100,31 @@ Redo Phase 2-3 topics at **Practitioner** level, plus:
 - [ ] Write a first report: title, impact, reproduction steps, fix
 - [ ] **BSCP** (Burp Suite Certified Practitioner): Academy has a practice exam. Exam needs **Burp Suite Professional**.
 
+## Phase 6b: What a pentest really is (after Phase 5)
+
+Learning labs are not a pentest. A pentest = **written authorization + scope + methodology + report**.
+
+- [ ] Pentest lifecycle: scoping, Rules of Engagement, recon, testing, exploitation (within scope), reporting, retest
+- [ ] Legal/ethics: written permission, NDA, scope limits, data handling, responsible disclosure; Azerbaijan law basics
+- [ ] Methodology: OWASP WSTG (Web Security Testing Guide), OWASP Top 10, CVSS severity scoring
+- [ ] Report writing: title, impact, severity, reproduction steps, fix, evidence; write one for a burp-lab finding
+- [ ] Full dry run on **burp-lab** (own app) as a mini-pentest: scope doc, test, findings report, fix, retest
+- [ ] Cheaper path to real experience: bug bounty (in-scope only), TryHackMe/HTB, own-VM labs
+
+## Phase 7: Beyond web (light overview, AFTER web path; each = 1-2 lessons, awareness level)
+
+Not the main goal. Goal: understand how the rest of the security world fits around web, and be able to talk about it. **Hands-on only in legal lab environments** (own VMs, TryHackMe/HTB rooms). Never against real third-party systems.
+
+| Area | What we learn | Safe practice |
+|---|---|---|
+| [ ] Network / infrastructure | TCP/IP, ports, `nmap` basics, services, Active Directory concepts, Wi-Fi security concepts | Own VM / TryHackMe rooms (Nmap, Network Fundamentals) |
+| [ ] Mobile apps | Android/iOS app traffic via proxy, certificate pinning idea, OWASP MASVS | Own test app, intercept with Burp |
+| [ ] Cloud | Shared responsibility, misconfigured storage/IAM, secrets in code; AWS/Azure basics | Free-tier own account, TryHackMe cloud rooms |
+| [ ] Social engineering / phishing / malware | How phishing works, red flags, awareness and defense, malware types at concept level | Concepts + defensive detection only; no real phishing, no malware creation |
+| [ ] DoS / DDoS | **Concept and defense only**: how it works, rate limiting, CDN/WAF, why it is illegal. We never run DoS against anything | Reading + discussing mitigations; no attack traffic |
+
+Rule 1 in `CLAUDE.md` still applies: authorized targets only; no brute-force, fuzzing or DoS against real systems.
+
 ## Lesson format with Claude
 
 1. **Explain:** concept in simple terms with a real example.

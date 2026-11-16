@@ -76,7 +76,26 @@ Already done: L1 HTTP, L2 cookies/tokens/sessions, L3 encoding, API testing path
 | 39-40 | L41 Bug bounty: scope, recon, rules · L42 Writing a report | — | — |
 | 41+ | BSCP practice exam (needs Burp **Pro**) | Practice exam | — |
 
-**Total: ~42 lessons, ~9-10 months.**
+## Phase 6b: Pentest process (after BSCP prep, weeks ~42-44)
+
+| Week | Lessons | PS | THM |
+|---|---|---|---|
+| 42 | Pentest lifecycle, scoping, RoE, legal/ethics | — | Pentesting Fundamentals |
+| 43 | OWASP WSTG, CVSS, report writing | — | — |
+| 44 | Mini-pentest on own burp-lab (scope doc → findings report → fix → retest) | — | — |
+
+## Phase 7: Beyond web, light overview (weeks ~45-50, awareness level)
+
+| Week | Lessons | PS | THM |
+|---|---|---|---|
+| 45 | Network basics, `nmap` on own VM | — | Network Fundamentals, Nmap |
+| 46 | Mobile app traffic via Burp (own test app) | — | — |
+| 47 | Cloud basics, shared responsibility | — | cloud intro rooms |
+| 48 | Social engineering / phishing / malware: concepts + defense only | — | Phishing awareness rooms |
+| 49 | DoS/DDoS: concept + defense only (no attack traffic) | — | — |
+| 50 | Wrap-up, what to specialise in next | — | — |
+
+**Total: ~42 web lessons (~9-10 months) + ~6 pentest/beyond-web lessons.**
 
 ## Extras log (user-added THM rooms / PortSwigger labs)
 
