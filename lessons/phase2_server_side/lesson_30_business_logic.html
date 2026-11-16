@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 30 · Business logic vulnerabilities</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 30 · Business logic vulnerabilities</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_29_command_injection.html">‹ Dərs 29</a></span></div>
+
+<section class="card" id="l30">
+  <div class="card-head">
+    <h3>Dərs 30. Business logic vulnerabilities — server müştəriyə lazımsız güvənir</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, mövzu #5 (Mövzu TAMAM). Giriş nöqtəsi: URL parametri (<span class="inlinecode">?price=</span>). Lab: <span class="chip">/vuln/checkout</span> · <span class="chip">/secure/checkout</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Bənzətmə</div>
+    <p>Kassir müştərinin dediyi qiyməti yoxlamadan qəbul edir — "müştəri yalan deməz" deyə düşünür. Bu, SQLi/path traversal kimi simvol oyunu (sintaksis sındırma) deyil, sırf <strong>məntiq</strong> boşluğudur: heç bir xüsusi simvol lazım deyil, sadəcə dəyəri dəyişirsən.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/checkout?productId=1&price=9999</span> → normal, bazadakı qiymət göstərildi.</li>
+      <li><span class="inlinecode">/vuln/checkout?productId=1&price=1</span> → "Alındı: ... ödənilən: 1" — bazada məhsul 25 AZN olsa belə, server client-in göndərdiyi <span class="inlinecode">price</span>-i olduğu kimi qəbul etdi.</li>
+      <li><span class="inlinecode">/secure/checkout?productId=1&price=1</span> → "Alındı: ... ödəniləcək (əsl, bazadan): 25" — client-in göndərdiyi <span class="inlinecode">price</span> tamamilə nəzərə alınmadı.</li>
+    </ol>
+    <p><strong>Niyə işlədi (vuln tərəf):</strong> server ödəniləcək qiyməti sorğudan (<span class="inlinecode">searchParams.price</span>) oxuyurdu, bazadan yox. Real tətbiqlərdə eyni səhv POST body-də (<span class="inlinecode">price=1</span>) və ya JSON-da (<span class="inlinecode">{"price":1}</span>) da baş verə bilər — giriş nöqtəsi dəyişsə də məntiq eynidir: "qiyməti haradan götürürük?"</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <ul>
+      <li><strong>Qayda:</strong> pul, endirim, rol, balans kimi həssas dəyərlər HEÇ VAXT client-dən gələn dəyərdən (URL/body/cookie/header/JSON — giriş nöqtəsindən asılı olmayaraq) götürülməməlidir. Server HƏR ZAMAN öz bazasından/öz hesablamasından yenidən oxumalıdır.</li>
+      <li>Bu, Dərs 12b-dəki (unsigned rol token) qaydanın eynisidir, sadəcə fərqli sahədə: "client-in dediyinə yox, serverin bildiyinə güvən".</li>
+    </ul>
+    <p class="note">Mərhələ 2 Business logic mövzusu bununla bağlandı. Növbəti mövzu: #6 Information disclosure.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
