@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 4 · HTML, JavaScript və DOM</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 4 · HTML, JavaScript və DOM</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_3_encoding.html">‹ Dərs 3</a></span></div>
+
+<section class="card" id="l4">
+  <div class="card-head">
+    <h3>Dərs 4. HTML, JavaScript və DOM</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Veb səhifə = <strong>ev</strong>. Praktika: <span class="chip">kmplast.az</span> HTML-i Burp-da, Clopos panelinin DOM-u brauzerin DevTools-unda.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Öyrəndiyimiz (ev misalı)</div>
+    <table class="ref">
+      <tr><th>Evdə</th><th>Veb-də</th><th>Nə edir</th></tr>
+      <tr><td>Divarlar, otaqlar</td><td>HTML</td><td>Skelet: başlıq, mətn, link, düymə, forma</td></tr>
+      <tr><td>Boya, mebel</td><td>CSS</td><td>Görünüş (hakerlik üçün az maraqlı)</td></tr>
+      <tr><td>Elektrik</td><td>JavaScript</td><td>Funksionallıq: kliklər, menyular, məlumat gətirmək</td></tr>
+      <tr><td>Memarlıq layihəsi</td><td>HTML mənbəyi (<span class="inlinecode">Ctrl+U</span>)</td><td>Serverdən gələn kağız</td></tr>
+      <tr><td>Hazır dayanan ev</td><td><strong>DOM</strong> (<span class="inlinecode">F12 → Elements</span>)</td><td>Brauzerdəki canlı plan. JS onu dəyişə bilir</td></tr>
+    </table>
+    <pre>&lt;a class="hover ... text-black"  href="/about"&gt;  Haqqımızda  &lt;/a&gt;
+<span class="c"> teq     CSS (boya)               hara aparır   ekranda görünən  bağlanır</span>
+&lt;!-- şərh --&gt;   <span class="c">← ekranda görünmür, amma mənbədə oxunur</span>
+&lt;script&gt;...&lt;/script&gt;   <span class="c">← elektrik: işə düşən kod</span></pre>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ul>
+      <li>Burp HTTP history-də <strong>MIME type = HTML</strong> olan sətri seçdim (JSON olanlar Next.js-in <span class="inlinecode">Rsc: 1</span> məlumat parçalarıdır, səhifə deyil).</li>
+      <li>Raw-da tapdım: <span class="inlinecode">&lt;title&gt;K&amp;amp;M Plast&lt;/title&gt;</span> (<span class="inlinecode">&amp;amp;</span> = Dərs 3-dəki HTML encoding!), <span class="inlinecode">href="/about"</span> → “Haqqımızda”, <strong>14</strong> <span class="inlinecode">&lt;script</span>.</li>
+      <li>Clopos: <span class="inlinecode">Ctrl+U</span> → yalnız <span class="inlinecode">&lt;div id="root"&gt;&lt;/div&gt;</span>. <span class="inlinecode">F12 → Elements</span> → dolu. React evi <strong>brauzerin içində JS ilə tikir</strong>.</li>
+      <li>Console: <span class="inlinecode">document.title = "kerim"</span> → tab adı dəyişdi. <strong>F5</strong> → geri qayıtdı (DOM dəyişikliyi müvəqqətidir və yalnız mənə aiddir).</li>
+    </ul>
+    <p class="note">Console-dakı xəbərdarlıq: “bilmədiyin kodu bura yapışdırma, kimliyini oğurlaya bilər” → <strong>Self-XSS</strong>: kod sənin sessiyanda işləyir və token-ini götürə bilər.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🧠 Yadda saxla</div>
+    <ul>
+      <li><strong>Burp yalnız yolda gedən məktubları görür</strong> (HTTP). Brauzerin içində JS-in sonradan etdiklərini görmür → DOM-based XSS üçün <strong>F12</strong> və Burp brauzerindəki <strong>DOM Invader</strong>.</li>
+      <li>Sayt istifadəçinin <span class="inlinecode">&lt;</span>-sini <span class="inlinecode">&amp;lt;</span> ilə sarımasa → yazılan <span class="inlinecode">&lt;script&gt;</span> <strong>hər ziyarətçinin brauzerində</strong> işləyir = <strong>XSS</strong> → token oğurlana bilər.</li>
+      <li>Səhifə mənbəyindəki gizli hissələr (<span class="inlinecode">href</span>, <span class="inlinecode">&lt;!-- şərhlər --&gt;</span>, JS faylları) hakerin kəşfiyyat yeridir.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

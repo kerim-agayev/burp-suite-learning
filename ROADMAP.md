@@ -18,7 +18,7 @@ Markers: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [ ] Headers: `Host`, `Cookie`, `Set-Cookie`, `Content-Type`, `Origin`, `Referer`
 - [x] Cookies and sessions: how a site "remembers" you after login
 - [x] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
-- [ ] HTML, JavaScript, DOM basics (read page source)
+- [x] HTML, JavaScript, DOM basics (read page source)
 - [ ] HTTPS/TLS, why Burp installs its own certificate
 - [ ] SQL basics: `SELECT`, `WHERE`, `UNION`
 - [ ] Same-Origin Policy (SOP), base for CORS, CSRF, XSS

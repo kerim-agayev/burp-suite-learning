@@ -20,7 +20,8 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 - **Phase (main plan):** 0 (Foundations). Lesson 1 done. Phase 2 item 11 (API testing) is being done early via the detour above.
 - **Lesson 2 (cookies, tokens, sessions): DONE 2026-11-16.**
 - **Lesson 3 (encoding: URL, Base64, HTML) DONE 2026-11-16.**
-- **Next: Lesson 4, HTML/JavaScript/DOM basics** (reading page source; what `<script>`, tags, and the DOM are) — needed before XSS. Then HTTPS/TLS, SQL basics, SOP to finish Phase 0. User is NOT a developer: explain every term from zero.
+- **Lesson 4 (HTML/JS/DOM) DONE 2026-11-16.**
+- **Next: Lesson 5, HTTPS/TLS + Burp CA certificate** (SCHEDULE week 1). Then L6 SQL basics, L7 SOP to finish Phase 0. User is NOT a developer: explain every term from zero.
 - **Teaching style that works (user's feedback 2026-11-16):** the first abstract Lesson 2 explanation was NOT understood. Re-done from zero on the user's own real app traffic with a gym-card analogy → understood. Always: everyday analogy first, then the user's OWN live traffic, small steps, one Repeater action at a time.
 - **Weak spots:** Lesson 1 Q1 (blank line separates headers/body) finally answered correctly 2026-11-16 ✅. Confused encryption vs signature (thought JWT is encrypted) → corrected with seal/safe analogy; re-check later. XSS unknown (expected, Phase 3).
 - **User is not a developer** (said 2026-11-16): avoid code jargon; tables + everyday analogies + one Burp action per step.
@@ -50,6 +51,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 | Date | What | Why |
 |---|---|---|
+| 2026-11-16 | **Lesson 4: HTML/JS/DOM** done. kmplast.az: picked an RSC/JSON row first (no HTML) → learned to pick MIME=HTML; found `<title>K&amp;M Plast`, `/about` link, 14 `<script`. Clopos: Ctrl+U = empty `#root`, F12 Elements = full (React). Console `document.title` changed, F5 reverted. Saw Self-XSS warning. Answers: Q1 ✅, Q2 ✅ (React), Q3 ✅ (XSS). File `lessons/phase0_foundations/lesson_4_html_js_dom.html`. | Needed before XSS / DOM topics. |
 | 2026-11-16 | Split `LESSONS.html` into `lessons/` (one HTML file per lesson, folders per phase, shared CSS/JS, `index.html`). | User wants to find each lesson separately in the file tree. |
 | 2026-11-16 | **Lesson 3: encoding** done in Burp Decoder. URL decode (`%2C`, `%20%26%20...%3F`), Base64 decode/encode of `{"user_id":1,"is_owner":true}`, noticed trailing `Cg==` (newline). Answers: Q1 `user=admin` ✅, Q3 `%3C` = `<` ✅ (filter bypass explained), Q2 wrong (thought JWT encrypted) → explained encoding vs signature vs encryption. Added Lesson 3 card to LESSONS.html. | User asked to be taught as a non-developer, from zero. |
 | 2026-11-16 | **Lesson 2: cookies/tokens/sessions** done on user's own `client.clopos.menu` account (observe only). Found login `POST` (no `Set-Cookie`) → app uses JWT `Authorization: Bearer`, `exp` = 1h. Repeater: with token 200; no header 401; one char changed 401 (signature); bonus logout test done. Answers: Q1 partly (1h; completed: no password needed, full owner access); Q2 XSS explained. Two observations told to the user verbally for internal reporting; deliberately NOT written here (public repo). Added Lesson 2 card to LESSONS.html. | User didn't understand abstract version; real own traffic + analogy worked. |
