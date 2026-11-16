@@ -7,7 +7,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 - Learning Burp Suite and web ethical hacking **from zero**.
 - **ALWAYS talk to the user in Azerbaijani.** Keep technical terms in English ("request", "payload"). These files are in English only to save tokens.
-- Plan: [ROADMAP.md](ROADMAP.md)
+- Plan: [ROADMAP.md](ROADMAP.md) (what) + [SCHEDULE.md](SCHEDULE.md) (week by week, ~42 lessons). User will add TryHackMe paths/rooms and PortSwigger labs along the way → follow the "Extras log" rule in SCHEDULE.md.
 
 ## Current state
 
