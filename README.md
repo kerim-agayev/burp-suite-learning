@@ -23,7 +23,7 @@ Main source: [PortSwigger Web Security Academy](https://portswigger.net/web-secu
 2. Connect Burp to Claude Code: follow the 6 steps in [SETUP.md](SETUP.md).
 3. Reload Claude Code (`Ctrl+Shift+P` → `Developer: Reload Window`) and open a new chat.
 4. Open Claude Code in this folder and write: **"CLAUDE.md-yə bax, qaldığımız yerdən davam edək"**.
-5. After a lesson: `git add -A && git commit -m "..." && git push`. Before starting on the other machine: `git pull`.
+5. After a lesson (PowerShell uses `;`, not `&&`): `git add -A; git commit -m "..."; git push`. Before starting on the other machine: `git pull`.
 
 ## Rule
 
