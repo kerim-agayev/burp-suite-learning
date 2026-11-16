@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 14 · Logger</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 14 · Logger</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_13_comparer.html">‹ Dərs 13</a></span></div>
+
+<section class="card" id="l14">
+  <div class="card-head">
+    <h3>Dərs 14. Logger — bütün alətlərin ümumi jurnalı</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Proxy history yalnız brauzeri göstərir. Logger bütün alətlərin trafiikini, mənbəyi ilə birlikdə göstərir.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Fərq</div>
+    <table class="ref">
+      <tr><th></th><th>Proxy history</th><th>Logger</th></tr>
+      <tr><td>Mənbə</td><td>yalnız brauzer</td><td>bütün alətlər</td></tr>
+      <tr><td>Əlavə sütun</td><td>—</td><td><b>Tool</b> (kim göndərib)</td></tr>
+    </table>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <p>Logger-i <b>Tool</b> sütununa görə sıraladıq. Görünən mənbələr: <span class="inlinecode">Proxy</span>, <span class="inlinecode">Target</span>, <span class="inlinecode">Repeater</span>, <span class="inlinecode">Intruder</span>, və <span class="inlinecode">Extensions</span>.</p>
+    <p><b>Extensions</b> — Claude-un MCP (Burp MCP Server extension) ilə özü göndərdiyi sorğulardır (məs. Dərs 12b-də <span class="inlinecode">/vuln/profile</span>-ı yoxlayanda). Çünki Burp MCP Server bir extension kimi quraşdırılıb, onun trafiki ayrıca "MCP" yox, "Extensions" kateqoriyasında görünür.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib</div>
+    <ul>
+      <li><strong>Mənbə izləmə:</strong> "bu sorğu haradan gəldi?" sualına Logger-in <b>Tool</b> sütunu dəqiq cavab verir — əllə (Proxy/Repeater/Intruder) yoxsa Claude-un özü (Extensions) göndərib.</li>
+      <li>Böyük testlərdə hansı alətin nə qədər trafik yaratdığını görmək üçün faydalıdır (məs. Intruder-in neçə sorğu göndərdiyini yoxlamaq).</li>
+    </ul>
+    <p class="note">Növbəti: Sequencer (token təsadüfiliyi).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

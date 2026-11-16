@@ -37,7 +37,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 | [x] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Done 2026-11-16: burp-lab sqli Length-diff + new /vuln/login username enumeration via Grep-Match |
 | [x] **Decoder** | URL, Base64, Hex, HTML encode/decode | Done 2026-11-16: category=Gifts'-- URL round-trip, administrator -> Base64 |
 | [x] **Comparer** | Diff two responses | Done 2026-11-16: burp-lab /vuln/login administrator vs bilal, Words diff, 11 differences, found the real message difference among timestamp noise |
-| [ ] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Filter by host |
+| [x] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Done 2026-11-16: sorted by Tool column, found Proxy/Target/Repeater/Intruder/Extensions (MCP shows as Extensions) |
 | [ ] **Sequencer** | Token randomness analysis | Analyze a session cookie |
 | [ ] **Extensions / BApp Store** | Add-ons (Logger++, JWT Editor, Autorize) | Install JWT Editor (for Phase 4) |
 | [ ] **CA certificate** | Lets Burp see HTTPS; built-in browser has it, others need manual install | Download from `http://burpsuite`, install in Firefox, open an HTTPS site without errors |
