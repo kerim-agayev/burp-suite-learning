@@ -21,7 +21,8 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 - **Lesson 2 (cookies, tokens, sessions): DONE 2026-11-16.**
 - **Lesson 3 (encoding: URL, Base64, HTML) DONE 2026-11-16.**
 - **Lesson 4 (HTML/JS/DOM) DONE 2026-11-16.**
-- **Next: Lesson 5, HTTPS/TLS + Burp CA certificate** (SCHEDULE week 1). Then L6 SQL basics, L7 SOP to finish Phase 0. User is NOT a developer: explain every term from zero.
+- **Lesson 5 (HTTPS/TLS + Burp CA) DONE 2026-11-16.**
+- **Next: Lesson 6, SQL basics** (`SELECT`, `WHERE`, `UNION`; analogy idea: a library card catalogue / Excel table). Then L7 SOP to finish Phase 0. User is NOT a developer: explain every term from zero.
 - **Teaching style that works (user's feedback 2026-11-16):** the first abstract Lesson 2 explanation was NOT understood. Re-done from zero on the user's own real app traffic with a gym-card analogy → understood. Always: everyday analogy first, then the user's OWN live traffic, small steps, one Repeater action at a time.
 - **Weak spots:** Lesson 1 Q1 (blank line separates headers/body) finally answered correctly 2026-11-16 ✅. Confused encryption vs signature (thought JWT is encrypted) → corrected with seal/safe analogy; re-check later. XSS unknown (expected, Phase 3).
 - **User is not a developer** (said 2026-11-16): avoid code jargon; tables + everyday analogies + one Burp action per step.
@@ -51,6 +52,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 | Date | What | Why |
 |---|---|---|
+| 2026-11-16 | **Lesson 5: HTTPS/TLS** done. Postcard vs locked envelope + passport (CA = notary); Burp = MITM postman. Compared cert issuer: Burp browser = PortSwigger, normal Chrome = Google Trust Services. Answers: Q1 ✅, Q2 ✅, Q3 (does 🔒 mean no XSS/SQLi?) didn't know → armored-truck analogy. File `lesson_5_https_tls.html`. | Needed to understand why Burp can read HTTPS. |
 | 2026-11-16 | **Lesson 4: HTML/JS/DOM** done. kmplast.az: picked an RSC/JSON row first (no HTML) → learned to pick MIME=HTML; found `<title>K&amp;M Plast`, `/about` link, 14 `<script`. Clopos: Ctrl+U = empty `#root`, F12 Elements = full (React). Console `document.title` changed, F5 reverted. Saw Self-XSS warning. Answers: Q1 ✅, Q2 ✅ (React), Q3 ✅ (XSS). File `lessons/phase0_foundations/lesson_4_html_js_dom.html`. | Needed before XSS / DOM topics. |
 | 2026-11-16 | Split `LESSONS.html` into `lessons/` (one HTML file per lesson, folders per phase, shared CSS/JS, `index.html`). | User wants to find each lesson separately in the file tree. |
 | 2026-11-16 | **Lesson 3: encoding** done in Burp Decoder. URL decode (`%2C`, `%20%26%20...%3F`), Base64 decode/encode of `{"user_id":1,"is_owner":true}`, noticed trailing `Cg==` (newline). Answers: Q1 `user=admin` ✅, Q3 `%3C` = `<` ✅ (filter bypass explained), Q2 wrong (thought JWT encrypted) → explained encoding vs signature vs encryption. Added Lesson 3 card to LESSONS.html. | User asked to be taught as a non-developer, from zero. |

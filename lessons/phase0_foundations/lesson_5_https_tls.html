@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 5 · HTTPS və Burp sertifikatı</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 5 · HTTPS və Burp sertifikatı</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_4_html_js_dom.html">‹ Dərs 4</a></span></div>
+
+<section class="card" id="l5">
+  <div class="card-head">
+    <h3>Dərs 5. HTTPS, TLS və Burp-un CA sertifikatı</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">HTTP = <strong>açıqca</strong> (hamı oxuyur). HTTPS = <strong>kilidli zərf + pasport</strong>. Burp = ortada zərfi açan poçtalyon (man-in-the-middle).</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Öyrəndiyimiz</div>
+    <table class="ref">
+      <tr><th>Poçtda</th><th>Veb-də</th></tr>
+      <tr><td>Kilidli zərf</td><td><strong>TLS şifrələmə</strong>: yolda oxunmur (encryption = seyf)</td></tr>
+      <tr><td>Göndərənin pasportu</td><td><strong>Sertifikat</strong>: “mən həqiqətən bu saytam”</td></tr>
+      <tr><td>Notarius</td><td><strong>CA</strong> (Certificate Authority): pasportu imzalayan etibarlı təşkilat</td></tr>
+    </table>
+    <pre>Brauzer ──🔒──▶ BURP ──🔒──▶ sayt
+        zərf 1   açır, oxuyur,   zərf 2
+                 yenidən bağlayır
+<span class="c">Burp hər sayt üçün öz pasportunu çap edir → brauzer PortSwigger CA-ya etibar etməlidir</span></pre>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə gördük</div>
+    <table class="ref">
+      <tr><th>Brauzer</th><th>Issued By (O)</th><th>Mənası</th></tr>
+      <tr><td>Adi Chrome</td><td>Google Trust Services</td><td>Real notarius, ortada heç kim yoxdur</td></tr>
+      <tr><td>Burp brauzeri</td><td>PortSwigger</td><td>Burp özü imzalayıb, ortada Burp var</td></tr>
+    </table>
+    <p class="note">Burp brauzerində <span class="inlinecode">https</span> qırmızı və üstündən xətt çəkilib, yazı: <em>“This content is being proxied through Burp Suite”</em>.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Yadda saxla</div>
+    <ul>
+      <li><strong>Sertifikat xəbərdarlığını heç vaxt keçmə</strong> (“Your connection is not private”). Bu, kiminsə Burp kimi ortada dayandığını göstərə bilər.</li>
+      <li><strong>Burp CA-nı gündəlik brauzerə quraşdırma</strong>. Yalnız Burp-un daxili brauzeri və ya ayrıca test brauzeri üçün.</li>
+      <li><strong>🔒 = yolda heç kim oxumur. 🔒 ≠ sayt təhlükəsizdir.</strong> Zirehli maşın pulu yolda qoruyur, bankın açıq kassasını yox. SQLi, XSS, token oğurluğu: hamısı HTTPS-in <em>içində</em> baş verir.</li>
+      <li><strong>HSTS</strong> (<span class="inlinecode">Strict-Transport-Security</span>): brauzerə “bu sayta həmişə HTTPS ilə gəl” deyir, zərfsiz versiyaya keçirməyə imkan vermir.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

@@ -19,7 +19,7 @@ Markers: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Cookies and sessions: how a site "remembers" you after login
 - [x] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
 - [x] HTML, JavaScript, DOM basics (read page source)
-- [ ] HTTPS/TLS, why Burp installs its own certificate
+- [x] HTTPS/TLS, why Burp installs its own certificate
 - [ ] SQL basics: `SELECT`, `WHERE`, `UNION`
 - [ ] Same-Origin Policy (SOP), base for CORS, CSRF, XSS
 
