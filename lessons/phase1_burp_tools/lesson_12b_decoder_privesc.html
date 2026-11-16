@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 12b · Decoder ilə privilege escalation</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 12b · Decoder ilə privilege escalation</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_12_decoder.html">‹ Dərs 12</a></span></div>
+
+<section class="card" id="l12b">
+  <div class="card-head">
+    <h3>Dərs 12b. Base64 token-i dəyişib admin olmaq</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Dərs 3-dəki <span class="inlinecode">{"user_id":1,"is_owner":false}</span> nümunəsini real, sınaqdan keçirilə bilən lab etdik: yeni <span class="inlinecode">/vuln/profile</span> + <span class="inlinecode">/secure/profile</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Lab necə işləyir</div>
+    <p><span class="inlinecode">/vuln/profile</span> URL-dən <span class="inlinecode">?token=...</span> alır — token Base64-də <span class="inlinecode">{"username":"wiener","role":"user"}</span> kimi bir JSON-dur. <strong>İmza yoxdur</strong> — server sadəcə decode edib içindəki <span class="inlinecode">role</span>-a güvənir.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/profile</span> açdıq → öz token-imizi gördük, rol: <span class="inlinecode">user</span>.</li>
+      <li>Token-i <strong>Decoder</strong>-ə kopyaladıq → <b>Decode as Base64</b> → <span class="inlinecode">{"username":"wiener","role":"user"}</span> çıxdı.</li>
+      <li>Mətndə <span class="inlinecode">"role":"user"</span> → <span class="inlinecode">"role":"admin"</span> etdik.</li>
+      <li>Yeni mətni <b>Encode as Base64</b> etdik → yeni token aldıq.</li>
+      <li>Bu yeni token-i URL-ə qoyub açdıq: <strong>Admin panel göründü</strong> — "sistemin açarı 12345" sızdı. Parol lazım olmadı, heç bir giriş etmədik.</li>
+      <li>Eyni saxta token-i <span class="inlinecode">/secure/profile</span>-da sınadıq → <strong>işləmədi</strong>, yenə adi istifadəçi göründü.</li>
+    </ol>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə işlədi · necə qorunur</div>
+    <ul>
+      <li><strong>Niyə işlədi (vuln):</strong> server token-in içindəki <span class="inlinecode">role</span> sözünə kor-koranə güvəndi. Base64 isə <strong>imzasızdır</strong> — hər kəs açıb dəyişə bilər (Dərs 12-də gördük: encoding = format, sirr deyil).</li>
+      <li><strong>Niyə işləmədi (secure):</strong> <span class="inlinecode">secure/profile</span> token-dən yalnız <span class="inlinecode">username</span>-i oxuyur, <strong>əsl rolu həmişə bazadan</strong> (<span class="inlinecode">prisma.user.findUnique</span>) yoxlayır. Token nə yazsa yazsın, fərq etməz.</li>
+      <li><strong>Ümumi qayda:</strong> client-in göndərdiyi heç bir dəyərə (cookie, token, parametr) icazə/rol üçün birbaşa güvənmə. Əsl JWT-də bu problem <em>imza</em> ilə həll olunur (server imzanı yoxlayır, dəyişdirilmiş token rədd olunur) — biz bunu bilərəkdən imzasız qurduq ki, fərqi əllə görək.</li>
+    </ul>
+    <p class="note">Bağlı: <a href="../phase0_foundations/lesson_3_encoding.html">Dərs 3 (encoding)</a>, <a href="lesson_12_decoder.html">Dərs 12 (Decoder)</a>.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
