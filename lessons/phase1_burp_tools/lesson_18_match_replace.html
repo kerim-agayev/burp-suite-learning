@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 18 · Match and replace</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 18 · Match and replace</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_17_ca_certificate.html">‹ Dərs 17</a></span></div>
+
+<section class="card" id="l18">
+  <div class="card-head">
+    <h3>Dərs 18. Match and replace — avtomatik dəyişiklik</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Dərs 8-də Intercept ilə əllə dəyişirdik. Bu, elə onu — avtomatlaşdırılmış formada.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Necə qurulur</div>
+    <p><b>Proxy → Settings → HTTP match and replace rules → Add</b>. Sahələr: <b>Type</b> (Request line / header), <b>Match</b> (axtarılan mətn), <b>Replace</b> (yeni mətn). Qayda <b>Intercept-dən asılı deyil</b> — açıq olsun-olmasın, hər uyğun request/cavabı avtomatik dəyişir.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <p>Qayda: <span class="inlinecode">category=Gifts</span> → <span class="inlinecode">category=Gifts'--</span> (Request line).</p>
+    <table class="ref">
+      <tr><th>Qayda</th><th><span class="inlinecode">/vuln/sqli?category=Gifts</span> nəticəsi</th></tr>
+      <tr><td>Enabled</td><td><b>3 məhsul</b> (gizli də sızdı, brauzer hələ "Gifts" yazırdı)</td></tr>
+      <tr><td>Unchecked (söndürülüb)</td><td>2 məhsul (normal davranış)</td></tr>
+    </table>
+    <p>Fərq yalnız qaydadan asılı idi — sübut: eyni URL, qayda aktiv/deaktiv, nəticə dəyişdi.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Diqqət və istifadə sahələri</div>
+    <ul>
+      <li><strong>Diqqət:</strong> qaydanı iş bitəndə söndür/sil, yoxsa bütün gələcək sorğularını səssizcə dəyişər, özünü çaşdırarsan.</li>
+      <li><strong>Real istifadə:</strong> hər sorğuya test başlığı əlavə etmək, köhnə token-i avtomatik yeniləmək, bir parametri bütün sorğularda sınamaq — tək-tək Repeater-dən sürətlidir.</li>
+    </ul>
+    <p class="note">Növbəti: Bambdas (kiçik filtr skriptləri).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
