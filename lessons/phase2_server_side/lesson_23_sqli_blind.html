@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 23 · SQLi: Blind (kor) injection</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 23 · SQLi: Blind injection</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_22_sqli_union.html">‹ Dərs 22</a></span></div>
+
+<section class="card" id="l23">
+  <div class="card-head">
+    <h3>Dərs 23. Blind SQL injection (SQLi pilləsi 5) — SQLi mövzusu BAĞLANDI</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Nəticə ekranda görünmür — məlumatı hə/yox suallarıyla, hərf-hərf çıxarmaq. Lab: <span class="chip">/vuln/blind</span>, injection <b>cookie-də</b> (URL-dən kənar ilk məşq).</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Blind nədir</div>
+    <p>Kilidli otağın içini görmürsən, amma qapını döyüb sual verirsən: tıqqıltı (hə) / səssizlik (yox). Lab məlumatı göstərmir, yalnız:</p>
+    <ul>
+      <li>Sorğu sətir qaytarır → <b>"Welcome back!"</b> (= HƏ)</li>
+      <li>Qaytarmır → mesaj yoxdur (= YOX)</li>
+    </ul>
+    <p><strong>Giriş nöqtəsi — cookie:</strong> server <span class="inlinecode">TrackingId</span> cookie-ni oxuyub SQL-ə yapışdırır. Burp Repeater-də <span class="inlinecode">Cookie:</span> başlığını dəyişdik (brauzerin URL-inə toxunmadan).</p>
+    <pre>SELECT id FROM "User" WHERE username = '&lt;COOKIE&gt;'</pre>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Addımlar</div>
+    <p><strong>1) Oracle-ı yoxla</strong> (hə/yox düzgün işləyirmi). Diqqət: <span class="inlinecode">--</span> İŞLƏTMƏDİK — serverin sondakı dırnağı bizim stringi bağlayır (dırnaq balansı):</p>
+    <pre>TrackingId=administrator' AND '1'='1   → '1'='1' → DOĞRU → Welcome back
+TrackingId=administrator' AND '1'='2   → '1'='2' → YALAN → mesaj yox</pre>
+    <p class="note">Tələ: <span class="inlinecode">...='1--</span> yazsaq, serverin dırnağı <span class="inlinecode">'1--'</span> kimi mətn yaradır, <span class="inlinecode">--</span> şərh olmur. Ona görə burada <span class="inlinecode">--</span> yox, dırnaq balansı işlədirik.</p>
+
+    <p><strong>2) Parolu hərf-hərf çıxar</strong> — <span class="inlinecode">substring(mətn, haradan, neçə)</span> ilə:</p>
+    <pre>TrackingId=administrator' AND substring((SELECT password FROM "User" WHERE username='administrator'),1,1)='s</pre>
+    <p>"1-ci hərf <span class="inlinecode">s</span>-dirmi?" → Welcome back = HƏ. <span class="inlinecode">'a'</span> ilə → mesaj yox. Mövqeyi dəyişib (<span class="inlinecode">,2,1</span>) 2-ci hərf (<span class="inlinecode">3</span>) və s. tapılır.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">⚙️ Avtomatlaşdırma</div>
+    <p>11 hərf × ~70 ehtimal = yüzlərlə sorğu, əllə mümkün deyil:</p>
+    <table class="ref">
+      <tr><th>Alət</th><th>Necə</th></tr>
+      <tr><td>Burp Intruder (Cluster bomb)</td><td>2 dəyişən: mövqe (1,2,3...) + hərf (a,b,c...); "Welcome back"-ları Grep-Match ilə tap</td></tr>
+      <tr><td>sqlmap</td><td>SQLi üçün xüsusi avtomatik alət (gələcək mövzu)</td></tr>
+    </table>
+    <p>Blind SQLi = minlərlə hə/yox sualıyla məlumatı hərf-hərf yığmaq. Görünən (UNION) injection-dan yavaş, amma eyni dərəcədə təhlükəli.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma · SQLi mövzusunun yekunu</div>
+    <ul>
+      <li><strong>Qorunma (hamısı üçün eynidir):</strong> parametrized query / ORM. <span class="inlinecode">/secure/blind</span>-də cookie parametr kimi ötürülür → <span class="inlinecode">' AND ...</span> işləmir.</li>
+      <li><strong>SQLi növləri (bitdik):</strong> gizli data (<span class="inlinecode">'--</span>), login bypass (<span class="inlinecode">' OR 1=1--</span>), UNION (başqa cədvəl + recon), <strong>blind</strong> (hə/yox + vaxt).</li>
+      <li><strong>Vaxt-əsaslı blind</strong> (əlavə): cavab fərqi olmasa belə, <span class="inlinecode">pg_sleep(5)</span> ilə "doğrudursa 5 saniyə gözlə" deyib cavabın gecikməsindən oxumaq olar.</li>
+    </ul>
+    <p class="note">SQL injection TAMAM. Növbəti Mərhələ 2 mövzusu: Authentication.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

@@ -49,7 +49,7 @@ Academy topic: **Essential skills**.
 
 ## Phase 2: Server-side, Apprentice labs (3-6 weeks)
 
-1. [ ] SQL injection
+1. [x] SQL injection — done 2026-11-16 on burp-lab (login bypass, UNION + DB recon, blind via cookie); Lessons 21-23
 2. [ ] Authentication
 3. [ ] Path traversal
 4. [ ] Command injection
