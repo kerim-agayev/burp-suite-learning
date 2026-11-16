@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 21 · SQLi: Login bypass</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 21 · SQLi: Login bypass</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="../phase0_foundations/lesson_6_sql_injection.html">‹ Dərs 6 (SQL əsas)</a></span></div>
+
+<section class="card" id="l21">
+  <div class="card-head">
+    <h3>Dərs 21. SQL injection — Login bypass (Mərhələ 2 · SQLi pilləsi 2)</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Parolu bilmədən girmək. Lab: <span class="chip">/vuln/login-sql</span> (öz burp-lab saytımız). SQLi A-Z planının 2-ci pilləsi.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Normal login necə işləyir</div>
+    <p>Qapıçı bənzətməsi: "Adı X olan <b>VƏ</b> parolu Y olan sətir varmı?" Server bazaya belə sual verir:</p>
+    <pre>SELECT ... FROM "User" WHERE username = 'administrator' AND password = 's3cr3t-Pa55'</pre>
+    <p>Tapılsa → içəri. <strong>Problem:</strong> ad xanasına nə yazsan, server onu düşünmədən SQL-in içinə yapışdırır.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Hücum 1 — <span class="inlinecode">' OR 1=1--</span> (hər kəsi burax)</div>
+    <p>Serverin şablonu: <span class="inlinecode">username = '▢'</span>. İki dırnaq serverindir, sən ortanı doldurursan. <span class="inlinecode">' OR 1=1--</span> yazanda:</p>
+    <pre>WHERE username = '' OR 1=1--' AND password = '...'</pre>
+    <table class="ref">
+      <tr><th>Hissə</th><th>Nə edir</th></tr>
+      <tr><td><span class="inlinecode">'</span> (ilk simvol)</td><td>serverin dırnağını <b>erkən bağlayır</b> → <span class="inlinecode">username = ''</span></td></tr>
+      <tr><td><span class="inlinecode">OR 1=1</span></td><td>dırnaqdan kənarda = əsl SQL. 1=1 həmişə doğru → "nəsə YA DA doğru" = həmişə doğru</td></tr>
+      <tr><td><span class="inlinecode">--</span></td><td>qalanını (parol yoxlamasını) şərhə salıb silir</td></tr>
+    </table>
+    <p><strong>Açar fikir:</strong> dırnağı erkən bağla → öz SQL-ini əlavə et → qalanını <span class="inlinecode">--</span> ilə sil. Nəticə: bütün sətirlər uyğun, ilk tapılan içəri girir.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Hücum 2 — <span class="inlinecode">administrator'--</span> (konkret admin)</div>
+    <pre>WHERE username = 'administrator'-- ' AND password = '...'</pre>
+    <p>"adı tam administrator olsun" + <span class="inlinecode">--</span> parol yoxlamasını silir → <b>konkret administrator</b> kimi giriş.</p>
+    <p class="note">Real həyatda: admin adını bilməyə bilərsən → ümumi adları sına (admin/root), <a href="../phase1_burp_tools/lesson_11_intruder.html">username enumeration</a> (Dərs 11), ya da <span class="inlinecode">' OR 1=1 LIMIT 1--</span> (birinci istifadəçi). Müasir düzgün saytlar bunu bloklayır (hash + parametrized), amma çoxlu zəif sayt hələ də var.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma — <span class="inlinecode">/secure/login-sql</span></div>
+    <p>Eyni <span class="inlinecode">administrator'--</span> təhlükəsiz versiyada <strong>işləmədi</strong> ("giriş uğursuz"). Çünki dəyərlər SQL mətninə yapışdırılmır, <b>parametr</b> kimi ötürülür — <span class="inlinecode">administrator'--</span> bütöv bir ad kimi axtarılır, belə ad yoxdur.</p>
+    <ul>
+      <li><strong>Qayda:</strong> parametrized query / ORM query builder (Prisma <span class="inlinecode">findFirst</span>). Dırnaq mətnin bir hissəsi sayılır, SQL əmri yox.</li>
+      <li>Parolları açıq mətnlə saxlama — hash-la (lab sadəlik üçün açıq saxlayır).</li>
+    </ul>
+    <p class="note">Növbəti pillə: UNION attack (3a: sütun sayı → 3b: mətn sütunu → 3c: başqa cədvəldən parol sızdırmaq).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
