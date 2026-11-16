@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 13 · Comparer</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 13 · Comparer</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_12b_decoder_privesc.html">‹ Dərs 12b</a></span></div>
+
+<section class="card" id="l13">
+  <div class="card-head">
+    <h3>Dərs 13. Comparer — iki cavabı dərindən müqayisə</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">İki sənədi yan-yana qoyub fərqli sözləri marker qələmlə işarələmək kimi. Dərs 11-dəki Length-aldatması problemini həll edir.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Necə işlədilir</div>
+    <ol>
+      <li>HTTP history-də request üstündə sağ klik → <b>Send to Comparer (response)</b> (cavabları müqayisə etmək üçün; <b>(request)</b> sorğuları müqayisə edər).</li>
+      <li>İki fərqli cavab üçün bunu təkrarla.</li>
+      <li><b>Comparer</b> tabında: yuxarıda "Select item 1"-dən birini, aşağıda "Select item 2"-dən digərini seç.</li>
+      <li>Sağ-alt küncdə <b>Words</b> (sözlərə görə, oxunaqlı) və ya <b>Bytes</b> (hərf-hərf) seç.</li>
+    </ol>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <p>Dərs 11-də <span class="inlinecode">administrator</span> (mövcud) və <span class="inlinecode">bilal</span> (mövcud deyil) <span class="inlinecode">/vuln/login</span> cavabları <strong>eyni Length</strong> çıxmışdı — aldadıcı siqnal idi.</p>
+    <p>Bu iki cavabı Comparer-ə göndərdik, <b>Words</b> seçdik → <b>11 fərq</b> tapıldı. Çoxu əhəmiyyətsiz idi (məs. <span class="inlinecode">Date</span> başlığındakı vaxt damğası — hər sorğu fərqli anda gəlib). Amma arasında əsl fərq var idi: bir tərəfdə <strong>"İstifadəçi adı tapılmadı."</strong>, digərində <strong>"Parol səhvdir."</strong></p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib</div>
+    <ul>
+      <li>Comparer <strong>hərf-hərf/söz-söz</strong> gəzir — Length kimi tək ədədə güvənmir, ona görə Dərs 11-dəki kimi aldanmır.</li>
+      <li><strong>Nə vaxt hansı:</strong> çoxlu cavabı eyni anda taramaq üçün Intruder + Grep-Match (Dərs 11); <strong>iki konkret</strong> cavabı dərindən, gözlə yoxlamaq üçün Comparer.</li>
+      <li>Əhəmiyyətsiz fərqləri (vaxt, sessiya ID) ayırd etməyi öyrənmək də vacib hissədir — hər fərq zəiflik demək deyil.</li>
+    </ul>
+    <p class="note">Növbəti: Logger (bütün alətlərin trafiki bir yerdə).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

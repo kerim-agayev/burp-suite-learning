@@ -36,7 +36,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 | [x] **Repeater** | Edit and resend one request | Done 2026-11-16: burp-lab sqli, Gifts=2 / Salam123=0 / Gifts'--=3 rows |
 | [x] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Done 2026-11-16: burp-lab sqli Length-diff + new /vuln/login username enumeration via Grep-Match |
 | [x] **Decoder** | URL, Base64, Hex, HTML encode/decode | Done 2026-11-16: category=Gifts'-- URL round-trip, administrator -> Base64 |
-| [ ] **Comparer** | Diff two responses | Compare valid vs invalid login |
+| [x] **Comparer** | Diff two responses | Done 2026-11-16: burp-lab /vuln/login administrator vs bilal, Words diff, 11 differences, found the real message difference among timestamp noise |
 | [ ] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Filter by host |
 | [ ] **Sequencer** | Token randomness analysis | Analyze a session cookie |
 | [ ] **Extensions / BApp Store** | Add-ons (Logger++, JWT Editor, Autorize) | Install JWT Editor (for Phase 4) |
