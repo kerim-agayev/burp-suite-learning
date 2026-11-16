@@ -31,7 +31,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 
 | Tool | What it does | Exercise |
 |---|---|---|
-| [ ] **Proxy** | Captures browser traffic; `Intercept` pauses and edits requests | Intercept a login, change the password, forward |
+| [x] **Proxy** | Captures browser traffic; `Intercept` pauses and edits requests | Done 2026-11-16: intercepted burp-lab request, changed `category=Gifts`→`Gifts'--` in flight, leaked hidden product |
 | [ ] **Target → Site map / Scope** | Site map; restrict testing to authorized hosts | Add only the lab domain to scope |
 | [ ] **Repeater** | Edit and resend one request | Change a parameter, compare responses |
 | [ ] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Enumerate usernames in a lab |

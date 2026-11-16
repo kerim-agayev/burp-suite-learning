@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 8 · Proxy (Intercept)</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 8 · Proxy (Intercept)</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="../phase0_foundations/lesson_7_same_origin_policy.html">‹ Dərs 7</a></span></div>
+
+<section class="card" id="l8">
+  <div class="card-head">
+    <h3>Dərs 8. Proxy — Burp-un ürəyi</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 1 başladı. Brauzerlə server arasındakı trafiki tutmaq və <strong>yolda dəyişmək</strong>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 İki rejim</div>
+    <p>Siz (Burp) brauzerlə sayt arasında oturan <strong>poçtalyonsunuz</strong>. Hər request və cavab sizin əlinizdən keçir.</p>
+    <table class="ref">
+      <tr><th>Rejim</th><th>Nə edir</th></tr>
+      <tr><td><b>Intercept OFF</b></td><td>trafik sərbəst keçir, Burp sadəcə yazır (HTTP history). İndiyəcən belə işlədik.</td></tr>
+      <tr><td><b>Intercept ON</b></td><td>hər request <strong>donur</strong>, siz onu dəyişib sonra buraxırsınız.</td></tr>
+    </table>
+    <p>Intercept ON olanda üç düymə: <span class="inlinecode">Forward</span> (buraxır) · <span class="inlinecode">Drop</span> (atır) · <span class="inlinecode">Intercept on/off</span>.</p>
+    <p class="note">⚠️ İş bitəndə Intercept-i <b>OFF</b> et, yoxsa bütün brauzer trafiki donub qalar.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik (öz lab saytımız)</div>
+    <p>Intercept ON ikən <span class="inlinecode">http://localhost:3002/vuln/sqli?category=Gifts</span> açdıq. Request Burp-da dondu. Birinci sətri yolda dəyişdik:</p>
+    <pre>GET /vuln/sqli?category=Gifts HTTP/1.1      <span class="c">← brauzerin göndərmək istədiyi</span>
+GET /vuln/sqli?category=Gifts'-- HTTP/1.1   <span class="c">← bizim Forward etdiyimiz</span></pre>
+    <p>Nəticə: səhifədə normal 2 yerinə <strong>gizli 3-cü məhsul da göründü</strong>. Brauzerdəki URL hələ <span class="inlinecode">Gifts</span> idi, serverə gedən isə <span class="inlinecode">Gifts'--</span>.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacibdir · necə qorunur</div>
+    <ul>
+      <li><strong>Niyə işlədi:</strong> server brauzerə güvənir. Amma Proxy sübut etdi — <strong>client-lə server arasındakı hər şey dəyişdirilə bilər</strong>. Client-ə heç vaxt güvənmə.</li>
+      <li><strong>Necə qorunur:</strong> server gələn hər dəyəri yoxlamalı / parametrized işlətməlidir (Dərs 6). Brauzerdəki JavaScript yoxlaması heç nədir — Proxy onu tam atlayır.</li>
+    </ul>
+    <p class="note">Növbəti: Target / Scope — hədəfi yalnız icazəli saytlarla məhdudlaşdırmaq.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
