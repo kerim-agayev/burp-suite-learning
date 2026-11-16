@@ -1,6 +1,6 @@
-SQL injection
-Authentication
-Path traversal
+SQL injection +
+Authentication  +
+Path traversal +
 Command injection
 Business logic vulnerabilities
 Information disclosure

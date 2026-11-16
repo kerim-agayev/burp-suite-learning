@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 28 · Path traversal</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 28 · Path traversal</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_27_auth_remember_me.html">‹ Dərs 27</a></span></div>
+
+<section class="card" id="l28">
+  <div class="card-head">
+    <h3>Dərs 28. Path traversal — qovluqdan çıxıb başqa fayl oxumaq</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, mövzu #3. Giriş nöqtəsi: URL parametri (<span class="inlinecode">?file=</span>). Lab: <span class="chip">/vuln/traversal</span> · <span class="chip">/secure/traversal</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Bənzətmə</div>
+    <p>Bina idarəçisi "sənə yalnız öz mənzilinə giriş verirəm" deyir, amma qovluq adını yoxlamadan qəbul edir. <span class="inlinecode">../qonşu-mənzil/</span> yazsan — "bir pillə yuxarı çıx, sonra qonşuya gir" demiş olursan.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/traversal?file=logo.png</span> → normal, <span class="inlinecode">public/images/logo.png</span> oxundu.</li>
+      <li><span class="inlinecode">public/images/</span> kök qovluqdan <strong>2 pillə aşağıdadır</strong>. Kökə çıxmaq üçün <strong>2 dəfə</strong> <span class="inlinecode">../</span> lazımdır: <span class="inlinecode">?file=../../secret.txt</span>.</li>
+      <li>Nəticə: kökdəki <span class="inlinecode">secret.txt</span> (saxta "sirr") sızdı — <span class="inlinecode">images/</span> qovluğundan tamamilə kənar bir fayl.</li>
+    </ol>
+    <p><strong>Niyə işlədi:</strong> server <span class="inlinecode">file</span> dəyərini birbaşa qovluq yoluna yapışdırdı (<span class="inlinecode">path.join(imagesDir, file)</span>), <span class="inlinecode">../</span> işarələrini təmizləmədi.</p>
+    <p class="note">⚠️ Diqqət: real <span class="inlinecode">.env</span> faylına BU ÜSULLA GETMƏ — orada əsl Neon açarımız var. Lab yalnız saxta <span class="inlinecode">secret.txt</span> ilə işləyir.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <p><span class="inlinecode">/secure/traversal</span>-da eyni hücum → <strong>"Xəta: fayl tapılmadı"</strong>.</p>
+    <ul>
+      <li><strong>Qayda:</strong> <span class="inlinecode">path.basename(file)</span> — bu funksiya yolun yalnız <strong>son hissəsini</strong> (fayl adını) götürür, <span class="inlinecode">/</span> və <span class="inlinecode">..</span> işarələrini atır. <span class="inlinecode">../../secret.txt</span> yazsan, server onu sadəcə <span class="inlinecode">secret.txt</span> adlı fayl kimi oxumağa cəhd edir — <span class="inlinecode">images/</span> qovluğunda belə fayl olmadığı üçün xəta.</li>
+      <li>Nəticə həmişə icazəli qovluğun <strong>içində</strong> qalır, nə yazsan da kənara çıxa bilmirsən.</li>
+    </ul>
+    <p class="note">Növbəti Mərhələ 2 mövzusu: #4 Command injection.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

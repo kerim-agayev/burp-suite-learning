@@ -51,7 +51,7 @@ Academy topic: **Essential skills**.
 
 1. [x] SQL injection — done 2026-11-16 on burp-lab (login bypass, UNION + DB recon, blind via cookie); Lessons 21-23
 2. [x] Authentication — done 2026-11-16 on burp-lab (brute-force lockout bypass, 2FA broken logic, reset-token predictability, remember-me cookie forgery); Lessons 24-27
-3. [ ] Path traversal
+3. [x] Path traversal — done 2026-11-16 on burp-lab (../../secret.txt file-read); Lesson 28
 4. [ ] Command injection
 5. [ ] Business logic vulnerabilities
 6. [ ] Information disclosure
