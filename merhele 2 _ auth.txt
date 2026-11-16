@@ -1,0 +1,11 @@
+Mərhələ 2, #2: Authentication — alt-plan
+SQLi-dəki kimi, bunu da pillə-pillə keçək:
+
+Pillə	Mövzu	Giriş nöqtəsi
+1	Brute-force: cəhd limiti (lockout) və onu IP saxtalaşdırma ilə keçmək	Header (X-Forwarded-For)
+2	2FA (iki addımlı giriş) məntiq xətası ilə keçmək	POST body
+3	Parol bərpa linkinin zəifliyi (təxmin edilə bilən token)	URL/token
+4	"Məni xatırla" cookie-sinin zəifliyi	Cookie
+Hər pillədə yeni balaca lab quracağam (müxtəlif giriş nöqtələri ilə — sözümüzə sadiqik).
+
+Başlayaq Pillə 1 ilə: brute-force qorunması. Əvvəlcə lab quram.

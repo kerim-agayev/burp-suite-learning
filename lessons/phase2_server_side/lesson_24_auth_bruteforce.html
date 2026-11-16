@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 24 · Authentication: Brute-force lockout bypass</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 24 · Authentication: Brute-force lockout bypass</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_23_sqli_blind.html">‹ Dərs 23</a></span></div>
+
+<section class="card" id="l24">
+  <div class="card-head">
+    <h3>Dərs 24. Authentication — Pillə 1: Brute-force lockout bypass</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, Authentication mövzusu başladı. Giriş nöqtəsi: HTTP <b>header</b> (<span class="inlinecode">X-Forwarded-For</span>). Lab: <span class="chip">/vuln/bruteforce</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Nə üçün kilid var, necə aldadılır</div>
+    <p>Bankomatda 3 səhv PIN → kart bloklanır. Server də eyni: N səhv cəhddən sonra "bu IP"-ni kilidləyir. Problem: server IP-ni <span class="inlinecode">X-Forwarded-For</span> adlı HTTP başlığından oxuyur — bu, <strong>adi mətn sətridir, client özü yaza bilər</strong> (Burp Repeater-də əlavə edilir).</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li>Brauzerdə <span class="inlinecode">/vuln/bruteforce?username=administrator&password=wrong</span> açdıq → "Aşkarlanan IP: 127.0.0.1".</li>
+      <li>Request-i Repeater-ə göndərdik, <span class="inlinecode">Host</span> sətrinin altına əlavə etdik: <span class="inlinecode">X-Forwarded-For: 1.2.3.4</span>.</li>
+      <li>3 dəfə <b>Send</b> → 3-cü cəhddən sonra <strong>"Çox cəhd"</strong> mesajı (kilidləndi).</li>
+      <li>Sadəcə <span class="inlinecode">X-Forwarded-For</span>-u <span class="inlinecode">5.5.5.5</span>-ə dəyişdik → kilid <strong>sıfırlandı</strong>, yenə "parol səhvdir" (yəni sınamağa davam edə bildik).</li>
+    </ol>
+    <p><strong>Nəticə:</strong> header-i hər dəfə dəyişməklə sonsuz cəhd mümkündür. Real hücumda bunu Intruder avtomatik edir (hər sorğuda həm parol, həm saxta IP dəyişir).</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma — <span class="inlinecode">/secure/bruteforce</span></div>
+    <p>Eyni hücumu (hər hansı <span class="inlinecode">X-Forwarded-For</span> ilə) təhlükəsiz versiyada sınadıq → kilid <strong>sökülmədi</strong>.</p>
+    <ul>
+      <li><strong>Qayda:</strong> kilidin açarı client-in göndərə biləcəyi heç nəyə (header, cookie) bağlı olmamalıdır. Bizim fiksimiz: açar = <span class="inlinecode">username</span> (hesabın özü) — bunu hücumçu dəyişə bilmir.</li>
+      <li>Real saytlarda server əsl TCP bağlantı IP-sini (proxy-nin özü təyin etdiyi, client-in yaza bilmədiyi) işlədir, ya da CAPTCHA/rate-limit əlavə edir.</li>
+      <li><strong>Ümumi dərs:</strong> Dərs 8-dəki qayda təkrarlanır — client-dən gələn heç bir məlumata (header daxil) təhlükəsizlik qərarı üçün güvənmə.</li>
+    </ul>
+    <p class="note">Növbəti: Authentication Pillə 2 — 2FA məntiq xətası.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
