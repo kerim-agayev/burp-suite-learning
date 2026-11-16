@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 25 · Authentication: 2FA məntiq xətası</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 25 · Authentication: 2FA məntiq xətası</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_24_auth_bruteforce.html">‹ Dərs 24</a></span></div>
+
+<section class="card" id="l25">
+  <div class="card-head">
+    <h3>Dərs 25. Authentication — Pillə 2: 2FA (iki addımlı giriş) məntiq xətası</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Giriş nöqtəsi: <b>POST body</b> (form), sonra <b>Cookie</b> ilə müqayisə. Lab: <span class="chip">/vuln/2fa</span> · <span class="chip">/secure/2fa</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 POST body nədir — sıfırdan</div>
+    <p>Form göndəriləndə mətn belə görünür: <span class="inlinecode">step=verify&username=administrator&code=42</span>. Bu, <strong>form-urlencoded body</strong> adlanır.</p>
+    <table class="ref">
+      <tr><th>Qayda</th><th>Misal</th></tr>
+      <tr><td><span class="inlinecode">ad=dəyər</span> — bir forma xanası</td><td><span class="inlinecode">username=administrator</span></td></tr>
+      <tr><td><span class="inlinecode">&</span> — cütləri ayırır</td><td><span class="inlinecode">step=verify&username=...&code=...</span></td></tr>
+    </table>
+    <p>Adlar (<span class="inlinecode">step</span>, <span class="inlinecode">username</span>, <span class="inlinecode">code</span>) saytın HTML formundan gəlir (<span class="inlinecode">&lt;input name="username"&gt;</span>). Format <span class="inlinecode">?category=Gifts</span> (URL) ilə <strong>eynidir</strong> — fərq yalnız yerdir: URL-də görünür, body-də görünmür (yalnız Burp-da).</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Hücum — username sahəsini dəyiş</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/2fa</span>-da <span class="inlinecode">wiener</span>/<span class="inlinecode">peter</span> ilə login → öz kodumuz (məs. 28) ekranda göründü, forma: "İstifadəçi adı (dəyişə bilərsən!)" + "Kod".</li>
+      <li>Verify request-ini Repeater-ə göndərdik, body-ni dəyişdik: <span class="inlinecode">step=verify&username=administrator&code=28</span> (öz kodumuz, amma admin adı ilə).</li>
+      <li>"Kod yanlışdır" gəldi — amma lab-ın öz xətası səhv cəhddə əsl kodu göstərdi: <strong>42</strong>. Bunu istifadə edib <span class="inlinecode">username=administrator&code=42</span> göndərdik → <strong>admin panelə girdik, parolu heç bilmədən</strong>.</li>
+    </ol>
+    <p><strong>Əsas zəiflik:</strong> server yoxlamır ki, kod həqiqətən <em>bu adama, bu sessiyaya</em> aiddir — sadəcə "username+code uyğun gəlirmi" sualına baxır. <span class="inlinecode">username</span> client-dən (formadan) gəldiyi üçün dəyişdirilə bilir.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma — Cookie ilə sessiya bağlamaq</div>
+    <p><span class="inlinecode">/secure/2fa</span>-da verify formunda <strong>username sahəsi YOXDUR</strong>. Əvəzinə:</p>
+    <table class="ref">
+      <tr><th>Anlayış</th><th>İzah</th></tr>
+      <tr><td><span class="inlinecode">Cookie: tfa_session=abc123xyz</span></td><td>server-in verdiyi <b>təsadüfi bilet nömrəsi</b> — brauzer hər request-də öz-özünə geri göndərir</td></tr>
+      <tr><td>Server-in yaddaşı</td><td><span class="inlinecode">bilet → {username, kod}</span> — bu əlaqə yalnız serverdədir, client görmür/dəyişmir</td></tr>
+    </table>
+    <p>Login edəndə server bileti verir, kod yoxlananda "bu bileti kim gətirib?" sualı ilə əsl username-i öz yaddaşından tapır. Biletin son hərfini dəyişdirdikdə — "kod yanlışdır, sessiya tapılmadı" (Dərs 15-dəki təsadüfi token = təxmin olunmaz qaydası).</p>
+    <ul>
+      <li><strong>Qayda:</strong> kimliyi (username) müəyyən edən məlumat client-in yaza bildiyi formadan yox, server-in öz yaddaşından (sessiyadan) gəlməlidir.</li>
+    </ul>
+    <p class="note">Növbəti: Authentication Pillə 3 — parol bərpa token-inin zəifliyi.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
