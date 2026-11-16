@@ -18,12 +18,11 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
   - **API testing: COMPLETE (2026-11-15).** All 12 sections done, 5 labs solved: API documentation, unused endpoint, mass assignment, SSPP query string (`field=reset_token`), SSPP REST URL (EXPERT: path traversal `foobar/../../../../../openapi.json#` leaked the OpenAPI doc → `/api/internal/v1/users/{username}/field/{field}` → read admin `passwordResetToken`). **DETOUR FINISHED — return to the main plan: Lesson 2, cookies and sessions.**
   - **`LESSONS.html` (repo root):** a study document in Azerbaijani with every lesson as "nə etdik / niyə işlədi / necə qarşısı alınır". **RULE: after each API-testing section, add it to LESSONS.html in the same format (goal → steps → why → prevent) before committing.** It has a placeholder card `#next` for the upcoming SSPP sections — replace/extend it.
 - **Phase (main plan):** 0 (Foundations). Lesson 1 done. Phase 2 item 11 (API testing) is being done early via the detour above.
-- **After the detour: Lesson 2, cookies and sessions.** Same format as Lesson 1: explain → Burp practice → 3 questions → journal + push.
-  1. First ask: does the user have a PortSwigger Academy account? If not: https://portswigger.net/users/register (free). `kmplast.az` has no login, so it can't be used here.
-  2. Topics: HTTP is stateless → `Set-Cookie` (server sets) → `Cookie` (browser sends back on every request) → what a session ID is → attributes (`HttpOnly`, `Secure`, `SameSite`, `Expires`).
-  3. Practice: log into Academy in Burp's built-in browser, find the login `POST` and the `Set-Cookie` in Proxy history. Then in Repeater remove the `Cookie` header and send → should appear logged out. Shows "session = cookie".
-  4. Questions: (a) What happens if a cookie is stolen? (b) What does `HttpOnly` protect against? (c) If an old cookie still works after logout, what's the problem?
-- **Weak spots:** body/header separation and "never trust the client" were learned via explanation, not answered by the user. Re-check in Lesson 2.
+- **Lesson 2 (cookies, tokens, sessions): DONE 2026-11-16.**
+- **Next: Lesson 3, encoding (URL, Base64, HTML) with Burp Decoder.** Bridge: decode the user's own JWT middle part in Decoder (Base64) to see `user_id`, `exp` themselves. Same format: explain simply with an analogy → Burp practice → 3 questions → LESSONS.html card + journal + push.
+- **Teaching style that works (user's feedback 2026-11-16):** the first abstract Lesson 2 explanation was NOT understood. Re-done from zero on the user's own real app traffic with a gym-card analogy → understood. Always: everyday analogy first, then the user's OWN live traffic, small steps, one Repeater action at a time.
+- **Weak spots:** body/header separation (Lesson 1 Q1) never answered by the user — re-ask in Lesson 3. XSS unknown (expected, Phase 3).
+- **Public repo:** this GitHub repo is PUBLIC. Never commit vulnerabilities found in third-party/production systems (e.g. Clopos); keep LESSONS.html generic for those.
 - **Open questions:** none.
 
 ## Environment
@@ -36,7 +35,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 ## Rules for Claude
 
-1. **Authorized targets only:** PortSwigger labs (`*.web-security-academy.net`) and the user's own site `kmplast.az` (passive only: GET, headers, browser traffic). No other targets. No brute-force, fuzzing, or DoS.
+1. **Authorized targets only:** PortSwigger labs (`*.web-security-academy.net`) and the user's own site `kmplast.az` (passive only: GET, headers, browser traffic). `client.clopos.menu` (production SaaS, user's own account): **observe only** — user logs in themselves, Claude reads proxy history, removing own cookie/token in Repeater is OK; NO tampering with IDs/params, no other accounts. **Never write credentials into any file or commit.** No other targets. No brute-force, fuzzing, or DoS.
 2. **Act as a teacher:** never give lab solutions directly. Hint first, then direction, full solution only if the user asks.
 3. After each lab ask: What was it? Why did it work? How to prevent it?
 4. Burp MCP has **no tool to read Logger or Repeater results**. To check the user's Repeater work, ask for a screenshot or resend the request yourself with `send_http1_request`.
@@ -49,6 +48,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 | Date | What | Why |
 |---|---|---|
+| 2026-11-16 | **Lesson 2: cookies/tokens/sessions** done on user's own `client.clopos.menu` account (observe only). Found login `POST` (no `Set-Cookie`) → app uses JWT `Authorization: Bearer`, `exp` = 1h. Repeater: with token 200; no header 401; one char changed 401 (signature); bonus logout test done. Answers: Q1 partly (1h; completed: no password needed, full owner access); Q2 XSS explained. Two observations told to the user verbally for internal reporting; deliberately NOT written here (public repo). Added Lesson 2 card to LESSONS.html. | User didn't understand abstract version; real own traffic + analogy worked. |
 | 2026-11-15 | API testing: solved 4 labs (documentation, unused endpoint, mass assignment, SSPP query string). Created **LESSONS.html** — Azerbaijani study doc, all lessons as nə/niyə/necə qarşısı alınır. | User wanted a readable recap to reread; keep extending it per section. |
 | 2026-11-15 | **Detour to API testing path** (user's request, home PC; work PC continues from the same notes). Skipped ahead of Lesson 2 on purpose to finish the Academy API testing path in one day, then return to Lesson 2. Repo cloned fresh on home PC. | User wants a full topic done today; labs are saved on PortSwigger's site per account, so progress is shared across PCs. |
 | 2026-11-13 | Translated all .md files to English (user still spoken to in Azerbaijani). | Fewer tokens per session. |
