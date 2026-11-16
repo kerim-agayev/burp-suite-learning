@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 11 · Intruder</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 11 · Intruder</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_10_repeater.html">‹ Dərs 10</a></span></div>
+
+<section class="card" id="l11">
+  <div class="card-head">
+    <h3>Dərs 11. Intruder — çox dəyəri avtomatik sınamaq</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Repeater-də əllə bir-iki dəyər sınayırdıq. Intruder robotdur: siyahını verirsən, hamısını göndərir, cavabları cədvəldə göstərir.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Qurmaq</div>
+    <ol>
+      <li>HTTP history-də request → sağ klik → <b>Send to Intruder</b> (<span class="inlinecode">Ctrl+I</span>).</li>
+      <li><b>Positions</b>: dəyişəcək sözü seçib <b>Add §</b> → <span class="inlinecode">§Gifts§</span> kimi işarələnir. Attack type: <b>Sniper</b> (bir yer).</li>
+      <li><b>Payloads</b>: sağdakı siyahıya dəyərləri <b>Paste</b> et (və ya <span class="inlinecode">Enter a new item</span> + <b>Add</b> hər biri üçün). <b>Payload count</b> 0 qalmamalıdır.</li>
+      <li><b>Start attack</b>.</li>
+    </ol>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Təcrübə 1 — burp-lab <span class="inlinecode">/vuln/sqli</span></div>
+    <table class="ref">
+      <tr><th>payload</th><th>Length</th></tr>
+      <tr><td>Gifts</td><td>13111</td></tr>
+      <tr><td>Toys</td><td>13105</td></tr>
+      <tr><td>Clothes</td><td>12768</td></tr>
+      <tr><td>Salam123</td><td>12371 (ən kiçik)</td></tr>
+      <tr><td>Gifts'--</td><td><b>13518 (ən böyük, fərqli)</b></td></tr>
+    </table>
+    <p>Hamısının Status-u 200 idi — <b>Length</b> sütunu fərqi göstərdi. Vərdiş: nəticələri Length/Status-a görə sırala, qalanlardan fərqlənən sətri tap.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Təcrübə 2 — username enumeration, yeni lab <span class="inlinecode">/vuln/login</span></div>
+    <p>Yeni lab qurduq: login səhifəsi istifadəçi adı mövcud olub-olmamasına görə <b>fərqli mesaj</b> qaytarır ("İstifadəçi adı tapılmadı." vs "Parol səhvdir."). <span class="inlinecode">/secure/login</span> isə həmişə eyni ümumi mesajı verir.</p>
+    <p><b>1-ci cəhd — Length ilə:</b> uğursuz oldu. Səbəb: səhifə yazılan adı da geri əks etdirir (input dəyəri), ona görə Length-ə iki şey qarışdı (mesajın uzunluğu + yazılan adın uzunluğu). Nəticədə mövcud olan <span class="inlinecode">administrator</span> ilə mövcud olmayan <span class="inlinecode">bilal</span> təsadüfən <b>eyni Length</b> çıxdı — yanlış siqnal.</p>
+    <p><b>2-ci cəhd — Grep-Match ilə (düzgün üsul):</b> Settings → <b>Grep - Match</b> → axtarış sözü əlavə et. İlk cəhdimiz Azərbaycan hərfli söz (<span class="inlinecode">tapılmadı</span>) uğursuz oldu — klaviatura "ı" hərfini fərqli kodla göndərdi, mətnlə tam uyğun gəlmədi. <b>Dərs: axtarış sözünü mümkünsə ingilis hərfləri ilə seç.</b> <span class="inlinecode">Parol</span> sözü ilə işlədi:</p>
+    <table class="ref">
+      <tr><th>username</th><th>"Parol" sayı</th><th>Nəticə</th></tr>
+      <tr><td>administrator</td><td>4</td><td><b>mövcuddur</b></td></tr>
+      <tr><td>wiener</td><td>4</td><td><b>mövcuddur</b></td></tr>
+      <tr><td>carlos</td><td>4</td><td><b>mövcuddur</b></td></tr>
+      <tr><td>anna</td><td>2 (baza)</td><td>yoxdur</td></tr>
+      <tr><td>bilal</td><td>2 (baza)</td><td>yoxdur</td></tr>
+    </table>
+    <p>Parolu bilmədən, yalnız mesaj fərqindən <b>3 real istifadəçi adını</b> tapdıq. Real hücumda növbəti addım — bu 3 ada parol sınamaq (başqa Intruder cəhdi).</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib · necə qorunur</div>
+    <ul>
+      <li><strong>Niyə işlədi:</strong> server "istifadəçi yoxdur" və "parol səhvdir" üçün fərqli mesaj verdi. Bu, giriş sisteminin özü haqda məlumat sızdırmaqdır (username enumeration).</li>
+      <li><strong>Necə qorunur:</strong> <span class="inlinecode">/secure/login</span>-da gördük — hər iki halda <b>eyni ümumi mesaj</b>: "İstifadəçi adı və ya parol səhvdir." Cavabın məzmunu, ölçüsü və vaxtı fərqlənməməlidir.</li>
+      <li><strong>Grep-Match vərdişi:</strong> Length-ə güvənmə, mümkünsə mətndə konkret söz axtar; o sözü ingilis hərfləri ilə seç ki, klaviatura/kodlaşdırma problemi olmasın.</li>
+    </ul>
+    <p class="note">Növbəti: Decoder.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
