@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 17 · CA sertifikatı</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 17 · CA sertifikatı</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_16_extensions.html">‹ Dərs 16</a></span></div>
+
+<section class="card" id="l17">
+  <div class="card-head">
+    <h3>Dərs 17. CA sertifikatı — quraşdırma tərəfi</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Dərs 5-də "niyə" gördük (Burp = MITM postman). İndi "necə quraşdırılır" — Burp-un öz brauzerində avtomatik, adi brauzerdə əllə.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Sertifikatı əldə et</div>
+    <p>Proxy aktiv ikən brauzerdə <span class="inlinecode">http://burpsuite</span> açılır — xüsusi lokal ünvan, Burp-un özü cavab verir, heç yerə getmir. Orada <b>CA Certificate</b> linki ilə faylı endirdik.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Adi brauzerə (Firefox) quraşdırmaq — nəzəri addımlar</div>
+    <p>Burp-un öz daxili brauzerində sertifikat artıq avtomatik quraşdırılıb (ona görə heç vaxt xəta görmədik). Adi Firefox-da Burp-dan keçən trafiki görmək istəsək, əllə lazımdır:</p>
+    <ol>
+      <li><span class="inlinecode">about:preferences#privacy</span> → <b>Certificates → View Certificates</b></li>
+      <li><b>Authorities</b> tabı → <b>Import...</b> → endirilmiş faylı seç</li>
+      <li>"Trust this CA to identify websites" işarələ</li>
+      <li>Firefox-un proxy ayarını <span class="inlinecode">127.0.0.1:8080</span>-a yönləndir</li>
+    </ol>
+    <p>Firefox-un sertifikat anbarı Windows-unkundan <strong>ayrıdır</strong> — ona görə ayrıca import lazımdır. Bu addımları real etmədik (hazırkı iş üçün məcburi deyil, Burp-un öz brauzeri kifayətdir), lazım olanda qayıdıb edə bilərik.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Xatırlatma</div>
+    <ul>
+      <li>CA sertifikatını yalnız <strong>öz cihazınızda, öz testiniz üçün</strong> quraşdırın. Başqasının cihazına quraşdırmaq onun bütün HTTPS trafikini sizə açar — bu, icazəsiz MITM olardı.</li>
+      <li>Dərs 5-dəki qayda keçərlidir: 🔒 (HTTPS) yalnız "yoldakı oğru" ilə bağlıdır, XSS/SQLi-dən qorumur.</li>
+    </ul>
+    <p class="note">Növbəti: Match and replace (avtomatik request/response dəyişikliyi).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

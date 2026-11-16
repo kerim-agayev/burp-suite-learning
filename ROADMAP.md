@@ -40,7 +40,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 | [x] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Done 2026-11-16: sorted by Tool column, found Proxy/Target/Repeater/Intruder/Extensions (MCP shows as Extensions) |
 | [x] **Sequencer** | Token randomness analysis | Done 2026-11-16: manual load, 100 sequential SESSION1001-1100 = extremely poor/0 bits, 100 random hex tokens = excellent |
 | [x] **Extensions / BApp Store** | Add-ons (Logger++, JWT Editor, Autorize) | Done 2026-11-16: installed JWT Editor via BApp Store, for Phase 4 JWT attacks |
-| [ ] **CA certificate** | Lets Burp see HTTPS; built-in browser has it, others need manual install | Download from `http://burpsuite`, install in Firefox, open an HTTPS site without errors |
+| [x] **CA certificate** | Lets Burp see HTTPS; built-in browser has it, others need manual install | Done 2026-11-16: downloaded from `http://burpsuite`; Firefox import steps covered theoretically, not actually installed (not needed yet) |
 | [ ] **Proxy → Match and replace** | Auto-modify every request/response | Rule that adds `X-Test: 1` to all requests |
 | [ ] **Bambdas** | Small Java filter scripts for HTTP history / Logger | Filter showing only `POST` or `500` responses |
 | [ ] **Organizer** | Save interesting requests with notes | Send a suspicious request with a note (report habit) |
