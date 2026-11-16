@@ -152,6 +152,7 @@
     <li><a href="#l1">HTTP request / response</a></li>
     <li><a href="#passive">kmplast.az passiv analiz</a></li>
     <li><a href="#l2">Cookie, token və sessiya</a></li>
+    <li><a href="#l3">Encoding: URL, Base64, HTML</a></li>
     <li><a href="#apiintro">API nədir?</a></li>
     <li><a href="#recon">API recon</a></li>
     <li><a href="#doc">Lab: API documentation</a></li>
@@ -273,6 +274,46 @@ Authorization: Bearer eyJhbGci...  .  eyJ1c2VyX2lk...  .  zp9DGe...
       <li><strong>Token JS-də saxlanırsa</strong>, XSS onu oğurlaya bilər → XSS-in qarşısını almaq xüsusilə vacibdir.</li>
       <li><strong>Logout serverdə də olmalıdır:</strong> token denylist və ya qısa ömürlü access token + ləğv edilə bilən refresh token.</li>
       <li>Login cavabında lazımsız həssas sahələr (PIN, hash və s.) qaytarılmamalıdır → <em>Information disclosure</em>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DƏRS 3 ============ -->
+<section class="card" id="l3">
+  <div class="card-head">
+    <h3>Dərs 3. Encoding: URL, Base64, HTML</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Encoding = <strong>sarğı</strong> (bağlama köpüyü). Məlumat yolda pozulmasın deyə formasını dəyişir. <strong>Gizləmir, qorumur</strong>, hər kəs açır. Alət: Burp <strong>Decoder</strong>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Üç sarğı</div>
+    <ul>
+      <li><strong>URL encoding:</strong> URL-də <span class="inlinecode">?</span> <span class="inlinecode">&amp;</span> <span class="inlinecode">=</span> xidməti işarədir. Dəyərin içində olsalar, sarılır: boşluq → <span class="inlinecode">%20</span>, <span class="inlinecode">&amp;</span> → <span class="inlinecode">%26</span>, <span class="inlinecode">,</span> → <span class="inlinecode">%2C</span>, <span class="inlinecode">?</span> → <span class="inlinecode">%3F</span>, <span class="inlinecode">&lt;</span> → <span class="inlinecode">%3C</span>.</li>
+      <li><strong>Base64:</strong> hər şeyi 64 “təhlükəsiz” simvola çevirir (A-Z a-z 0-9 + /, sonda çox vaxt <span class="inlinecode">=</span>). Oxunmaz görünür, amma <strong>açarı yoxdur</strong>.</li>
+      <li><strong>HTML encoding:</strong> <span class="inlinecode">&amp;lt;</span> = &lt;, <span class="inlinecode">&amp;gt;</span> = &gt;. XSS-in əsas müdafiəsidir: <span class="inlinecode">&lt;script&gt;</span> kod yox, mətn kimi göstərilir.</li>
+    </ul>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Decoder-də nə etdik</div>
+    <ul>
+      <li><span class="inlinecode">brand_name%2Cmenu_languages%2Ctimezone</span> → URL decode → <span class="inlinecode">brand_name,menu_languages,timezone</span></li>
+      <li><span class="inlinecode">cay%20%26%20seker%3F</span> → <span class="inlinecode">cay &amp; seker?</span></li>
+      <li><span class="inlinecode">eyJ1c2VyX2lkIjoxLCJpc19vd25lciI6dHJ1ZX0=</span> → Base64 decode → <span class="inlinecode">{"user_id":1,"is_owner":true}</span></li>
+      <li><span class="inlinecode">false</span> ilə encode etdim → yalnız son hissə dəyişdi. Sonda <span class="inlinecode">Cg==</span> = Enter (yeni sətir): görünməz simvollar da göndərilir!</li>
+      <li><span class="inlinecode">dXNlcj1hZG1pbg==</span> → <span class="inlinecode">user=admin</span></li>
+    </ul>
+    <p class="note"><strong><span class="inlinecode">eyJ</span> = <span class="inlinecode">{"</span></strong>. <span class="inlinecode">eyJ</span> ilə başlayan sətir Base64 içində JSON-dur (JWT də belədir) → aç və bax.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Yadda saxla</div>
+    <ul>
+      <li><strong>Encoding</strong> = bağlama (hər kəs açır, dəyişir) · <strong>İmza</strong> = mum möhür (hər kəs oxuyur, dəyişsə bilinir) · <strong>Encryption</strong> = seyf (açarsız oxunmur).</li>
+      <li><strong>JWT şifrələnmir, imzalanır</strong> → içinə parol/PIN qoyulmamalıdır.</li>
+      <li>Serverə gələn Base64-ə <strong>kor-koranə inanmaq</strong> olmaz (<span class="inlinecode">is_owner:false</span> → <span class="inlinecode">true</span>). İmza yoxlanmalıdır.</li>
+      <li>Filtr yalnız <span class="inlinecode">&lt;</span> axtarırsa, <span class="inlinecode">%3C</span> ondan keçə bilər (<em>filter bypass</em>) → yoxlama decode-dan <strong>sonra</strong> edilməlidir.</li>
     </ul>
   </div>
 </section>

@@ -17,7 +17,7 @@ Markers: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] How HTTP works: request/response, methods (GET, POST, PUT, DELETE), status codes (2xx/3xx/4xx/5xx)
 - [ ] Headers: `Host`, `Cookie`, `Set-Cookie`, `Content-Type`, `Origin`, `Referer`
 - [x] Cookies and sessions: how a site "remembers" you after login
-- [ ] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
+- [x] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
 - [ ] HTML, JavaScript, DOM basics (read page source)
 - [ ] HTTPS/TLS, why Burp installs its own certificate
 - [ ] SQL basics: `SELECT`, `WHERE`, `UNION`

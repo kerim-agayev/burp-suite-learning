@@ -19,9 +19,11 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
   - **`LESSONS.html` (repo root):** a study document in Azerbaijani with every lesson as "nə etdik / niyə işlədi / necə qarşısı alınır". **RULE: after each API-testing section, add it to LESSONS.html in the same format (goal → steps → why → prevent) before committing.** It has a placeholder card `#next` for the upcoming SSPP sections — replace/extend it.
 - **Phase (main plan):** 0 (Foundations). Lesson 1 done. Phase 2 item 11 (API testing) is being done early via the detour above.
 - **Lesson 2 (cookies, tokens, sessions): DONE 2026-11-16.**
-- **Next: Lesson 3, encoding (URL, Base64, HTML) with Burp Decoder.** Bridge: decode the user's own JWT middle part in Decoder (Base64) to see `user_id`, `exp` themselves. Same format: explain simply with an analogy → Burp practice → 3 questions → LESSONS.html card + journal + push.
+- **Lesson 3 (encoding: URL, Base64, HTML) DONE 2026-11-16.**
+- **Next: Lesson 4, HTML/JavaScript/DOM basics** (reading page source; what `<script>`, tags, and the DOM are) — needed before XSS. Then HTTPS/TLS, SQL basics, SOP to finish Phase 0. User is NOT a developer: explain every term from zero.
 - **Teaching style that works (user's feedback 2026-11-16):** the first abstract Lesson 2 explanation was NOT understood. Re-done from zero on the user's own real app traffic with a gym-card analogy → understood. Always: everyday analogy first, then the user's OWN live traffic, small steps, one Repeater action at a time.
-- **Weak spots:** body/header separation (Lesson 1 Q1) never answered by the user — re-ask in Lesson 3. XSS unknown (expected, Phase 3).
+- **Weak spots:** body/header separation (Lesson 1 Q1): asked as multiple choice (a comma / b blank line / c &) at end of Lesson 3 — check the answer. Confused encryption vs signature (thought JWT is encrypted) → corrected with seal/safe analogy; re-check later. XSS unknown (expected, Phase 3).
+- **User is not a developer** (said 2026-11-16): avoid code jargon; tables + everyday analogies + one Burp action per step.
 - **Public repo:** this GitHub repo is PUBLIC. Never commit vulnerabilities found in third-party/production systems (e.g. Clopos); keep LESSONS.html generic for those.
 - **Open questions:** none.
 
@@ -48,6 +50,7 @@ At the end of every lesson: update "Current state", add a row to "Journal", comm
 
 | Date | What | Why |
 |---|---|---|
+| 2026-11-16 | **Lesson 3: encoding** done in Burp Decoder. URL decode (`%2C`, `%20%26%20...%3F`), Base64 decode/encode of `{"user_id":1,"is_owner":true}`, noticed trailing `Cg==` (newline). Answers: Q1 `user=admin` ✅, Q3 `%3C` = `<` ✅ (filter bypass explained), Q2 wrong (thought JWT encrypted) → explained encoding vs signature vs encryption. Added Lesson 3 card to LESSONS.html. | User asked to be taught as a non-developer, from zero. |
 | 2026-11-16 | **Lesson 2: cookies/tokens/sessions** done on user's own `client.clopos.menu` account (observe only). Found login `POST` (no `Set-Cookie`) → app uses JWT `Authorization: Bearer`, `exp` = 1h. Repeater: with token 200; no header 401; one char changed 401 (signature); bonus logout test done. Answers: Q1 partly (1h; completed: no password needed, full owner access); Q2 XSS explained. Two observations told to the user verbally for internal reporting; deliberately NOT written here (public repo). Added Lesson 2 card to LESSONS.html. | User didn't understand abstract version; real own traffic + analogy worked. |
 | 2026-11-15 | API testing: solved 4 labs (documentation, unused endpoint, mass assignment, SSPP query string). Created **LESSONS.html** — Azerbaijani study doc, all lessons as nə/niyə/necə qarşısı alınır. | User wanted a readable recap to reread; keep extending it per section. |
 | 2026-11-15 | **Detour to API testing path** (user's request, home PC; work PC continues from the same notes). Skipped ahead of Lesson 2 on purpose to finish the Academy API testing path in one day, then return to Lesson 2. Repo cloned fresh on home PC. | User wants a full topic done today; labs are saved on PortSwigger's site per account, so progress is shared across PCs. |
