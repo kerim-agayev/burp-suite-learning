@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 10 · Repeater</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 10 · Repeater</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_9_target_scope.html">‹ Dərs 9</a></span></div>
+
+<section class="card" id="l10">
+  <div class="card-head">
+    <h3>Dərs 10. Repeater, bir request-i dəfələrlə göndər</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Fotokopi aparatı: məktubdan surət çıxar, bir sözünü dəyiş, göndər, cavabı müqayisə et. Brauzerə toxunmadan.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Intercept vs Repeater</div>
+    <table class="ref">
+      <tr><th></th><th>Intercept</th><th>Repeater</th></tr>
+      <tr><td>Nə vaxt</td><td>request yoldadır</td><td>request artıq history-dədir</td></tr>
+      <tr><td>Neçə dəfə</td><td>1 dəfə</td><td>istədiyin qədər</td></tr>
+      <tr><td>Cavab</td><td>brauzerdə</td><td>Burp-da, yanaşı</td></tr>
+    </table>
+    <p>Necə açılır: HTTP history-də request üstündə <strong>sağ klik → Send to Repeater</strong> (<span class="inlinecode">Ctrl+R</span>), sonra <span class="inlinecode">Send</span>.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik (burp-lab)</div>
+    <p><span class="inlinecode">/vuln/sqli?category=...</span> request-ini Repeater-ə göndərib dəyərini dəyişdik:</p>
+    <table class="ref">
+      <tr><th>Göndərdik</th><th>Sətir</th><th>Mənası</th></tr>
+      <tr><td><span class="inlinecode">Gifts</span></td><td>2</td><td>normal davranış (baza xətti)</td></tr>
+      <tr><td><span class="inlinecode">Salam123</span></td><td>0</td><td>olmayan kateqoriya</td></tr>
+      <tr><td><span class="inlinecode">Gifts'--</span></td><td>3</td><td><strong>normaldan fərqli</strong> → giriş SQL-ə təsir edir</td></tr>
+    </table>
+    <p>Zəiflik çox vaxt partlayışla yox, <strong>cavabın dəyişməsi</strong> ilə tapılır: əvvəl normal cavabı öyrən, bir şeyi dəyiş, fərqi axtar.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Faydalı kiçik şeylər · qorunma</div>
+    <ul>
+      <li><span class="inlinecode">‹ ›</span> oxları: əvvəlki/sonrakı cavablar. Tab adına iki klik: adlandırmaq. Response → <b>Render</b>: səhifə kimi görmək. Altındakı Search: cavabda söz axtarmaq.</li>
+      <li><strong>Qorunma:</strong> server hər request-i ayrıca və yoxlanmış kimi qəbul etməlidir. Hücumçu eyni request-i min dəfə dəyişib göndərə bilər, ona görə “bir dəfə yoxladım” yetərli deyil, parametrized query + rate limit lazımdır.</li>
+    </ul>
+    <p class="note">Növbəti: Intruder (çox payload-u avtomatik göndərmək).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

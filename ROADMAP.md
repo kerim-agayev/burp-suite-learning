@@ -33,7 +33,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 |---|---|---|
 | [x] **Proxy** | Captures browser traffic; `Intercept` pauses and edits requests | Done 2026-11-16: intercepted burp-lab request, changed `category=Gifts`→`Gifts'--` in flight, leaked hidden product |
 | [x] **Target → Site map / Scope** | Site map; restrict testing to authorized hosts | Done 2026-11-16: localhost:3002 in scope, "show only in-scope" filter, out-of-scope logging disabled |
-| [ ] **Repeater** | Edit and resend one request | Change a parameter, compare responses |
+| [x] **Repeater** | Edit and resend one request | Done 2026-11-16: burp-lab sqli, Gifts=2 / Salam123=0 / Gifts'--=3 rows |
 | [ ] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Enumerate usernames in a lab |
 | [ ] **Decoder** | URL, Base64, Hex, HTML encode/decode | Decode a cookie |
 | [ ] **Comparer** | Diff two responses | Compare valid vs invalid login |
