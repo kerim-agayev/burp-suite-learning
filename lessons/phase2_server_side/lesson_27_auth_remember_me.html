@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 27 · Authentication: "Məni xatırla" cookie zəifliyi</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 27 · Authentication: "Məni xatırla" cookie</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_26_auth_reset_token.html">‹ Dərs 26</a></span></div>
+
+<section class="card" id="l27">
+  <div class="card-head">
+    <h3>Dərs 27. Authentication — Pillə 4 (son): "Məni xatırla" cookie zəifliyi — MÖVZU TAMAM</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Giriş nöqtəsi: Cookie. Lab: <span class="chip">/vuln/dashboard</span> · <span class="chip">/secure/dashboard</span>. Heç bir serverlə danışmadan, özün hücumu hazırlayırsan.</p>
+
+  <div class="block why">
+    <div class="lbl">🧪 Hücum</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/remember-login</span>-da <span class="inlinecode">wiener</span>/<span class="inlinecode">peter</span> ilə daxil olduq → Proxy-də gördük: <span class="inlinecode">Cookie: remember=d2llbmVy</span>.</li>
+      <li><b>Decoder</b>-də <span class="inlinecode">d2llbmVy</span> → Decode as Base64 → <strong>wiener</strong> çıxdı. Sübut: cookie sadəcə <span class="inlinecode">Base64(username)</span>-dir, imza/sirr yoxdur.</li>
+      <li><span class="inlinecode">administrator</span> → Encode as Base64 → yeni dəyər aldıq.</li>
+      <li>Bu dəyəri öz <span class="inlinecode">remember</span> cookie-mizə qoyduq (Repeater/brauzer) → <strong>admin kimi daxil olduq, heç vaxt parol bilmədən</strong>.</li>
+    </ol>
+    <p><strong>Niyə işlədi:</strong> bu, hətta Dərs 12b-dən də sadədir — orada əvvəlcədən bir token almaq, onu dəyişmək lazım idi. Burada isə heç serverlə danışmağa belə ehtiyac yoxdur, cookie-ni <strong>sıfırdan özün yaradırsan</strong>.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <table class="ref">
+      <tr><th></th><th>Zəif</th><th>Təhlükəsiz</th></tr>
+      <tr><td>Cookie</td><td><span class="inlinecode">Base64(username)</span></td><td>təsadüfi token</td></tr>
+      <tr><td>Kim ola bilərsən</td><td>istədiyin username (hesablayıb)</td><td>yalnız server-in verdiyi bilet sahibi</td></tr>
+    </table>
+    <p><strong>Qayda (Authentication mövzusunun ümumi dərsi):</strong> kimliyi (identity) müəyyən edən heç bir şey — header, forma sahəsi, cookie — client-in hesablaya biləcəyi formulaya (Base64, sayğac) əsaslanmamalıdır. Həmişə: server-in öz yaddaşı + uzun təsadüfi bilet.</p>
+  </div>
+
+  <div class="block fix" style="border-color:#4caf50">
+    <div class="lbl">🏁 Authentication mövzusu TAMAM (Dərs 24-27)</div>
+    <table class="ref">
+      <tr><th>Pillə</th><th>Zəiflik</th><th>Giriş nöqtəsi</th></tr>
+      <tr><td>1</td><td>Brute-force lockout bypass</td><td>Header (<span class="inlinecode">X-Forwarded-For</span>)</td></tr>
+      <tr><td>2</td><td>2FA məntiq xətası</td><td>POST body</td></tr>
+      <tr><td>3</td><td>Parol bərpa token təxmini</td><td>URL/token</td></tr>
+      <tr><td>4</td><td>"Məni xatırla" cookie forgery</td><td>Cookie</td></tr>
+    </table>
+    <p class="note">Növbəti Mərhələ 2 mövzusu: #3 Path traversal.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
