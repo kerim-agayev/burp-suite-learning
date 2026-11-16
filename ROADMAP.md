@@ -35,7 +35,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 | [x] **Target → Site map / Scope** | Site map; restrict testing to authorized hosts | Done 2026-11-16: localhost:3002 in scope, "show only in-scope" filter, out-of-scope logging disabled |
 | [x] **Repeater** | Edit and resend one request | Done 2026-11-16: burp-lab sqli, Gifts=2 / Salam123=0 / Gifts'--=3 rows |
 | [x] **Intruder** | Send many payloads into a parameter (Sniper, Cluster bomb…) | Done 2026-11-16: burp-lab sqli Length-diff + new /vuln/login username enumeration via Grep-Match |
-| [ ] **Decoder** | URL, Base64, Hex, HTML encode/decode | Decode a cookie |
+| [x] **Decoder** | URL, Base64, Hex, HTML encode/decode | Done 2026-11-16: category=Gifts'-- URL round-trip, administrator -> Base64 |
 | [ ] **Comparer** | Diff two responses | Compare valid vs invalid login |
 | [ ] **Logger** | All tools' traffic (incl. Claude's MCP requests) | Filter by host |
 | [ ] **Sequencer** | Token randomness analysis | Analyze a session cookie |

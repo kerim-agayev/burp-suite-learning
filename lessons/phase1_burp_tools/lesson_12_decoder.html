@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 12 · Decoder</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 12 · Decoder</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_11_intruder.html">‹ Dərs 11</a></span></div>
+
+<section class="card" id="l12">
+  <div class="card-head">
+    <h3>Dərs 12. Decoder — format dəyişdirici</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Dərs 3-də toxunmuşduq, indi alət kimi sistemli keçdik.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Nədir</div>
+    <p>Şifr deyil, <strong>format dəyişikliyi</strong>: "ABC" → "CBA" kimi, açarı bilən hər kəs geri çevirə bilər.</p>
+    <table class="ref">
+      <tr><th>Format</th><th>Nə üçün</th><th>Misal</th></tr>
+      <tr><td>URL</td><td>URL-də xüsusi simvollar</td><td>boşluq → <span class="inlinecode">%20</span></td></tr>
+      <tr><td>Base64</td><td>ikili/mətni mətnə çevirmək</td><td><span class="inlinecode">admin</span> → <span class="inlinecode">YWRtaW4=</span></td></tr>
+      <tr><td>HTML</td><td>HTML-də xüsusi simvollar</td><td><span class="inlinecode">&lt;</span> → <span class="inlinecode">&amp;lt;</span></td></tr>
+      <tr><td>Hex</td><td>baytı ədədlə göstərmək</td><td><span class="inlinecode">A</span> → <span class="inlinecode">41</span></td></tr>
+    </table>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <p><span class="inlinecode">category=Gifts'--</span> → <b>Encode as URL</b> →
+    <span class="inlinecode">%63%61%74%65%67%6f%72%79%3d%47%69%66%74%73%27%2d%2d</span> (Burp "tam" rejimdə hər hərfi kodlayıb, normalda yalnız xüsusi simvollar kodlanır: <span class="inlinecode">%3d</span>=<span class="inlinecode">=</span>, <span class="inlinecode">%27</span>=<span class="inlinecode">'</span>).</p>
+    <p><b>Decode as URL</b> → eynən ilkin mətnə qayıtdı. Sübut: encoding tərsinə çevrilə bilən açıq formatdır, sirr deyil.</p>
+    <p><span class="inlinecode">administrator</span> → <b>Encode as Base64</b> → <span class="inlinecode">YWRtaW5pc3RyYXRvcg==</span>. JWT-nin payload hissəsi də (Dərs 3) elə belədir — "qorunmur", sadəcə oxunması çətinləşir.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib</div>
+    <ul>
+      <li>Burp-un faydalı kiçik alətlərindəndir: naməlum bir mətn görəndə (cookie, parametr, token) əvvəl Decoder-də sına — çox vaxt Base64 və ya URL-encoded sadə mətndir.</li>
+      <li><strong>Qorunma dərsi:</strong> encoding = gizlətmə deyil. Həssas məlumatı (parol, token) heç vaxt "encoding kifayətdir" deyə saxlama — əsl qorunma <em>şifrələmə</em> (encryption) və ya <em>imza</em> (signature) tələb edir.</li>
+    </ul>
+    <p class="note">Növbəti: Comparer (iki cavabı yan-yana müqayisə etmək).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
