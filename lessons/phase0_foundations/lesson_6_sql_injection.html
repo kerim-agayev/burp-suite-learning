@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 6 · SQL və SQL injection</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 6 · SQL və SQL injection</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_5_https_tls.html">‹ Dərs 5</a></span></div>
+
+<section class="card" id="l6">
+  <div class="card-head">
+    <h3>Dərs 6. SQL əsasları + ilk SQL injection</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Praktika: öz lab saytımız <span class="chip">burp-lab</span> (Next.js + Prisma + Neon). İlk dəfə həm hücum, həm qorunma öz saytımızda.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 SQL əsasları (Excel misalı)</div>
+    <table class="ref">
+      <tr><th>Excel</th><th>Database</th></tr>
+      <tr><td>Fayl</td><td>database</td></tr>
+      <tr><td>Vərəq</td><td>table (<span class="inlinecode">Product</span>, <span class="inlinecode">User</span>)</td></tr>
+      <tr><td>Sütun</td><td>column (<span class="inlinecode">name</span>, <span class="inlinecode">price</span>)</td></tr>
+      <tr><td>Sətir</td><td>row (bir məhsul)</td></tr>
+    </table>
+    <pre>SELECT name, price   FROM "Product"   WHERE category = 'Gifts'
+<span class="c">  göstər              hansı cədvəl       filtr (mətn tək dırnaqda)</span></pre>
+    <ul>
+      <li><span class="inlinecode">SELECT</span> = göstər · <span class="inlinecode">*</span> = bütün sütunlar</li>
+      <li><span class="inlinecode">WHERE</span> = filtr · <span class="inlinecode">AND</span> = hər iki şərt</li>
+      <li>Mətn <strong>tək dırnaqda</strong>: <span class="inlinecode">'Gifts'</span>. <span class="inlinecode">--</span> = “bundan sonrasını oxuma” (şərh).</li>
+    </ul>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Hücum (zəif səhifə)</div>
+    <p>Server şablonu: <span class="inlinecode">... WHERE category = '[SƏN]' AND released = true</span>. Dəyər SQL mətninə <strong>yapışdırılır</strong>.</p>
+    <table class="ref">
+      <tr><th>URL dəyəri</th><th>Baza nə görür</th><th>Nəticə</th></tr>
+      <tr><td><span class="inlinecode">Gifts</span></td><td><span class="inlinecode">= 'Gifts' AND released = true</span></td><td>2 məhsul</td></tr>
+      <tr><td><span class="inlinecode">Gifts'--</span></td><td><span class="inlinecode">= 'Gifts'</span> <span class="c">(qalanı ləğv)</span></td><td><strong>3 məhsul — gizli də sızdı</strong></td></tr>
+    </table>
+    <p><span class="inlinecode">'</span> saytın dırnağını vaxtından əvvəl bağladı, <span class="inlinecode">--</span> <span class="inlinecode">AND released = true</span> şərtini sildi.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma (təhlükəsiz səhifə)</div>
+    <p>Eyni hücum <span class="inlinecode">/secure/sqli?category=Gifts'--</span> → <strong>0 sətir</strong>. Dəyər mətnə yapışdırılmır, <strong>parametr</strong> kimi ötürülür, ona görə <span class="inlinecode">Gifts'--</span> sadəcə mövcud olmayan bir kateqoriya adıdır.</p>
+    <pre><span class="c">// ⚠️ zəif</span>   `... WHERE category = '${category}' ...`   <span class="c">// $queryRawUnsafe</span>
+<span class="c">// ✅ təhlükəsiz</span> prisma.product.findMany({ where: { category } })</pre>
+    <ul>
+      <li><strong>Qayda:</strong> istifadəçi dəyərini heç vaxt SQL mətninə yapışdırma. Həmişə <strong>parametrized query</strong> / ORM query builder.</li>
+      <li>Zəif səhifə xətanı və SQL-i ekranda göstərir → bu özü <em>information disclosure</em>-dur (gələcək mövzu).</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

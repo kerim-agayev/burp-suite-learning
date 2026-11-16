@@ -20,7 +20,7 @@ Markers: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] URL encoding, Base64, HTML encoding (practice in Burp Decoder)
 - [x] HTML, JavaScript, DOM basics (read page source)
 - [x] HTTPS/TLS, why Burp installs its own certificate
-- [ ] SQL basics: `SELECT`, `WHERE`, `UNION`
+- [x] SQL basics: `SELECT`, `WHERE`, `UNION` (+ first SQLi on burp-lab)
 - [ ] Same-Origin Policy (SOP), base for CORS, CSRF, XSS
 
 Practice: browse `kmplast.az` in Burp's browser, explain every request in HTTP history.
