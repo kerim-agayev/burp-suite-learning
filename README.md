@@ -9,6 +9,7 @@ Main source: [PortSwigger Web Security Academy](https://portswigger.net/web-secu
 |---|---|
 | [ROADMAP.md](ROADMAP.md) | Learning plan: phases, all 31 Academy topics, progress `[ ]` / `[~]` / `[x]` |
 | [SETUP.md](SETUP.md) | Connect Burp Suite to Claude Code via MCP, step by step + troubleshooting |
+| [lessons/index.html](lessons/index.html) | Dərs qeydləri (Azərbaycan dilində): hər dərs ayrıca HTML faylı, mərhələ qovluqlarında |
 | [CLAUDE.md](CLAUDE.md) | Read by Claude every session: current state, rules, journal (what and why) |
 
 ## Continue on another computer

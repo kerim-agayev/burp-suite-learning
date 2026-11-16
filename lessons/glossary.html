@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Açar anlayışlar</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Açar anlayışlar</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="index.html">← Bütün dərslər</a><span></span></div>
+<!-- ============ GLOSSARY ============ -->
+<section class="card" id="glossary">
+  <div class="card-head"><h3>11. Açar anlayışlar</h3></div>
+
+  <p class="card-sub">HTTP method-ları</p>
+  <table class="ref">
+    <tr><th>Method</th><th>Nə edir</th></tr>
+    <tr><td>GET</td><td>Məlumatı oxuyur</td></tr>
+    <tr><td>POST</td><td>Yeni resurs yaradır</td></tr>
+    <tr><td>PATCH</td><td>Mövcudu qismən dəyişir</td></tr>
+    <tr><td>PUT</td><td>Mövcudu tam əvəz edir</td></tr>
+    <tr><td>DELETE</td><td>Resursu silir</td></tr>
+    <tr><td>HEAD</td><td>GET kimi, amma body olmadan (yalnız header)</td></tr>
+    <tr><td>OPTIONS</td><td>Bu endpoint hansı method-ları qəbul edir?</td></tr>
+  </table>
+
+  <p class="card-sub">Status kodları</p>
+  <table class="ref">
+    <tr><th>Kod</th><th>Mənası</th></tr>
+    <tr><td>2xx</td><td>Uğur (200 OK, 201 Created)</td></tr>
+    <tr><td>3xx</td><td>Yönləndirmə (302 Found)</td></tr>
+    <tr><td>4xx</td><td>Sənin səhvin (400 Bad Request, 401/403, 404)</td></tr>
+    <tr><td>5xx</td><td>Serverin səhvi (500)</td></tr>
+  </table>
+
+  <p class="card-sub">URL-encoding (vacib!)</p>
+  <table class="ref">
+    <tr><th>Simvol</th><th>Encoded</th><th>Niyə lazımdır</th></tr>
+    <tr><td>#</td><td>%23</td><td>Encode etməsən brauzer onu “fragment” sayıb göndərmir; SSPP-də sonranı kəsmək üçün</td></tr>
+    <tr><td>&amp;</td><td>%26</td><td>Yeni parametr inject etmək üçün</td></tr>
+    <tr><td>=</td><td>%3D</td><td>Parametr dəyəri təyin etmək üçün</td></tr>
+    <tr><td>(boşluq)</td><td>%20</td><td>Adi boşluq</td></tr>
+  </table>
+
+  <p class="card-sub">İşlətdiyimiz Burp alətləri</p>
+  <table class="ref">
+    <tr><th>Alət</th><th>Rolu</th></tr>
+    <tr><td>Proxy / HTTP history</td><td>Bütün trafikə baxmaq</td></tr>
+    <tr><td>Repeater</td><td>Bir sorğunu dəyişib təkrar göndərmək</td></tr>
+    <tr><td>Intruder</td><td>Çox payload/söz siyahısı göndərmək (brute-force)</td></tr>
+    <tr><td>Decoder</td><td>URL / Base64 encode-decode</td></tr>
+    <tr><td>MCP Server</td><td>Claude-un Burp trafikini görməsi</td></tr>
+  </table>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="assets/theme.js"></script>
+</body>
+</html>

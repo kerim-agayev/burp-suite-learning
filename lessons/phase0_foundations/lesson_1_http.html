@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 1 · HTTP request / response</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 1 · HTTP request / response</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_2_cookies_tokens.html">Dərs 2 ›</a></span></div>
+<!-- ============ DƏRS 1 ============ -->
+<section class="card" id="l1">
+  <div class="card-head">
+    <h3>1. HTTP request / response</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Bütün web hacking-in təməli. Praktika: öz saytım <span class="chip">kmplast.az</span> üzərində Repeater.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Öyrəndiyimiz</div>
+    <p><strong>Request</strong> (sorğu) brauzerdən serverə gedir, <strong>response</strong> (cavab) geri gəlir. Hər ikisinin quruluşu:</p>
+    <pre><span class="c"># REQUEST</span>
+GET /about HTTP/2          <span class="c">← method + path + versiya</span>
+Host: kmplast.az           <span class="c">← header-lər</span>
+User-Agent: ...
+                           <span class="c">← boş sətir (header-i body-dən ayırır)</span>
+(body — varsa)
+
+<span class="c"># RESPONSE</span>
+HTTP/2 200 OK              <span class="c">← status code</span>
+Content-Type: text/html    <span class="c">← header-lər</span>
+
+&lt;html&gt;...              <span class="c">← body (səhifənin özü)</span></pre>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Repeater-də nə sınadıq</div>
+    <ul>
+      <li><span class="inlinecode">GET /about</span> → <strong>200 OK</strong> (səhifə var)</li>
+      <li><span class="inlinecode">GET /bu-sehife-yoxdur</span> → <strong>404</strong> (yoxdur)</li>
+      <li><span class="inlinecode">HEAD /about</span> → <strong>200</strong>, amma <strong>body yox</strong> (yalnız header-lər gəlir)</li>
+      <li><span class="inlinecode">Host</span> header-ini silmək → <strong>400 Bad Request</strong> (server hansı saytı istədiyini bilmir)</li>
+    </ul>
+    <p class="note"><strong>Səhvim:</strong> path-i <span class="inlinecode">Host</span> header-inə yazdım → Cloudflare 400 qaytardı. Bu, gələcəkdə öyrənəcəyimiz <em>Host header attacks</em> mövzusuna körpüdür.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🧠 Yadda saxla</div>
+    <ul>
+      <li><strong>Status kodları:</strong> 2xx uğur · 3xx yönləndirmə · 4xx <em>sənin</em> səhvin · 5xx <em>serverin</em> səhvi.</li>
+      <li><strong>Qızıl qayda:</strong> <em>“Client-ə heç vaxt etibar etmə.”</em> Brauzerdən gələn hər şey (header, body, parametr) dəyişdirilə bilər.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

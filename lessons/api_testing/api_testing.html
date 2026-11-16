@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API testing (Academy learning path)</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>API testing (Academy learning path)</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span></span></div>
+<!-- ============ API INTRO ============ -->
+<section class="card" id="apiintro">
+  <div class="card-head">
+    <h3>3. API nədir?</h3>
+    <span class="badge b-theory">nəzəri</span>
+  </div>
+  <div class="block do">
+    <div class="lbl">💬 Sadə dildə</div>
+    <p>API — proqramların bir-biri ilə danışdığı “qapı”lardır. Sayt düyməyə basanda arxada bir API sorğusu göndərir.</p>
+    <ul>
+      <li><strong>Endpoint</strong> — konkret ünvan, məs. <span class="inlinecode">/api/products/1/price</span>.</li>
+      <li><strong>Method</strong> — nə etmək: <span class="inlinecode">GET</span> oxu · <span class="inlinecode">POST</span> yarat · <span class="inlinecode">PATCH</span> dəyiş · <span class="inlinecode">DELETE</span> sil.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ RECON ============ -->
+<section class="card" id="recon">
+  <div class="card-head">
+    <h3>4. API recon</h3>
+    <span class="badge b-theory">nəzəri</span>
+  </div>
+  <div class="block do">
+    <div class="lbl">🔭 Hücumdan əvvəl məlumat yığmaq</div>
+    <ol>
+      <li><strong>Endpoint-ləri tap:</strong> URL-də <span class="inlinecode">/api/</span> nişanları; <strong>JavaScript faylları</strong> (brauzer hələ çağırmadığı gizli endpoint-ləri açır).</li>
+      <li><strong>Onlarla necə danışmağı öyrən:</strong> hansı method, hansı format (JSON/XML), məcburi/ixtiyari parametrlər, authentication.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ LAB: DOCUMENTATION ============ -->
+<section class="card" id="doc">
+  <div class="card-head">
+    <h3>5. Lab: API endpoint via documentation</h3>
+    <span class="badge b-lab">lab</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Gizli API sənədini (Swagger/OpenAPI) tapıb istismar etmək.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p>Açıq qalmış API sənədini tap və <span class="inlinecode">carlos</span>-u sil. Giriş: <span class="inlinecode">wiener:peter</span>.</p></div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Nə etdik</div>
+    <ol>
+      <li>Giriş etdik, email dəyişdik → sorğu: <span class="inlinecode">PATCH /api/user/wiener</span>.</li>
+      <li>Yolu addım-addım qısaltdıq: <span class="inlinecode">/api/user/wiener</span> → <span class="inlinecode">/api/</span>.</li>
+      <li><span class="inlinecode">/api/</span> interaktiv sənəd səhifəsini açdı. İçində <span class="inlinecode">DELETE /api/user/{username}</span> var idi.</li>
+      <li><span class="inlinecode">carlos</span> ilə DELETE-i işlətdik → silindi.</li>
+    </ol>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Developer sənədi gizlətməmişdi — sadəcə ünvanını heç kimə deməmişdi. Endpoint-in “base path”-ini (yuxarı yolunu) yoxlamaq açıq qapını tapdı.</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><p>Sənəd public olmamalıdırsa gizlət. <span class="inlinecode">DELETE</span> kimi əməliyyatlara authorization qoy (hər kəs başqasını silə bilməməlidir).</p></div>
+</section>
+
+<!-- ============ LAB: UNUSED ENDPOINT ============ -->
+<section class="card" id="unused">
+  <div class="card-head">
+    <h3>6. Lab: Unused API endpoint</h3>
+    <span class="badge b-lab">lab</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Eyni endpoint-in fərqli HTTP method qəbul etməsini istismar etmək.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p>Gizli endpoint ilə <strong>l33t Leather Jacket</strong>-i al ($1337).</p></div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">productPrice.js</span> faylında endpoint tapdıq: <span class="inlinecode">GET /api/products/1/price</span>.</li>
+      <li>Repeater-də method-u dəyişdik: <span class="inlinecode">GET</span> → <span class="inlinecode">PATCH</span>, body: <span class="inlinecode">{"price":"$0.00"}</span>.</li>
+      <li>Qiymət sıfır oldu → cart-a atıb aldıq.</li>
+    </ol>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Developer yalnız <span class="inlinecode">GET</span>-i düşünüb qorumuşdu; <span class="inlinecode">PATCH</span> method-u açıq qalmışdı (“unused/unintended”). Qiymət client tərəfdən dəyişdirilə bildi.</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><p>İcazəli HTTP method-ları <strong>allowlist</strong> et. Qiymət kimi həssas dəyərlər heç vaxt client-dən qəbul olunmamalıdır.</p></div>
+</section>
+
+<!-- ============ LAB: MASS ASSIGNMENT ============ -->
+<section class="card" id="mass">
+  <div class="card-head">
+    <h3>7. Lab: Mass assignment</h3>
+    <span class="badge b-lab">lab</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Serverin daxili obyektindəki <em>gizli sahəyə</em> özün dəyər yazmaq.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p>Jaketi al.</p></div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Nə etdik</div>
+    <p><span class="inlinecode">GET /api/checkout</span> cavabı serverin tam obyektini göstərdi:</p>
+    <pre>{"<b>chosen_discount</b>":{"percentage":0},
+ "chosen_products":[{"product_id":"1",...}]}</pre>
+    <p>Amma brauzerin göndərdiyi <span class="inlinecode">POST /api/checkout</span> yalnız <span class="inlinecode">chosen_products</span> göndərirdi. Biz POST body-yə gizli sahəni əlavə etdik:</p>
+    <pre>{"chosen_products":[{"product_id":"1","quantity":1}],
+ "<b>chosen_discount</b>":{"percentage":100}}</pre>
+    <p>→ 100% endirim, pulsuz aldıq.</p>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Server <span class="inlinecode">chosen_discount</span> sahəsini daxili obyektdə saxlayırdı; client onu göndərmirdi, amma server göndəriləni avtomatik qəbul edirdi (<em>auto-binding</em>). GET cavabı bizə gizli sahənin adını göstərdi.</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><p>İstifadəçinin dəyişə biləcəyi sahələri <strong>allowlist</strong>, <span class="inlinecode">chosen_discount</span> kimi həssas sahələri <strong>blocklist</strong> et.</p></div>
+</section>
+
+<!-- ============ PREVENT ============ -->
+<section class="card" id="prevent">
+  <div class="card-head">
+    <h3>8. API müdafiəsi (yekun)</h3>
+    <span class="badge b-theory">nəzəri</span>
+  </div>
+  <div class="block fix">
+    <div class="lbl">🛡️ Qaydalar</div>
+    <ul>
+      <li>Sənəd public deyilsə gizlət; public-dirsə güncəl saxla.</li>
+      <li>HTTP method-ları <strong>allowlist</strong> et.</li>
+      <li>Content-Type-ı yoxla; xəta mesajları <strong>generic</strong> olsun (detal sızdırma).</li>
+      <li>Köhnə API versiyalarını da qoru.</li>
+      <li>Mass assignment: dəyişilə bilən sahələri allowlist + həssasları blocklist.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ LAB: SSPP ============ -->
+<section class="card" id="sspp">
+  <div class="card-head">
+    <h3>9. Lab: Server-side parameter pollution (query string)</h3>
+    <span class="badge b-lab">lab · practitioner</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Günün ən çətini. Sayt sənin dəyərini daxili API-yə <em>encode etmədən</em> ötürəndə, sən həmin daxili sorğunu dəyişirsən.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p><span class="inlinecode">administrator</span> kimi gir və <span class="inlinecode">carlos</span>-u sil (giriş məlumatı verilmir!).</p></div>
+
+  <div class="block do">
+    <div class="lbl">💡 Əsas model (analogiya)</div>
+    <p>Sən resepsiyaçıya (sayt) “Carlos” deyirsən. O, arxa otaqdakı baş kompüterə (daxili API) öz sözləri ilə yazır — və sənin görmədiyin sahələri də əlavə edir:</p>
+    <pre>username=carlos<b>&field=email&type=email</b>   <span class="c">← sən yalnız "carlos" yazmısan</span></pre>
+    <p>Əgər resepsiyaçı sənin yazdığını encode etmirsə, sən <span class="chip">#</span> və <span class="chip">&amp;</span> ilə bu kağızın quruluşunu poza bilərsən.</p>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Addım-addım nə etdik</div>
+    <ol>
+      <li><strong>Adi login işləmir</strong> — şifrəni bilmirik. “Forgot password?” axını üzərindən getdik: <span class="inlinecode">POST /forgot-password</span>, <span class="inlinecode">username=carlos</span>.</li>
+      <li><strong>Truncation (<span class="chip">%23</span> = #):</strong> <span class="inlinecode">username=carlos%23foo</span> → cavab: <em>“Field not specified.”</em><br><span class="note">→ `#` özündən sonrakını kəsdi (`&field=...` yoxa çıxdı). Demək, gizli bir <b>field</b> parametri var imiş — adını belə öyrəndik.</span></li>
+      <li><strong>Inject (<span class="chip">%26</span> = &amp;):</strong> <span class="inlinecode">username=carlos%26field=username</span> → cavab xam <em>“carlos”</em> qaytardı.<br><span class="note">→ `&` yeni parametr başlatdı; `field` iki dəfə yazıldı, server <b>birincini</b> (bizimkini) götürdü (bu sistemin davranışı belədir).</span></li>
+      <li><strong>Həssas sahəni oğurla:</strong> <span class="inlinecode">username=administrator%26field=reset_token</span> → cavab:
+        <pre>{"result":"qu4vp...sgvah","type":"reset_token"}</pre>
+        <span class="note">→ `reset_token` normalda yalnız email-ə gedən gizli koddur; `field` ilə onu birbaşa serverdən aldıq.</span></li>
+      <li><strong>İstismar:</strong> <span class="inlinecode">GET /forgot-password?reset_token=qu4vp...</span> → yeni şifrə qoyduq → <span class="inlinecode">administrator</span> kimi girdik → admin panelindən <span class="inlinecode">carlos</span>-u sildik.</li>
+    </ol>
+    <p class="note">Doğru <span class="inlinecode">field</span> adını (<span class="inlinecode">reset_token</span>) öz təxminlərimiz tükənəndən sonra tapdıq — real pentest-də bu addım <strong>Intruder</strong> (söz siyahısı ilə brute-force) və ya sənəd/mənbə araşdırması ilə edilir.</p>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Sayt username-i daxili sorğuya <strong>encode etmədən</strong> qoyurdu → <span class="inlinecode">#</span>/<span class="inlinecode">&amp;</span> öz mənasını saxladı. <span class="inlinecode">field</span> parametri “istənilən sahəni qaytar” məntiqinə malik idi, developer isə <span class="inlinecode">reset_token</span> kimi həssas sahəni siyahıdan çıxarmağı unutmuşdu. (Bu, mass assignment-in əksi: orda gizli sahəyə <em>yazdıq</em>, burada gizli sahəni <em>oxuduq</em>.)</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><ul>
+    <li>Client dəyərini daxili sorğuya qoyarkən <strong>encode</strong> et (SSPP-nin kökü budur).</li>
+    <li><span class="inlinecode">field</span> kimi parametrləri dar <strong>allowlist</strong> et.</li>
+    <li><span class="inlinecode">reset_token</span> kimi həssas sahələr heç vaxt belə ümumi mexanizmlə qaytarılmamalıdır.</li>
+  </ul></div>
+</section>
+
+<!-- ============ SSPP THEORY (paths/json/tools) ============ -->
+<section class="card" id="next">
+  <div class="card-head">
+    <h3>10. SSPP: REST path · struktur data · avtomat alətlər</h3>
+    <span class="badge b-theory">nəzəri</span>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🧭 REST path-də (query string yox, yolun içində)</div>
+    <p>Parametr URL yolunun bir hissəsidir: <span class="inlinecode">/api/users/123</span>. Burada <span class="inlinecode">&amp;</span> işləmir — bunun yerinə <strong>path traversal</strong> (<span class="inlinecode">../</span>) işlədirsən:</p>
+    <pre>name = peter%2f..%2fadmin          <span class="c">(%2f = /)</span>
+→ /api/private/users/peter/../admin
+→ normalize → /api/private/users/admin</pre>
+    <p class="note"><span class="inlinecode">cd peter/../admin</span> kimi: <span class="inlinecode">..</span> səni geri çıxarır, sonra başqa yerə aparır.</p>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🧱 Struktur data (JSON) içində</div>
+    <p>Server sənin adını JSON-a encode etmədən qoyursa, JSON-u qırıb yeni sahə əlavə edirsən:</p>
+    <pre>Sən:      name = peter","access_level":"administrator
+Serverdə: {"name":"peter","access_level":"administrator"}</pre>
+    <p class="note">(JSON input-dursa <span class="inlinecode">\"</span> ilə escape edirsən.) Eyni şey <em>cavab</em>da da baş verə bilər.</p>
+  </div>
+
+  <div class="block do">
+    <div class="lbl">🤖 Avtomat alətlər</div>
+    <ul>
+      <li><strong>Burp Scanner</strong> → “suspicious input transformation” tapır (Community-də yoxdur).</li>
+      <li><strong>Backslash Powered Scanner (BApp)</strong> → input-ları <span class="inlinecode">boring / interesting / vulnerable</span> təsnif edir.</li>
+    </ul>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Necə qarşısı alınır</div>
+    <p>Encode olunmayan icazəli simvolları <strong>allowlist</strong> et, qalan bütün input-u daxili sorğuya qoymazdan əvvəl <strong>encode</strong> et. Formatı da yoxla.</p>
+  </div>
+</section>
+
+<!-- ============ LAB: SSPP REST URL (EXPERT) ============ -->
+<section class="card" id="resturl">
+  <div class="card-head">
+    <h3>11. Lab: SSPP in a REST URL</h3>
+    <span class="badge b-lab">lab · expert</span><span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">API testing-in ən çətin lab-ı: path traversal + sənəd kəşfi + reset token.</p>
+
+  <div class="block goal"><div class="lbl">🎯 Məqsəd</div><p><span class="inlinecode">administrator</span> kimi gir, <span class="inlinecode">carlos</span>-u sil.</p></div>
+
+  <div class="block do">
+    <div class="lbl">🔧 Addım-addım nə etdik</div>
+    <ol>
+      <li><strong>Path traversal işləyirmi?</strong> <span class="inlinecode">username=foo%2f..%2fadministrator</span> → admin email qaytardı. Yəni <span class="inlinecode">foo/../administrator</span> → <span class="inlinecode">administrator</span>-a normalize olundu. ✅</li>
+      <li><strong>Struktur ipucu:</strong> <span class="inlinecode">username=administrator%2ffoo</span> → <em>“Invalid route. Please refer to the API definition”</em> → demək bir API sənədi var.</li>
+      <li><strong>Sənədi oxu:</strong> <span class="inlinecode">username=foobar%2f..%2f..%2f..%2f..%2f..%2fopenapi.json%23</span> → server <span class="inlinecode">500</span> ilə bütün OpenAPI faylını geri qaytardı. Orada yol: <span class="inlinecode">/api/internal/v1/users/{username}/field/{field}</span>.</li>
+      <li><strong>Reset token-i oğurla:</strong> <span class="inlinecode">username=foobar%2f..%2f..%2f..%2f..%2f..%2fapi%2finternal%2fv1%2fusers%2fadministrator%2ffield%2fpasswordResetToken%23</span> → cavab:
+        <pre>{"type":"passwordResetToken",
+ "result":"hmwcba8ze7ju0kede9aj861kuqwtpdgv"}</pre></li>
+      <li><strong>İstismar:</strong> <span class="inlinecode">/forgot-password?passwordResetToken=...</span> → yeni şifrə → admin login → admin paneldən carlos silindi.</li>
+    </ol>
+    <p class="note">Niyə 5 × <span class="inlinecode">../</span>? Çünki <span class="inlinecode">/api/internal/v1/users/foobar</span>-dan root-a qalxmaq üçün 5 seqment geri getmək lazımdır. <span class="inlinecode">%23</span> (#) serverin əlavə etdiyi <span class="inlinecode">/field/email</span> quyruğunu kəsir.</p>
+  </div>
+
+  <div class="block why"><div class="lbl">💡 Niyə işlədi</div><p>Sayt username-i daxili URL <strong>yoluna</strong> encode etmədən qoyurdu. <span class="inlinecode">../</span> ilə yolda yuxarı qalxıb istədiyimiz daxili endpoint-ə getdik. Həssas <span class="inlinecode">passwordResetToken</span> sahəsi ümumi <span class="inlinecode">{field}</span> mexanizmindən çıxarılmamışdı. Üstəlik <span class="inlinecode">500</span> xətası bütün sənədi sızdırdı.</p></div>
+
+  <div class="block fix"><div class="lbl">🛡️ Necə qarşısı alınır</div><ul>
+    <li>Input-u daxili yola qoymazdan əvvəl encode et (<span class="inlinecode">/</span>, <span class="inlinecode">.</span> təsirsizləşsin).</li>
+    <li><span class="inlinecode">passwordResetToken</span> kimi həssas sahələri allowlist-dən çıxar.</li>
+    <li>Daxili API xətalarını olduğu kimi geri qaytarma.</li>
+  </ul></div>
+
+  <div class="block goal" style="background:var(--why-bg)">
+    <div class="lbl" style="color:var(--why)">✅ API Testing tamamlandı</div>
+    <p>12 bölmə, 5 lab (1 apprentice + 3 practitioner + 1 expert). Növbəti: əsas plana qayıdış — <strong>Dərs 2: Cookie və sessiyalar</strong>.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
