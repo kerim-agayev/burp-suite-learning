@@ -42,7 +42,7 @@ Community Edition v2026.10.1 limits: no Scanner, throttled Intruder, no Collabor
 | [x] **Extensions / BApp Store** | Add-ons (Logger++, JWT Editor, Autorize) | Done 2026-11-16: installed JWT Editor via BApp Store, for Phase 4 JWT attacks |
 | [x] **CA certificate** | Lets Burp see HTTPS; built-in browser has it, others need manual install | Done 2026-11-16: downloaded from `http://burpsuite`; Firefox import steps covered theoretically, not actually installed (not needed yet) |
 | [x] **Proxy → Match and replace** | Auto-modify every request/response | Done 2026-11-16: burp-lab, category=Gifts -> Gifts'-- rule, verified on/off (3 vs 2 rows) |
-| [ ] **Bambdas** | Small Java filter scripts for HTTP history / Logger | Filter showing only `POST` or `500` responses |
+| [x] **Bambdas** | Small Java filter scripts for HTTP history / Logger | Done 2026-11-16: `path().contains("/vuln/login") && statusCode()==200` on burp-lab history |
 | [ ] **Organizer** | Save interesting requests with notes | Send a suspicious request with a note (report habit) |
 
 Academy topic: **Essential skills**.

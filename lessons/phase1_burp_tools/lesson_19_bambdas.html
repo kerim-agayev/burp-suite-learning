@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 19 · Bambdas</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 19 · Bambdas</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_18_match_replace.html">‹ Dərs 18</a></span></div>
+
+<section class="card" id="l19">
+  <div class="card-head">
+    <h3>Dərs 19. Bambdas — kodla filtr</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Adi filtr (checkbox-lar) məhduddur. Bambda ilə öz şərtini kiçik bir kod sətri kimi yazırsan.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Necə açılır</div>
+    <p><b>Proxy → HTTP history</b> → filtr ikonu → açılan pəncərədə <b>"Script mode"</b> tabı (əvvəl "Settings mode" ilə yanaşı). Orada bir funksiya yazılır, nəticəsi <span class="inlinecode">true</span>/<span class="inlinecode">false</span> olmalıdır — <span class="inlinecode">true</span> olan sətirlər göstərilir.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <pre>return requestResponse.request().path().contains("/vuln/login") && requestResponse.response().statusCode() == 200;</pre>
+    <p>Nəticə: yalnız <span class="inlinecode">/vuln/login</span> yoluna gedən, 200 cavablı sətirlər qaldı. Checkbox-larla bu qədər konkret şərt qurmaq mümkün deyildi.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Niyə vacib</div>
+    <ul>
+      <li>Böyük tarixçədə (yüzlərlə sətir) konkret bir nümunəni (məs. "yalnız 500 xətaları", "yalnız admin sözü keçən cavablar") tapmaq üçün sürətli üsuldur.</li>
+      <li>Filtri işini bitirdikdən sonra təmizləməyi unutma, yoxsa sonrakı sorğular "görünmür" deyə çaşarsan.</li>
+    </ul>
+    <p class="note">Növbəti (sonuncu): Organizer.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
