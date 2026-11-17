@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 32 · Access control (IDOR)</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 32 · Access control (IDOR)</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_31_information_disclosure.html">‹ Dərs 31</a></span></div>
+
+<section class="card" id="l32">
+  <div class="card-head">
+    <h3>Dərs 32. IDOR — başqasının obyektinə id ilə çatmaq</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, mövzu #7. Giriş nöqtələri: URL parametri (<span class="inlinecode">?id=</span>) və POST JSON body (<span class="inlinecode">{"id":1}</span>). Lab: <span class="chip">/vuln/user</span> · <span class="chip">/secure/user</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Bənzətmə</div>
+    <p>Otel resepsionu açarı sənə verir (kimliyin təsdiqləndi), amma otaq nömrəsini sən deyirsən və o yoxlamır ki, otaq sənindir. 207 desən qonşunun otağına girirsən.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">wiener</span> kimi (cookie <span class="inlinecode">remember=d2llbmVy</span>) <span class="inlinecode">/vuln/user</span> açdıq: öz id-miz 2.</li>
+      <li><span class="inlinecode">/vuln/user?id=1</span> → administratorun məlumatı (<span class="inlinecode">role: admin</span>, balans) göründü.</li>
+      <li><span class="inlinecode">/secure/user?id=1</span> → <span class="inlinecode">403 İcazə yoxdur</span>.</li>
+      <li>Repeater-də GET-i POST-a çevirdik, <span class="inlinecode">Content-Type: application/json</span> və body <span class="inlinecode">{"id":1}</span> göndərdik: vuln yenə admini qaytardı, secure yenə 403.</li>
+    </ol>
+    <p><strong>Niyə işlədi:</strong> server kim olduğunu (authentication) biləndən sonra "bu obyekt bu adama aiddir?" (authorization) yoxlamırdı. <span class="inlinecode">id</span> hardan gəlirsə gəlsin (URL, body, cookie, header) nəticə eynidir.</p>
+    <p><strong>Dərs 27 ilə fərq:</strong> orada kimliyi saxtalaşdırırdıq (authentication zəifliyi), burada kimlik düzgündür, amma başqasının məlumatına çatırıq (authorization zəifliyi).</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <ul>
+      <li><strong>Qayda:</strong> hər sorğuda server tərəfində yoxla: istənilən obyekt (<span class="inlinecode">id</span>) girişli istifadəçiyə aiddir, ya da rolu icazə verir. <span class="inlinecode">/secure/user</span>-də bu <span class="inlinecode">id !== me.id &amp;&amp; role !== "admin"</span> yoxlamasıdır.</li>
+      <li>Ardıcıl rəqəm id-lər (1, 2, 3) hücumçuya tapmağı asanlaşdırır (Intruder ilə sıra ilə sınanır); təsadüfi id (UUID) kömək edir, amma əsas qorunma yoxlamadır, gizlətmək yox.</li>
+    </ul>
+    <p class="note">Növbəti Mərhələ 2 mövzusu: #8 File upload vulnerabilities.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

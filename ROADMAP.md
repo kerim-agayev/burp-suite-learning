@@ -55,7 +55,7 @@ Academy topic: **Essential skills**.
 4. [x] Command injection — done 2026-11-16 on burp-lab (echo+whoami via & separator, URL-encoding needed); Lesson 29
 5. [x] Business logic vulnerabilities
 6. [x] Information disclosure
-7. [ ] Access control (IDOR, admin panels)
+7. [x] Access control (IDOR)
 8. [ ] File upload vulnerabilities
 9. [ ] Server-side request forgery (SSRF)
 10. [ ] XML external entity (XXE) injection
