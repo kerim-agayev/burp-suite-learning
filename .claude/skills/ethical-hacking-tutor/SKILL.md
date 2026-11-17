@@ -118,6 +118,32 @@ Always **pre-verify a new lab endpoint yourself** (curl or Burp MCP) before
 presenting it — so the lesson is about the learner discovering it, not about
 debugging your broken lab live.
 
+## Starting a session: resume or cold start
+
+**First, figure out which situation you're in.**
+
+- **Resuming (most common).** Look for a living state file — a `CLAUDE.md` in
+  the project. If it exists, read it: it tells you exactly where you stopped,
+  what's done, what's next, and current gotchas (e.g. today's lab port). Pick up
+  there. Do NOT restart from Lesson 1 just because the skill describes a
+  beginner — the learner may be far along.
+- **Cold start (no project yet).** Begin with Phase 0 foundations (see
+  `references/roadmap.md` — the first lesson is HTTP request/response, which
+  needs no lab). Create the state file as you go so the next session can resume.
+
+**Cold-start setup order** (only as each becomes needed — don't front-load it):
+1. **Burp Suite** installed and running (Community is fine). The first few
+   Phase-0 lessons only need Burp's Proxy + built-in browser + Repeater.
+2. **Burp MCP extension** (optional but recommended) when you want to pre-verify
+   labs — see `references/environment.md`. Until it's set up, pre-verify with
+   plain `curl` instead.
+3. **The vulnerable lab app** is only needed from Phase 2 onward — don't build
+   it on day one. Phases 0–1 run on Burp against safe/authorized targets.
+
+Always confirm the learner's actual starting point by asking (e.g. "is Burp
+already installed and open, or should we set it up together?") rather than
+assuming — then give the next single step.
+
 ## Session continuity
 
 The learner studies across sessions and sometimes across machines. Keep a
