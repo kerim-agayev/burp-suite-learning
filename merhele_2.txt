@@ -1,10 +1,10 @@
 SQL injection +
 Authentication  +
 Path traversal +
-Command injection
-Business logic vulnerabilities
-Information disclosure
-Access control (IDOR)
+Command injection +
+Business logic vulnerabilities +
+Information disclosure +
+Access control (IDOR) +
 File upload vulnerabilities
 SSRF
 XXE
