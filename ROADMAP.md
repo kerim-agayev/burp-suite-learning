@@ -58,7 +58,7 @@ Academy topic: **Essential skills**.
 7. [x] Access control (IDOR)
 8. [ ] File upload vulnerabilities
 9. [x] Server-side request forgery (SSRF)
-10. [ ] XML external entity (XXE) injection
+10. [x] XML external entity (XXE) injection
 11. [x] API testing (done 2026-11-15, early — 5 labs incl. 1 expert; recap in lessons/api_testing/api_testing.html)
 12. [ ] NoSQL injection
 13. [ ] Race conditions
