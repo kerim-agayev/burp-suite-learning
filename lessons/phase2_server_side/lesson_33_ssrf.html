@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 33 · SSRF</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 33 · SSRF</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_32_idor.html">‹ Dərs 32</a></span></div>
+
+<section class="card" id="l33">
+  <div class="card-head">
+    <h3>Dərs 33. SSRF — serveri özün əvəzinə hücum etdirmək</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, mövzu #9. Giriş nöqtəsi: URL parametri (<span class="inlinecode">?url=</span>). Lab: <span class="chip">/vuln/preview</span> · <span class="chip">/secure/preview</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Bənzətmə</div>
+    <p>Poçtalyona "get bu ünvandan paket gətir" deyirsən. Poçtalyon sənin kim olduğunu soruşmur, hara desən ora gedir — hətta qadağan olunmuş bir binaya da, çünki ONA icazə var, sənə yox.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/preview?url=https://httpbin.org/get</span> → normal, xarici sayt gətirildi.</li>
+      <li><span class="inlinecode">/vuln/preview?url=http://localhost:3000/vuln/account?id=abc</span> → server <strong>özü</strong> Dərs 31-dəki zəif endpoint-ə getdi, cavabda yenə DB connection string + şifrə sızdı. Biz birbaşa getməmişik, serverə "get gətir" demişik.</li>
+      <li><span class="inlinecode">/secure/preview?url=...localhost...</span> → <span class="inlinecode">icazə verilməyən host</span>, server heç sorğunu göndərmədi.</li>
+    </ol>
+    <p><strong>Niyə təhlükəlidir:</strong> firewall/şəbəkə qaydaları SƏNƏ görə qurulur — bayırdan daxili şəbəkəyə (DB, admin panel, cloud metadata) girə bilmirsən. Server isə artıq həmin şəbəkənin içindədir, ora sərbəst gedir. SSRF-də sən "açarı olan" serverdən "mənim üçün aç bax" xahiş edirsən.</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <ul>
+      <li><strong>Qayda:</strong> server istifadəçi-verilən ünvana gedəcəksə, hara gedə biləcəyini <strong>allowlist</strong> ilə məhdudlaşdır (yalnız bəlli xarici domenlər, yalnız https). "Qadağan siyahısı" (localhost, daxili IP-lər) kifayət etmir — fərqli yazılış/yönləndirmə ilə aldadıla bilər.</li>
+      <li>Mümkünsə, server heç bir istifadəçi-verilən URL-ə sorğu göndərməsin; əvəzinə sabit, əvvəlcədən bilinən mənbələrdən istifadə et.</li>
+    </ul>
+    <p class="note">Phase 2 topic #8 (File upload) was paused mid-lesson by user's choice; lab exists (`/vuln/upload`) for later. Növbəti Mərhələ 2 mövzusu: #10 XXE.</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>

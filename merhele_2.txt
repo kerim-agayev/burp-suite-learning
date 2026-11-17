@@ -5,7 +5,7 @@ Command injection +
 Business logic vulnerabilities +
 Information disclosure +
 Access control (IDOR) +
-File upload vulnerabilities
+File upload vulnerabilities +
 SSRF
 XXE
 API testing (artıq bitib ✅)
