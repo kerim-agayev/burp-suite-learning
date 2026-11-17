@@ -54,7 +54,7 @@ Academy topic: **Essential skills**.
 3. [x] Path traversal — done 2026-11-16 on burp-lab (../../secret.txt file-read); Lesson 28
 4. [x] Command injection — done 2026-11-16 on burp-lab (echo+whoami via & separator, URL-encoding needed); Lesson 29
 5. [x] Business logic vulnerabilities
-6. [ ] Information disclosure
+6. [x] Information disclosure
 7. [ ] Access control (IDOR, admin panels)
 8. [ ] File upload vulnerabilities
 9. [ ] Server-side request forgery (SSRF)

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dərs 31 · Information disclosure</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button class="toggle" id="themeBtn" title="İşıqlı / qaranlıq">◐ tema</button>
+<header class="top"><div class="inner"><div class="brandrow"><div class="logo">⚡</div><h1>Dərs 31 · Information disclosure</h1></div></div></header>
+<div class="wrap">
+<div class="crumbs"><a href="../index.html">← Bütün dərslər</a><span><a href="lesson_30_business_logic.html">‹ Dərs 30</a></span></div>
+
+<section class="card" id="l31">
+  <div class="card-head">
+    <h3>Dərs 31. Information disclosure — server lazımsız məlumat sızdırır</h3>
+    <span class="badge b-done">bitdi</span>
+  </div>
+  <p class="card-sub">Mərhələ 2, mövzu #6. Giriş nöqtəsi: URL parametri (xətanı yaratmaq üçün) + response header-ləri. Lab: <span class="chip">/vuln/account</span> · <span class="chip">/secure/account</span>.</p>
+
+  <div class="block do">
+    <div class="lbl">🔧 Bənzətmə</div>
+    <p>Ofisiant sifarişi çatdıra bilməyəndə "üzr istəyirik" deməlidir. O isə mətbəxin resept dəftərini, anbarın şifrəsini və kassa kodunu masaya qoyur. Üstəlik formasının üzərində "mən filan şirkətin işçisiyəm, filan sistemdən istifadə edirəm" yazıb.</p>
+  </div>
+
+  <div class="block why">
+    <div class="lbl">🧪 Nə etdik</div>
+    <ol>
+      <li><span class="inlinecode">/vuln/account?id=abc</span> → <span class="inlinecode">id</span> ədəd olmalı idi, "abc" göndərdik. Server xətanı JSON-da olduğu kimi qaytardı: <strong>DB connection string (istifadəçi adı, şifrə, host), fayl yolu və stack trace</strong> göründü.</li>
+      <li><span class="inlinecode">/secure/account?id=abc</span> → yalnız <span class="inlinecode">Invalid request</span>. Detallar server loquna (<span class="inlinecode">console.error</span>) yazıldı, client-ə getmədi.</li>
+      <li>Ana səhifənin response header-lərində <span class="inlinecode">X-Powered-By: Next.js</span> tapdıq: server öz texnologiyasını özü deyir (fingerprinting).</li>
+    </ol>
+    <p><strong>Niyə işlədi:</strong> inkişafçı xəta ayıklamaq üçün ətraflı mesaj yazır, amma onu client-ə də göndərir. Hücumçu bilərəkdən səhv giriş göndərib xətanı provokasiya edir və daxili quruluşu öyrənir.</p>
+    <p><strong>Header-lər (qısa xəritə):</strong> request header-lərini hücumçu dəyişir (<span class="inlinecode">Cookie</span>, <span class="inlinecode">Authorization</span>, <span class="inlinecode">X-Forwarded-For</span>, <span class="inlinecode">Host</span>, <span class="inlinecode">User-Agent</span>, <span class="inlinecode">Referer/Origin</span>, <span class="inlinecode">Content-Type</span>), response header-lərinə baxır (<span class="inlinecode">Set-Cookie</span> bayraqları, <span class="inlinecode">Server/X-Powered-By</span>, <span class="inlinecode">Access-Control-Allow-Origin</span>, <span class="inlinecode">CSP</span>, <span class="inlinecode">X-Frame-Options</span>, <span class="inlinecode">Location</span>, <span class="inlinecode">Cache-Control</span>).</p>
+  </div>
+
+  <div class="block fix">
+    <div class="lbl">🛡️ Qorunma</div>
+    <ul>
+      <li><strong>Qayda:</strong> xəta detalları yalnız server loquna yazılır, client-ə ümumi mesaj gedir ("Invalid request").</li>
+      <li>Production-da debug rejimi söndürülür, stack trace göstərilmir.</li>
+      <li>Texnologiya/versiya header-ləri gizlədilir (Next.js-də <span class="inlinecode">poweredByHeader: false</span>).</li>
+      <li>Şifrə və açarlar heç vaxt koda/mesaja yazılmır, mühit dəyişənlərində saxlanır.</li>
+    </ul>
+    <p class="note">Növbəti Mərhələ 2 mövzusu: #7 Access control (IDOR).</p>
+  </div>
+</section>
+
+<footer>Burp Suite öyrənmə jurnalı · PortSwigger Web Security Academy əsasında · yalnız icazəli hədəflər</footer>
+</div>
+<script src="../assets/theme.js"></script>
+</body>
+</html>
